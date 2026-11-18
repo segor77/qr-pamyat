@@ -498,6 +498,27 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   window.addEventListener('beforeprint', function(){ ev('print', 'Печать страницы'); });
   var copied = false;
   document.addEventListener('copy', function(){ if (!copied){ copied = true; ev('copy', 'Копирование текста'); } });
+  // Докуда долистали
+  var depthSent = 0;
+  function depth(){
+    var h = document.documentElement, p = (h.scrollTop + window.innerHeight) / h.scrollHeight * 100;
+    [25,50,75,100].forEach(function(m){ if (p >= (m === 100 ? 98 : m) && depthSent < m){ depthSent = m; ev('scroll-' + m, 'Долистали до ' + m + '%'); } });
+  }
+  window.addEventListener('scroll', depth, {passive: true});
+  // Какие разделы прочитали: раздел был текущим на экране не меньше 10 секунд
+  var heads = Array.prototype.slice.call(document.querySelectorAll('#letter, h2[id^="s"]')), spent = {}, done = {};
+  setInterval(function(){
+    if (document.visibilityState !== 'visible') return;
+    var cur = null, lim = window.innerHeight * 0.4;
+    heads.forEach(function(h){ if (h.getBoundingClientRect().top < lim) cur = h; });
+    if (!cur) return;
+    var id = cur.id; spent[id] = (spent[id] || 0) + 1;
+    if (spent[id] >= 10 && !done[id]){
+      done[id] = true;
+      var name = id === 'letter' ? 'Письмо' : cur.textContent.trim().slice(0,60);
+      ev('read-' + id, 'Прочитан раздел: ' + name);
+    }
+  }, 1000);
   // Время, когда вкладка была активна
   var visible = 0, since = document.visibilityState === 'visible' ? Date.now() : null;
   function bucket(s){ return s < 60 ? 'до 1 мин' : s < 300 ? '1–5 мин' : s < 900 ? '5–15 мин' : s < 1800 ? '15–30 мин' : 'больше 30 мин'; }
