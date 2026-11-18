@@ -480,6 +480,41 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   </main>
 </div>
 <footer><div><span>QR Память · ТЗ первого этапа</span></div></footer>
+<script>
+/* Статистика страницы ТЗ: события GoatCounter (клики, время на странице). Без cookies и без данных о человеке. */
+(function(){
+  function ev(name, title){
+    function send(){ window.goatcounter.count({path: name, title: title || name, event: true}); }
+    if (window.goatcounter && window.goatcounter.count) send();
+    else { var n=0, t=setInterval(function(){ if (window.goatcounter && window.goatcounter.count){ clearInterval(t); send(); } else if (++n>40) clearInterval(t); }, 250); }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a'); if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (h.indexOf('docs.google.com') > -1) ev('click-zamechaniya', 'Клик: Оставить замечания');
+    else if (h.indexOf('t.me/') > -1) ev('click-telegram', 'Клик: Telegram');
+    else if (h.charAt(0) === '#' && a.closest('nav')) ev('toc-' + h.slice(1), 'Оглавление: ' + a.textContent.trim().slice(0,60));
+  });
+  window.addEventListener('beforeprint', function(){ ev('print', 'Печать страницы'); });
+  var copied = false;
+  document.addEventListener('copy', function(){ if (!copied){ copied = true; ev('copy', 'Копирование текста'); } });
+  // Время, когда вкладка была активна
+  var visible = 0, since = document.visibilityState === 'visible' ? Date.now() : null;
+  function bucket(s){ return s < 60 ? 'до 1 мин' : s < 300 ? '1–5 мин' : s < 900 ? '5–15 мин' : s < 1800 ? '15–30 мин' : 'больше 30 мин'; }
+  var lastRank = -1, order = ['до 1 мин','1–5 мин','5–15 мин','15–30 мин','больше 30 мин'];
+  function flush(){
+    if (since !== null){ visible += Date.now() - since; since = null; }
+    var b = bucket(visible / 1000), r = order.indexOf(b);
+    if (r <= lastRank) return; lastRank = r;
+    ev('time-' + b.replace(/\s+/g,'-'), 'Время на странице: ' + b);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden') flush();
+    else { since = Date.now(); }
+  });
+  window.addEventListener('pagehide', flush);
+})();
+</script>
 <script data-goatcounter="https://qr-pamyat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
