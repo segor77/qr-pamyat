@@ -481,9 +481,54 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 </div>
 <footer><div><span>QR Память · ТЗ первого этапа</span></div></footer>
 <script>
+/* Статистика страницы ТЗ в Google Таблицу: одна строка на визит, без IP и без отпечатка. */
+(function(){
+  var URL = 'https://script.google.com/macros/s/AKfycbzIQBCIvDGJX0lCX-PgUwkN1NE6oHmuHG6mi47PTL7-dDdhUZw5XDD2ViywG-XpHgfItg/exec';
+  var ua = navigator.userAgent;
+  function pick(list){ for (var i=0;i<list.length;i++){ if (list[i][1].test(ua)) return list[i][0]; } return 'другое'; }
+  var q = new URLSearchParams(location.search);
+  var v = {
+    id: Math.random().toString(36).slice(2, 10),
+    start: Date.now(),
+    ref: q.get('ref') || '—',
+    device: /Mobi|Android|iPhone/i.test(ua) ? (/iPad|Tablet/i.test(ua) ? 'планшет' : 'телефон') : (/iPad|Tablet/i.test(ua) ? 'планшет' : 'компьютер'),
+    browser: pick([['Яндекс Браузер',/YaBrowser/],['Edge',/Edg\//],['Opera',/OPR\//],['Firefox',/Firefox\//],['Chrome',/Chrome\//],['Safari',/Safari\//]]),
+    os: pick([['Android',/Android/],['iOS',/iPhone|iPad|iPod/],['Windows',/Windows/],['macOS',/Mac OS X/],['Linux',/Linux/]]),
+    screen: screen.width + '×' + screen.height,
+    lang: navigator.language || '',
+    tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || '',
+    secs: 0, depth: 0, read: [], clicks: []
+  };
+  var since = document.visibilityState === 'visible' ? Date.now() : null;
+  function send(){
+    if (since !== null){ v.secs += (Date.now() - since) / 1000; since = Date.now(); }
+    var body = JSON.stringify(v);
+    if (navigator.sendBeacon) navigator.sendBeacon(URL, body);
+    else fetch(URL, {method: 'POST', body: body, mode: 'no-cors', keepalive: true});
+  }
+  window.qrStat = {
+    click: function(n){ if (v.clicks.indexOf(n) < 0) v.clicks.push(n); send(); },
+    read: function(n){ if (v.read.indexOf(n) < 0) v.read.push(n); },
+    depth: function(p){ if (p > v.depth) v.depth = p; }
+  };
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden'){ send(); since = null; }
+    else since = Date.now();
+  });
+  window.addEventListener('pagehide', send);
+  setTimeout(send, 5000);
+  setInterval(function(){ if (document.visibilityState === 'visible') send(); }, 120000);
+})();
+</script>
+<script>
 /* Статистика страницы ТЗ: события GoatCounter (клики, время на странице). Без cookies и без данных о человеке. */
 (function(){
   function ev(name, title){
+    if (window.qrStat){
+      if (name.indexOf('read-') === 0) qrStat.read((title || '').replace('Прочитан раздел: ', ''));
+      else if (name.indexOf('scroll-') === 0) qrStat.depth(+name.slice(7));
+      else if (name.indexOf('time-') !== 0) qrStat.click((title || name).replace('Клик: ', ''));
+    }
     function send(){ window.goatcounter.count({path: name, title: title || name, event: true}); }
     if (window.goatcounter && window.goatcounter.count) send();
     else { var n=0, t=setInterval(function(){ if (window.goatcounter && window.goatcounter.count){ clearInterval(t); send(); } else if (++n>40) clearInterval(t); }, 250); }
