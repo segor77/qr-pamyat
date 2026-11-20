@@ -357,11 +357,17 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 </div>
 <footer><div><span>QR Память · техническое задание</span></div></footer>
 <div id="mp" style="position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;color:#2F4858;opacity:.28;transition:opacity .2s,background .2s;font:500 13px var(--body)">
-  <span data-a="ctl" style="display:flex;align-items:center;gap:2px;max-width:0;overflow:hidden;transition:max-width .3s">
+  <span data-a="ctl" style="display:flex;flex-direction:column;max-width:0;overflow:hidden;transition:max-width .3s">
+    <span data-a="row" style="display:flex;align-items:center;gap:2px">
     <span data-a="title" style="max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#4A555C;margin:0 6px 0 10px"></span>
     <button type="button" data-a="prev" aria-label="Предыдущий трек" title="Предыдущий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
     <button type="button" data-a="play" aria-label="Пауза" title="Пауза" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
     <button type="button" data-a="next" aria-label="Следующий трек" title="Следующий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+    </span>
+    <span data-a="bar" role="slider" aria-label="Перемотка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:block;position:relative;height:14px;margin:2px 10px 0;cursor:pointer">
+      <span style="position:absolute;left:0;right:0;top:5px;height:4px;background:#D9E1E6;border-radius:2px"><span data-a="fill" style="display:block;height:100%;width:0;background:#B08D57;border-radius:2px"></span></span>
+    </span>
+    <span style="display:flex;justify-content:space-between;margin:0 10px 6px;font-size:11px;color:#7A8A93;font-variant-numeric:tabular-nums"><span data-a="cur">0:00</span><span data-a="dur">0:00</span></span>
   </span>
   <button type="button" data-a="spk" aria-label="Показать плеер" title="Музыка" style="border:0;background:none;color:inherit;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
 </div>
@@ -400,6 +406,12 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   }
   function savedPos(){ try { return JSON.parse(localStorage.getItem('qr-music-pos') || 'null'); } catch (e) { return null; } }
   a.addEventListener('timeupdate', function(){ savePos(false); });
+  // полоска прогресса: показывает позицию и перематывает по клику
+  var fill = box.querySelector('[data-a=fill]'), bar = box.querySelector('[data-a=bar]'), cur = box.querySelector('[data-a=cur]'), dur = box.querySelector('[data-a=dur]');
+  function fmt(s){ if (!isFinite(s) || s < 0) s = 0; s = Math.floor(s); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function prog(){ var d = a.duration, ok = isFinite(d) && d > 0, p = ok ? Math.min(1, a.currentTime / d) : 0; fill.style.width = (p * 100) + '%'; bar.setAttribute('aria-valuenow', Math.round(p * 100)); cur.textContent = fmt(a.currentTime); dur.textContent = ok ? fmt(d) : '0:00'; }
+  a.addEventListener('timeupdate', prog); a.addEventListener('durationchange', prog); a.addEventListener('loadedmetadata', prog);
+  bar.addEventListener('click', function(e){ var d = a.duration; if (!isFinite(d) || d <= 0) return; var r = bar.getBoundingClientRect(), p = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); a.currentTime = p * d; prog(); savePos(true); });
   a.addEventListener('pause', function(){ savePos(true); });
   window.addEventListener('pagehide', function(){ savePos(true); });
   function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
