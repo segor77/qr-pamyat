@@ -358,14 +358,17 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   </main>
 </div>
 <footer><div><span>QR Память · базовая версия ТЗ</span></div></footer>
-<button id="mus" type="button" aria-pressed="false" style="position:fixed;right:18px;bottom:18px;z-index:10;border:1px solid #E4DED2;background:#fff;color:#2F4858;border-radius:999px;padding:9px 16px;font:500 14px var(--body);box-shadow:0 6px 18px rgba(47,72,88,.12);cursor:pointer">♪ Музыка</button>
+<button id="mus" type="button" aria-pressed="false" aria-label="Включить музыку" title="Музыка" style="position:fixed;right:18px;bottom:18px;z-index:10;border:1px solid #E4DED2;background:#fff;color:#2F4858;border-radius:999px;width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(47,72,88,.12);cursor:pointer"></button>
 <audio id="mus-a" src="../audio/tikho.mp3" loop preload="none"></audio>
 <script>
 (function(){
   var a = document.getElementById('mus-a'), b = document.getElementById('mus');
   a.volume = 0.25;
   var off = false; try { off = localStorage.getItem('qr-music') === 'off'; } catch(e) {}
-  function ui(){ var on = !a.paused; b.textContent = on ? '♪ Музыка: вкл' : '♪ Музыка: выкл'; b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  var SPK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>';
+  var ON = SPK + '<path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7.5 7.5 0 0 1 0 10"/></svg>';
+  var OFF = SPK + '<path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>';
+  function ui(){ var on = !a.paused; b.innerHTML = on ? ON : OFF; b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.setAttribute('aria-label', on ? 'Выключить музыку' : 'Включить музыку'); }
   function play(){ var p = a.play(); if (p && p.catch) p.catch(function(){}); }
   b.addEventListener('click', function(e){
     e.stopPropagation();
