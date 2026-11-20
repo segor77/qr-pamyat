@@ -490,7 +490,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   var v = {
     id: Math.random().toString(36).slice(2, 10),
     start: Date.now(),
-    ref: q.get('ref') || '—',
+    ref: (location.pathname.indexOf('/base') > -1 ? 'базовое · ' : '') + (q.get('ref') || '—'),
     device: /Mobi|Android|iPhone/i.test(ua) ? (/iPad|Tablet/i.test(ua) ? 'планшет' : 'телефон') : (/iPad|Tablet/i.test(ua) ? 'планшет' : 'компьютер'),
     browser: pick([['Яндекс Браузер',/YaBrowser/],['Edge',/Edg\//],['Opera',/OPR\//],['Firefox',/Firefox\//],['Chrome',/Chrome\//],['Safari',/Safari\//]]),
     os: pick([['Android',/Android/],['iOS',/iPhone|iPad|iPod/],['Windows',/Windows/],['macOS',/Mac OS X/],['Linux',/Linux/]]),
