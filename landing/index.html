@@ -405,6 +405,21 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .ph-plaque.pl-portrait .txt { color: #2c2a24; }
   .ph-plaque.pl-portrait .pl-photo { display: block; border: 2px solid #8a7a58; }
   .ph-plaque.pl-portrait svg { width: 52px; height: 52px; }
+  #scr-plaque { padding: 10px 14px; }
+  #scr-plaque .ph-chips { margin-top: 0; gap: 4px; }
+  #scr-plaque .ph-chips button { font-size: 11px; padding: 5px 8px; }
+  #scr-plaque .ph-plaque { margin: 8px auto 4px; padding: 10px 8px; }
+  #scr-plaque .ph-plaque svg { width: 70px; height: 70px; margin-bottom: 4px; }
+  #scr-plaque .ph-plaque.pl-portrait { padding-top: 14px; }
+  #scr-plaque .ph-plaque.pl-portrait svg { width: 56px; height: 56px; }
+  #scr-plaque .ph-plaque .pl-photo { width: 44px; height: 44px; margin-bottom: 4px; }
+  #scr-plaque .ph-plaque.pl-light { padding: 18px 16px; }
+  #scr-plaque .ph-plaque .txt { min-height: 0; font-size: 13px; }
+  #scr-plaque .ph-input { padding: 7px 9px; font-size: 13px; margin-bottom: 0; min-width: 0; }
+  #scr-plaque .cab-check { margin-top: 8px; }
+  .pl-row { display: flex; gap: 6px; margin-top: 6px; }
+  .pl-note { font-size: 12px; color: var(--muted); margin: 6px 0 0; line-height: 1.35; }
+  .pl-stat { margin-top: 8px !important; }
   .ph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .ph-chips button {
     font: 500 12px var(--body); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line);
@@ -1069,7 +1084,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p10"><span class="cab-ck plain" aria-hidden="true">▦</span>QR-код страницы</button>
               <div class="cab-body" id="cab-p10" hidden><p class="cab-tip">Код создаётся вместе со страницей и остаётся постоянным.</p>
-              <div class="cab-qrrow"><svg class="cab-qr" viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" fill="#fff"/><g fill="#1d3442"><rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="2"/><rect x="4" y="6" width="1" height="2"/><rect x="3" y="3" width="1" height="1"/></g></svg><div><b>Короткая ссылка</b><span>…/k7m2xq (демо)</span><small>для ручного ввода под кодом</small></div></div>
+              <div class="cab-qrrow"><svg class="cab-qr" viewBox="0 0 33 33" shape-rendering="crispEdges" aria-hidden="true"><rect width="33" height="33" fill="#fff"/><path fill="#1d3442" d="M2 2h7v1h-7zM12 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM22 2h1v1h-1zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM13 3h2v1h-2zM17 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h1v1h-1zM14 4h1v1h-1zM16 4h4v1h-4zM22 4h1v1h-1zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h1v1h-1zM13 5h4v1h-4zM19 5h3v1h-3zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM11 6h1v1h-1zM13 6h3v1h-3zM18 6h3v1h-3zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM13 7h1v1h-1zM18 7h3v1h-3zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM10 9h1v1h-1zM12 9h3v1h-3zM16 9h3v1h-3zM20 9h2v1h-2zM3 10h2v1h-2zM8 10h1v1h-1zM11 10h1v1h-1zM14 10h4v1h-4zM21 10h2v1h-2zM24 10h2v1h-2zM27 10h1v1h-1zM2 11h1v1h-1zM6 11h2v1h-2zM9 11h3v1h-3zM16 11h4v1h-4zM21 11h5v1h-5zM27 11h4v1h-4zM2 12h1v1h-1zM6 12h3v1h-3zM10 12h4v1h-4zM18 12h2v1h-2zM21 12h1v1h-1zM23 12h1v1h-1zM26 12h2v1h-2zM30 12h1v1h-1zM2 13h1v1h-1zM4 13h2v1h-2zM10 13h1v1h-1zM12 13h1v1h-1zM15 13h4v1h-4zM20 13h3v1h-3zM24 13h4v1h-4zM2 14h1v1h-1zM6 14h8v1h-8zM15 14h1v1h-1zM17 14h1v1h-1zM23 14h2v1h-2zM27 14h1v1h-1zM29 14h1v1h-1zM2 15h1v1h-1zM4 15h1v1h-1zM10 15h1v1h-1zM15 15h1v1h-1zM19 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM27 15h1v1h-1zM30 15h1v1h-1zM3 16h4v1h-4zM8 16h1v1h-1zM12 16h3v1h-3zM16 16h2v1h-2zM19 16h1v1h-1zM21 16h1v1h-1zM23 16h2v1h-2zM27 16h4v1h-4zM2 17h2v1h-2zM5 17h3v1h-3zM11 17h1v1h-1zM14 17h3v1h-3zM18 17h1v1h-1zM20 17h1v1h-1zM27 17h1v1h-1zM29 17h1v1h-1zM2 18h2v1h-2zM7 18h2v1h-2zM10 18h6v1h-6zM18 18h1v1h-1zM20 18h3v1h-3zM24 18h2v1h-2zM29 18h1v1h-1zM3 19h3v1h-3zM10 19h1v1h-1zM12 19h2v1h-2zM15 19h1v1h-1zM20 19h2v1h-2zM24 19h2v1h-2zM27 19h1v1h-1zM30 19h1v1h-1zM2 20h2v1h-2zM6 20h1v1h-1zM8 20h4v1h-4zM13 20h2v1h-2zM17 20h1v1h-1zM19 20h1v1h-1zM21 20h1v1h-1zM26 20h1v1h-1zM28 20h1v1h-1zM30 20h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM14 21h1v1h-1zM20 21h1v1h-1zM22 21h3v1h-3zM27 21h1v1h-1zM2 22h2v1h-2zM5 22h1v1h-1zM7 22h2v1h-2zM10 22h1v1h-1zM12 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM21 22h6v1h-6zM29 22h2v1h-2zM10 23h9v1h-9zM21 23h2v1h-2zM26 23h2v1h-2zM29 23h2v1h-2zM2 24h7v1h-7zM11 24h1v1h-1zM14 24h1v1h-1zM16 24h2v1h-2zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h3v1h-3zM30 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM11 25h2v1h-2zM14 25h2v1h-2zM17 25h2v1h-2zM21 25h2v1h-2zM26 25h2v1h-2zM30 25h1v1h-1zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM12 26h3v1h-3zM16 26h1v1h-1zM21 26h6v1h-6zM29 26h2v1h-2zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM11 27h5v1h-5zM17 27h6v1h-6zM25 27h2v1h-2zM28 27h1v1h-1zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM10 28h1v1h-1zM13 28h1v1h-1zM16 28h4v1h-4zM23 28h1v1h-1zM26 28h5v1h-5zM2 29h1v1h-1zM8 29h1v1h-1zM10 29h2v1h-2zM16 29h1v1h-1zM20 29h1v1h-1zM22 29h3v1h-3zM27 29h1v1h-1zM2 30h7v1h-7zM13 30h1v1h-1zM15 30h1v1h-1zM18 30h1v1h-1zM22 30h6v1h-6zM30 30h1v1h-1z"/></svg><div><b>Короткая ссылка</b><span>…/k7m2xq (демо)</span><small>для ручного ввода под кодом</small></div></div>
               <div class="cab-btns"><button type="button" class="cab-btn" data-msg="В демо скачивание отключено.">Скачать PNG</button><button type="button" class="cab-btn" data-msg="В демо скачивание отключено.">Скачать SVG</button></div>
               <p class="cab-hint">До публикации код открывает заглушку с именем и годами жизни. Код читается даже при повреждении до 30% поверхности.</p>
               <p class="cab-msg" aria-live="polite"></p>
@@ -1123,35 +1138,32 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
         <!-- Экран: табличка -->
         <div class="screen" id="scr-plaque" role="tabpanel">
-          <span class="ph-label">Вид таблички</span>
           <div class="ph-chips pl-tpls" role="group" aria-label="Вид таблички">
             <button type="button" data-tpl="classic" aria-pressed="true">Классика</button>
             <button type="button" data-tpl="granite" aria-pressed="false">Гранит</button>
             <button type="button" data-tpl="light" aria-pressed="false">Светлая</button>
-            <button type="button" data-tpl="portrait" aria-pressed="false">С портретом</button>
+            <button type="button" data-tpl="portrait" aria-pressed="false">Портрет</button>
           </div>
           <div class="ph-plaque pl-classic" id="plaque-view">
             <img class="pl-photo" src="img/avatar.png" alt="" width="56" height="56">
-            <svg viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" fill="#fff"/><g fill="#1f2a27"><rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="2"/><rect x="4" y="6" width="1" height="2"/><rect x="3" y="3" width="1" height="1"/></g></svg>
+            <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-hidden="true"><rect width="33" height="33" fill="#fff"/><path fill="#1f2a27" d="M2 2h7v1h-7zM12 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM22 2h1v1h-1zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM13 3h2v1h-2zM17 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h1v1h-1zM14 4h1v1h-1zM16 4h4v1h-4zM22 4h1v1h-1zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h1v1h-1zM13 5h4v1h-4zM19 5h3v1h-3zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM11 6h1v1h-1zM13 6h3v1h-3zM18 6h3v1h-3zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM13 7h1v1h-1zM18 7h3v1h-3zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM10 9h1v1h-1zM12 9h3v1h-3zM16 9h3v1h-3zM20 9h2v1h-2zM3 10h2v1h-2zM8 10h1v1h-1zM11 10h1v1h-1zM14 10h4v1h-4zM21 10h2v1h-2zM24 10h2v1h-2zM27 10h1v1h-1zM2 11h1v1h-1zM6 11h2v1h-2zM9 11h3v1h-3zM16 11h4v1h-4zM21 11h5v1h-5zM27 11h4v1h-4zM2 12h1v1h-1zM6 12h3v1h-3zM10 12h4v1h-4zM18 12h2v1h-2zM21 12h1v1h-1zM23 12h1v1h-1zM26 12h2v1h-2zM30 12h1v1h-1zM2 13h1v1h-1zM4 13h2v1h-2zM10 13h1v1h-1zM12 13h1v1h-1zM15 13h4v1h-4zM20 13h3v1h-3zM24 13h4v1h-4zM2 14h1v1h-1zM6 14h8v1h-8zM15 14h1v1h-1zM17 14h1v1h-1zM23 14h2v1h-2zM27 14h1v1h-1zM29 14h1v1h-1zM2 15h1v1h-1zM4 15h1v1h-1zM10 15h1v1h-1zM15 15h1v1h-1zM19 15h1v1h-1zM21 15h2v1h-2zM24 15h1v1h-1zM27 15h1v1h-1zM30 15h1v1h-1zM3 16h4v1h-4zM8 16h1v1h-1zM12 16h3v1h-3zM16 16h2v1h-2zM19 16h1v1h-1zM21 16h1v1h-1zM23 16h2v1h-2zM27 16h4v1h-4zM2 17h2v1h-2zM5 17h3v1h-3zM11 17h1v1h-1zM14 17h3v1h-3zM18 17h1v1h-1zM20 17h1v1h-1zM27 17h1v1h-1zM29 17h1v1h-1zM2 18h2v1h-2zM7 18h2v1h-2zM10 18h6v1h-6zM18 18h1v1h-1zM20 18h3v1h-3zM24 18h2v1h-2zM29 18h1v1h-1zM3 19h3v1h-3zM10 19h1v1h-1zM12 19h2v1h-2zM15 19h1v1h-1zM20 19h2v1h-2zM24 19h2v1h-2zM27 19h1v1h-1zM30 19h1v1h-1zM2 20h2v1h-2zM6 20h1v1h-1zM8 20h4v1h-4zM13 20h2v1h-2zM17 20h1v1h-1zM19 20h1v1h-1zM21 20h1v1h-1zM26 20h1v1h-1zM28 20h1v1h-1zM30 20h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM14 21h1v1h-1zM20 21h1v1h-1zM22 21h3v1h-3zM27 21h1v1h-1zM2 22h2v1h-2zM5 22h1v1h-1zM7 22h2v1h-2zM10 22h1v1h-1zM12 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM21 22h6v1h-6zM29 22h2v1h-2zM10 23h9v1h-9zM21 23h2v1h-2zM26 23h2v1h-2zM29 23h2v1h-2zM2 24h7v1h-7zM11 24h1v1h-1zM14 24h1v1h-1zM16 24h2v1h-2zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h3v1h-3zM30 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM11 25h2v1h-2zM14 25h2v1h-2zM17 25h2v1h-2zM21 25h2v1h-2zM26 25h2v1h-2zM30 25h1v1h-1zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM12 26h3v1h-3zM16 26h1v1h-1zM21 26h6v1h-6zM29 26h2v1h-2zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM11 27h5v1h-5zM17 27h6v1h-6zM25 27h2v1h-2zM28 27h1v1h-1zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM10 28h1v1h-1zM13 28h1v1h-1zM16 28h4v1h-4zM23 28h1v1h-1zM26 28h5v1h-5zM2 29h1v1h-1zM8 29h1v1h-1zM10 29h2v1h-2zM16 29h1v1h-1zM20 29h1v1h-1zM22 29h3v1h-3zM27 29h1v1h-1zM2 30h7v1h-7zM13 30h1v1h-1zM15 30h1v1h-1zM18 30h1v1h-1zM22 30h6v1h-6zM30 30h1v1h-1z"/></svg>
             <div class="txt" id="plaque-text">Анна Миронова</div>
             <div class="pl-years" id="plaque-years">1938 — 2021</div>
             <div class="pl-epi" id="plaque-epi">Тепло её рук мы помним всегда</div>
           </div>
-          <p class="phone-note" id="plaque-tpl-note">Классика: тёмная бронза и светлые буквы, строгий вид для любого памятника.</p>
-          <label class="ph-label" for="plaque-input">Имя на табличке</label>
-          <input id="plaque-input" class="ph-input" type="text" maxlength="60" value="Анна Миронова" autocomplete="off">
-          <label class="ph-label" for="plaque-years-in">Годы жизни</label>
-          <input id="plaque-years-in" class="ph-input" type="text" maxlength="30" value="1938 — 2021" autocomplete="off">
+          <p class="pl-note" id="plaque-tpl-note">Классика: тёмная бронза и светлые буквы.</p>
+          <div class="pl-row">
+            <input id="plaque-input" class="ph-input" type="text" maxlength="60" value="Анна Миронова" aria-label="Имя на табличке" autocomplete="off">
+            <input id="plaque-years-in" class="ph-input" type="text" maxlength="30" value="1938 — 2021" aria-label="Годы жизни" autocomplete="off">
+          </div>
           <label class="cab-check"><input type="checkbox" id="plaque-epi-on" checked> Добавить эпитафию</label>
-          <span class="ph-label" style="margin-top:14px">Статус заказа</span>
-          <div class="ph-chips" role="group" aria-label="Статус заказа">
+          <div class="ph-chips pl-stat" role="group" aria-label="Статус заказа">
             <button type="button" data-status aria-pressed="true">принят</button>
             <button type="button" data-status aria-pressed="false">в производстве</button>
             <button type="button" data-status aria-pressed="false">готов</button>
             <button type="button" data-status aria-pressed="false">установлен</button>
           </div>
-          <p class="phone-note" id="plaque-status" aria-live="polite">Сейчас: принят</p>
-          <p class="phone-note">Виды, размеры и цены вы задаёте в панели управления. Макеты табличек в демо условные.</p>
+          <p class="pl-note" id="plaque-status" aria-live="polite">Сейчас: принят</p>
         </div>
       </div>
     </div>
@@ -1762,10 +1774,10 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   var plaqueView = document.getElementById("plaque-view");
   var tplNote = document.getElementById("plaque-tpl-note");
   var tplNotes = {
-    classic: "Классика: тёмная бронза и светлые буквы, строгий вид для любого памятника.",
-    granite: "Гранит: тёмный камень с белой надписью, подходит к каменным памятникам.",
-    light: "Светлая: овальная форма и тёмные буквы, мягкий вид для светлых памятников.",
-    portrait: "С портретом: арка с круглым фото, имя, годы и QR-код."
+    classic: "Классика: тёмная бронза и светлые буквы.",
+    granite: "Гранит: тёмный камень с белой надписью.",
+    light: "Светлая: овальная форма и тёмные буквы.",
+    portrait: "Портрет: арка с круглым фото, имя, годы и QR-код."
   };
   function refreshPlaque() {
     plaqueText.textContent = input.value.trim() || "Имя Фамилия";
