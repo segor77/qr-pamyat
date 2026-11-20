@@ -245,10 +245,11 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-thumbs .t1 { background: url(img/photo-dacha-1975.jpg) center / cover no-repeat; }
   .pg-thumbs .t2 { background: url(img/photo-graduation-1957.jpg) center / cover no-repeat; }
   .pg-thumbs .t3 { background: url(img/photo-grandchildren-2010.jpg) center / cover no-repeat; }
-  .pg-place { background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; }
+  .pg-place { display: block; width: 100%; border: 0; text-align: left; font: inherit; cursor: pointer; background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; }
+  .pg-place:hover { background: #efe8d8; }
   .pg-place b { display: block; font: 600 13px var(--body); color: #1d3442; }
   .pg-place span { display: block; font-size: 12px; color: #3d4a52; margin-top: 2px; }
-  .pg-place small { display: block; font-size: 11px; color: #7b8a94; margin-top: 2px; }
+  .pg-place small { display: block; font-size: 11px; font-weight: 600; color: #a8844d; margin-top: 4px; }
   .pg-actions { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
   .pg-actions .ph-share { margin-top: 0; }
   .pg-candle { font: 600 13px var(--body); padding: 6px 12px; border-radius: 999px; cursor: pointer; border: 1.5px solid #c9a46a; background: transparent; color: #a8844d; }
@@ -276,6 +277,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .gal-info { flex: none; background: #f4efe6; padding: 12px 14px 16px; min-height: 120px; }
   .gal-info h4 { margin: 0 0 4px; font: 600 14px var(--body); color: #1d3442; }
   .gal-info p { margin: 0; font-size: 13px; line-height: 1.45; color: #3d4a52; }
+  .gal-coords { margin-top: 8px !important; font-size: 12px !important; color: #1d3442 !important; }
+  .gal-coords button { margin-left: 6px; border: 1px solid #c9a46a; background: #fff; color: #a8844d; border-radius: 999px; padding: 2px 10px; font: 600 11px var(--body); cursor: pointer; }
   .gal-info .gal-count { font-size: 11px; color: #7b8a94; margin-bottom: 4px; }
   .pg-status { font-size: 11px; color: #7b8a94; margin: 0 0 8px; min-height: 14px; }
   .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
@@ -612,6 +615,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <p class="gal-count" id="gal-count"></p>
             <h4 id="gal-title"></h4>
             <p id="gal-desc"></p>
+            <p class="gal-coords" id="gal-coords" hidden><span id="gal-coords-t"></span> <button type="button" id="gal-copy">Скопировать</button></p>
           </div>
         </div>
         <div class="phone-tabs" role="tablist" aria-label="Экраны макета">
@@ -649,11 +653,11 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
           </section>
           <section class="pg-sec">
             <h3>Место захоронения</h3>
-            <div class="pg-place">
+            <button type="button" class="pg-place" id="pg-place" aria-label="Открыть галерею: фото, схема и координаты места захоронения">
               <b>Северное кладбище</b>
               <span>участок 14, могила 27</span>
-              <small>фото захоронения</small>
-            </div>
+              <small>Фото, схема и координаты · открыть</small>
+            </button>
             <button type="button" class="pg-more" id="pg-route-btn" aria-expanded="false">Как найти</button>
             <p class="pg-text pg-hidden" id="pg-route">От главного входа прямо по центральной аллее до перекрёстка, затем направо ещё 150 метров.</p>
           </section>
@@ -699,30 +703,52 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
           var thumbs = document.querySelectorAll(".pg-thumbs button");
           var gal = document.getElementById("gal"), gImg = document.getElementById("gal-img");
           var gTitle = document.getElementById("gal-title"), gDesc = document.getElementById("gal-desc"), gCount = document.getElementById("gal-count");
-          var gIdx = 0, gFrom = null;
-          function showPhoto(k) {
-            gIdx = (k + thumbs.length) % thumbs.length;
-            var t = thumbs[gIdx];
-            gImg.src = t.getAttribute("data-big");
-            gImg.alt = t.getAttribute("data-cap");
-            gTitle.textContent = t.getAttribute("data-cap");
-            gDesc.textContent = t.getAttribute("data-desc");
-            gCount.textContent = "Фото " + (gIdx + 1) + " из " + thumbs.length;
-            thumbs.forEach(function (x) { x.removeAttribute("aria-current"); });
-            t.setAttribute("aria-current", "true");
-            document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
+          var gCoords = document.getElementById("gal-coords"), gCoordsT = document.getElementById("gal-coords-t"), gCopy = document.getElementById("gal-copy");
+          var photoItems = Array.prototype.map.call(thumbs, function (t) {
+            return { src: t.getAttribute("data-big"), title: t.getAttribute("data-cap"), desc: t.getAttribute("data-desc") };
+          });
+          var COORDS = "51.7721, 36.1948";
+          var placeItems = [
+            { src: "img/grave-view.svg", title: "Общий вид", desc: "Памятник с табличкой, вид от дорожки. Демо-иллюстрация: здесь будет фото вашего захоронения.", coords: COORDS },
+            { src: "img/grave-scheme.svg", title: "Схема участка", desc: "От главного входа прямо по центральной аллее до перекрёстка, затем направо ещё 150 метров. Участок 14, могила 27.", coords: COORDS },
+            { src: "img/plaque.png", title: "Табличка с QR-кодом", desc: "Табличка на памятнике. Посетитель наводит на код камеру телефона и открывает страницу памяти.", coords: COORDS }
+          ];
+          var gSet = photoItems, gKind = "Фото", gIdx = 0, gFrom = null;
+          function showFrame(k) {
+            gIdx = (k + gSet.length) % gSet.length;
+            var it = gSet[gIdx];
+            gImg.src = it.src; gImg.alt = it.title;
+            gTitle.textContent = it.title;
+            gDesc.textContent = it.desc;
+            gCount.textContent = gKind + " " + (gIdx + 1) + " из " + gSet.length;
+            if (it.coords) { gCoordsT.textContent = "Координаты: " + it.coords + " (демо)"; gCoords.hidden = false; gCopy.textContent = "Скопировать"; }
+            else { gCoords.hidden = true; }
+            if (gSet === photoItems) {
+              thumbs.forEach(function (x) { x.removeAttribute("aria-current"); });
+              thumbs[gIdx].setAttribute("aria-current", "true");
+              document.getElementById("pg-cap").textContent = it.title;
+            }
           }
-          function openGal(k) { gFrom = document.activeElement; showPhoto(k); gal.hidden = false; document.getElementById("gal-close").focus({ preventScroll: true }); }
+          function openGal(set, kind, k) {
+            gFrom = document.activeElement; gSet = set; gKind = kind;
+            showFrame(k); gal.hidden = false;
+            document.getElementById("gal-close").focus({ preventScroll: true });
+          }
           function closeGal() { gal.hidden = true; if (gFrom && gFrom.focus) gFrom.focus({ preventScroll: true }); }
-          thumbs.forEach(function (t, k) { t.addEventListener("click", function () { openGal(k); }); });
-          document.getElementById("gal-prev").addEventListener("click", function () { showPhoto(gIdx - 1); });
-          document.getElementById("gal-next").addEventListener("click", function () { showPhoto(gIdx + 1); });
+          thumbs.forEach(function (t, k) { t.addEventListener("click", function () { openGal(photoItems, "Фото", k); }); });
+          document.getElementById("pg-place").addEventListener("click", function () { openGal(placeItems, "Кадр", 0); });
+          document.getElementById("gal-prev").addEventListener("click", function () { showFrame(gIdx - 1); });
+          document.getElementById("gal-next").addEventListener("click", function () { showFrame(gIdx + 1); });
           document.getElementById("gal-close").addEventListener("click", closeGal);
+          gCopy.addEventListener("click", function () {
+            try { navigator.clipboard.writeText(COORDS).then(function () { gCopy.textContent = "Скопировано"; }, function () { gCopy.textContent = "Не удалось"; }); }
+            catch (e) { gCopy.textContent = "Не удалось"; }
+          });
           document.addEventListener("keydown", function (e) {
             if (gal.hidden) return;
             if (e.key === "Escape") closeGal();
-            else if (e.key === "ArrowLeft") showPhoto(gIdx - 1);
-            else if (e.key === "ArrowRight") showPhoto(gIdx + 1);
+            else if (e.key === "ArrowLeft") showFrame(gIdx - 1);
+            else if (e.key === "ArrowRight") showFrame(gIdx + 1);
           });
           document.querySelectorAll("[data-tab]").forEach(function (b) { b.addEventListener("click", function () { if (!gal.hidden) gal.hidden = true; }); });
           var SHARE_URL = "https://files.adminpro.win", SONG_HASH = "1Wv0m2WGGZRyidB_K2fIUw";
