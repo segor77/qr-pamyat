@@ -434,12 +434,14 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     .then(function(d){ return (d.files || []).filter(function(f){ return f.viewToken && (/^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name)); }); })
     .catch(function(){ return []; })
     .then(function(files){ var was = !a.paused; setList(files); if (!was){ load(0); if (!off) play(); } });
-  function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) play(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
+  function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) fadeIn(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){
     if (document.visibilityState === 'hidden' && !a.paused){ a._auto = true; fadeOut(); }
-    else if (document.visibilityState === 'visible' && a._auto){ a._auto = false; if (!off) fadeIn(); }
+    else if (document.visibilityState === 'visible'){ a._auto = false; if (!off && a.paused) fadeIn(); }
   });
+  // повторная попытка включить музыку, когда окно получает фокус (браузер может разрешить звук позже, чем откроется страница)
+  window.addEventListener('focus', function(){ if (!off && a.paused && document.visibilityState === 'visible') fadeIn(); });
 })();
 </script>
 <script>
