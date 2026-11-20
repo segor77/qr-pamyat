@@ -297,6 +297,50 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
   .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
   .ph-body.on { display: block; }
+  .cab-status { background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
+  .cab-status b { display: block; font: 600 14px var(--body); color: #1d3442; }
+  .cab-status small { display: block; font-size: 12px; color: #7b8a94; margin-top: 6px; }
+  .cab-bar { height: 6px; background: #e2d8c3; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .cab-bar span { display: block; height: 100%; width: 100%; background: #c9a46a; }
+  .cab-steps { list-style: none; padding: 0; margin: 0; }
+  .cab-step { border: 1px solid #e2e8eb; border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: #fff; }
+  .cab-head { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 10px 12px; border: 0; background: none; font: 600 14px var(--body); color: #1d3442; cursor: pointer; }
+  .cab-head[aria-expanded="true"] { background: #fbf6ec; }
+  .cab-ck { flex: none; width: 20px; height: 20px; border-radius: 50%; background: #c9a46a; color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .cab-body { padding: 10px 12px 12px; border-top: 1px solid #e2e8eb; }
+  .cab-body[hidden] { display: none; }
+  .cab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cab-f { display: block; text-align: left; }
+  .cab-f.full { grid-column: 1 / -1; }
+  .cab-f > span, .cab-lbl { display: block; font-size: 11px; color: #7b8a94; margin: 0 0 3px; }
+  .cab-lbl { margin: 10px 0 5px; }
+  .cab-f input, .cab-f select, .cab-f textarea { width: 100%; box-sizing: border-box; font: 13px var(--body); color: #1d3442; padding: 6px 8px; border: 1px solid #d7dee2; border-radius: 8px; background: #fff; }
+  .cab-f textarea { resize: vertical; line-height: 1.45; }
+  .cab-hint { font-size: 12px; color: #5c6b75; margin: 8px 0 0; line-height: 1.4; }
+  .cab-ok { font-size: 12px; color: #2f6b3f; background: #e8f3ea; border-radius: 8px; padding: 6px 8px; margin: 8px 0 0; }
+  .cab-photos { display: flex; gap: 6px; align-items: center; }
+  .cab-photos img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; background: #eef1f3; }
+  .cab-add { width: 52px; height: 52px; border: 1.5px dashed #c9a46a; border-radius: 8px; background: none; color: #a8844d; font-size: 22px; cursor: pointer; }
+  .cab-main { display: flex; gap: 12px; align-items: center; text-align: left; }
+  .cab-main img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #c9a46a; flex: none; }
+  .cab-main b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-main span { display: block; font-size: 12px; color: #7b8a94; margin: 2px 0 8px; }
+  .cab-btn { font: 600 12px var(--body); padding: 6px 12px; border-radius: 999px; border: 1.5px solid #c9a46a; background: #fff; color: #a8844d; cursor: pointer; }
+  .cab-btn.solid { background: #c9a46a; color: #fff; margin-top: 10px; }
+  .cab-list { list-style: none; margin: 0; padding: 0; }
+  .cab-list li { display: flex; align-items: center; gap: 8px; padding: 4px 0; text-align: left; }
+  .cab-list img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
+  .cab-list b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-list small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-note { width: 44px; height: 44px; border-radius: 8px; background: #f4efe6; color: #a8844d; display: flex; align-items: center; justify-content: center; font-size: 18px; flex: none; }
+  .cab-tariffs { display: flex; gap: 6px; }
+  .cab-tariffs button { flex: 1; font: 600 12px var(--body); padding: 8px 4px; border-radius: 10px; border: 1.5px solid #d7dee2; background: #fff; color: #1d3442; cursor: pointer; }
+  .cab-tariffs button[aria-pressed="true"] { border-color: #c9a46a; background: #fbf6ec; color: #a8844d; }
+  .cab-tl { list-style: none; margin: 0; padding: 0; text-align: left; }
+  .cab-tl li { position: relative; padding: 4px 0 4px 22px; font-size: 13px; color: #7b8a94; }
+  .cab-tl li::before { content: ""; position: absolute; left: 3px; top: 9px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #c9d2d6; background: #fff; }
+  .cab-tl li.done { color: #1d3442; } .cab-tl li.done::before { background: #c9a46a; border-color: #c9a46a; }
+  .cab-tl li.now { color: #1d3442; font-weight: 600; } .cab-tl li.now::before { border-color: #c9a46a; }
   .ph-steps { list-style: none; padding: 0; margin: 0; }
   .ph-steps li { margin-bottom: 6px; }
   .ph-steps button {
@@ -860,18 +904,89 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
         <!-- Экран: кабинет -->
         <div class="screen" id="scr-cab" role="tabpanel">
-          <span class="ph-label">Мастер создания страницы</span>
-          <ul class="ph-steps">
-            <li><button type="button" data-step aria-pressed="false" data-text="ФИО, пол, даты и места рождения и смерти, степень родства клиента.">1. Основные данные</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Кладбище, участок, номер могилы, фото захоронения.">2. Место захоронения</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Главное фото с кадрированием.">3. Главное фото</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Биография в свободной форме. Редактуру делает оператор в рамках тарифа.">4. Биография</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Фотографии с подписями и годом. Видео и аудио доступны на платных тарифах.">5. Фото, видео и аудио</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Выбор тарифа и онлайн-оплата.">6. Тариф и оплата</button></li>
-            <li><button type="button" data-step aria-pressed="false" data-text="Предпросмотр и отправка на проверку оператору.">7. Предпросмотр</button></li>
+          <div class="cab-status">
+            <b>Страница: на проверке у оператора</b>
+            <div class="cab-bar" role="img" aria-label="Заполнено 7 шагов из 7"><span></span></div>
+            <small>Заполнено 7 из 7 шагов · черновик сохранён автоматически</small>
+          </div>
+          <ul class="cab-steps">
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="true" aria-controls="cab-p1"><span class="cab-ck" aria-hidden="true">✓</span>1. Основные данные</button>
+              <div class="cab-body" id="cab-p1">
+              <div class="cab-grid">
+                <label class="cab-f"><span>Фамилия</span><input type="text" value="Миронова" autocomplete="off"></label><label class="cab-f"><span>Имя</span><input type="text" value="Анна" autocomplete="off"></label><label class="cab-f"><span>Отчество</span><input type="text" value="Сергеевна" autocomplete="off"></label>
+                <label class="cab-f"><span>Пол</span><select><option selected>Женский</option><option>Мужской</option></select></label>
+                <label class="cab-f"><span>Дата рождения</span><input type="text" value="12.03.1938" autocomplete="off"></label><label class="cab-f"><span>Место рождения</span><input type="text" value="г. Курск" autocomplete="off"></label><label class="cab-f"><span>Дата смерти</span><input type="text" value="04.09.2021" autocomplete="off"></label><label class="cab-f"><span>Место смерти</span><input type="text" value="г. Курск" autocomplete="off"></label>
+                <label class="cab-f full"><span>Кем вам приходится</span><input type="text" value="Бабушка" autocomplete="off"></label>
+              </div>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p2"><span class="cab-ck" aria-hidden="true">✓</span>2. Место захоронения</button>
+              <div class="cab-body" id="cab-p2" hidden>
+              <div class="cab-grid">
+                <label class="cab-f full"><span>Кладбище</span><input type="text" value="Северное кладбище, Курск" autocomplete="off"></label><label class="cab-f"><span>Участок</span><input type="text" value="14" autocomplete="off"></label><label class="cab-f"><span>Могила</span><input type="text" value="27" autocomplete="off"></label>
+                <label class="cab-f full"><span>Координаты</span><input type="text" value="51.7721, 36.1948 (демо)" autocomplete="off"></label>
+              </div>
+              <span class="cab-lbl">Фото захоронения · 2 из 10</span>
+              <div class="cab-photos"><img src="img/grave-view.svg" alt="Общий вид (демо)" width="52" height="52"><img src="img/grave-plaque.svg" alt="Табличка (демо)" width="52" height="52"><button type="button" class="cab-add" aria-label="Добавить фото захоронения">+</button></div>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p3"><span class="cab-ck" aria-hidden="true">✓</span>3. Главное фото</button>
+              <div class="cab-body" id="cab-p3" hidden>
+              <div class="cab-main"><img src="img/avatar.png" alt="Главное фото" width="72" height="72"><div><b>portrait.jpg</b><span>Кадр: круг, лицо по центру</span><button type="button" class="cab-btn">Заменить фото</button></div></div>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p4"><span class="cab-ck" aria-hidden="true">✓</span>4. Биография</button>
+              <div class="cab-body" id="cab-p4" hidden>
+              <label class="cab-f full"><span>Текст о жизни</span><textarea id="cab-bio" rows="7" maxlength="15000">Родилась в семье учителей. Окончила техникум, работала в библиотеке и вырастила двоих детей. Любила сад, пироги по воскресеньям и долгие разговоры за чаем.
+
+Последние годы вела кружок для школьников и собирала семейный архив. Записывала истории родных, чтобы внуки их знали.</textarea></label>
+              <p class="cab-hint"><span id="cab-bio-n">0</span> из 15 000 знаков (тариф «Базовый»). Редактуру делает оператор в рамках тарифа.</p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p5"><span class="cab-ck" aria-hidden="true">✓</span>5. Фото, видео и голос</button>
+              <div class="cab-body" id="cab-p5" hidden>
+              <span class="cab-lbl">Фотографии · 3 из 100</span>
+              <ul class="cab-list">
+                <li><img src="img/photo-graduation-1957.jpg" alt="" width="44" height="44"><span><b>Выпускной в техникуме</b><small>1957</small></span></li>
+                <li><img src="img/photo-dacha-1975.jpg" alt="" width="44" height="44"><span><b>Лето на даче</b><small>1975</small></span></li>
+                <li><img src="img/photo-grandchildren-2010.jpg" alt="" width="44" height="44"><span><b>С внуками</b><small>2010</small></span></li>
+              </ul>
+              <span class="cab-lbl">Аудио · 1 из 10</span>
+              <ul class="cab-list"><li><span class="cab-note">♪</span><span><b>Послушать</b><small>4:54</small></span></li></ul>
+              <span class="cab-lbl">Видео · 0 из 5</span>
+              <button type="button" class="cab-btn">Добавить видео</button>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p6"><span class="cab-ck" aria-hidden="true">✓</span>6. Тариф и оплата</button>
+              <div class="cab-body" id="cab-p6" hidden>
+              <div class="cab-tariffs" role="group" aria-label="Тариф">
+                <button type="button" data-tariff aria-pressed="false">Бесплатный</button>
+                <button type="button" data-tariff aria-pressed="true">Базовый</button>
+                <button type="button" data-tariff aria-pressed="false">VIP</button>
+              </div>
+              <p class="cab-hint" id="cab-tariff-note">Базовый: до 100 фото, видео и аудио, табличка с QR-кодом включена.</p>
+              <p class="cab-ok">Оплата получена (демо). Чек отправлен на почту.</p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p7"><span class="cab-ck" aria-hidden="true">✓</span>7. Предпросмотр</button>
+              <div class="cab-body" id="cab-p7" hidden>
+              <ol class="cab-tl">
+                <li class="done">Черновик заполнен</li>
+                <li class="now">На проверке у оператора</li>
+                <li>Опубликована</li>
+              </ol>
+              <p class="cab-hint">Оператор проверит страницу до показа посетителям. Пока проверка идёт, вы можете посмотреть страницу так, как увидят её посетители.</p>
+              <button type="button" class="cab-btn solid" id="cab-preview">Открыть предпросмотр</button>
+              </div>
+            </li>
           </ul>
-          <div class="ph-detail" id="step-detail" aria-live="polite">Выберите шаг, чтобы увидеть, что в нём заполняется.</div>
-          <p class="phone-note">Черновик сохраняется автоматически.</p>
         </div>
 
         <!-- Экран: табличка -->
@@ -1452,13 +1567,37 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   });
 
   /* Шаги мастера в кабинете */
-  var steps = document.querySelectorAll("[data-step]");
-  var detail = document.getElementById("step-detail");
-  steps.forEach(function (step) {
-    step.addEventListener("click", function () {
-      steps.forEach(function (s) { s.setAttribute("aria-pressed", s === step ? "true" : "false"); });
-      detail.textContent = step.getAttribute("data-text");
+  var heads = document.querySelectorAll(".cab-head");
+  heads.forEach(function (h) {
+    h.addEventListener("click", function () {
+      var open = h.getAttribute("aria-expanded") === "true";
+      heads.forEach(function (x) {
+        x.setAttribute("aria-expanded", "false");
+        document.getElementById(x.getAttribute("aria-controls")).hidden = true;
+      });
+      if (!open) {
+        h.setAttribute("aria-expanded", "true");
+        document.getElementById(h.getAttribute("aria-controls")).hidden = false;
+      }
     });
+  });
+  var bio = document.getElementById("cab-bio"), bioN = document.getElementById("cab-bio-n");
+  function bioCount() { bioN.textContent = bio.value.length.toLocaleString("ru-RU"); }
+  bio.addEventListener("input", bioCount); bioCount();
+  var tariffNotes = {
+    "Бесплатный": "Бесплатный: до 5 фотографий, биография до 1 500 знаков. Видео и аудио недоступны.",
+    "Базовый": "Базовый: до 100 фото, видео и аудио, табличка с QR-кодом включена.",
+    "VIP": "VIP: фото, видео и аудио без ограничений в пределах 10 ГБ, две таблички и установка."
+  };
+  var tbtns = document.querySelectorAll("[data-tariff]");
+  tbtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      tbtns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      document.getElementById("cab-tariff-note").textContent = tariffNotes[b.textContent];
+    });
+  });
+  document.getElementById("cab-preview").addEventListener("click", function () {
+    var t = document.querySelector('[data-tab="scr-page"]'); if (t) t.click();
   });
 
   /* Надпись на табличке */
