@@ -212,32 +212,27 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .phone-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
   .screen { display: none; padding: 16px; overflow-y: auto; flex: 1; font-size: 15px; }
   .screen.on { display: block; }
-  .ph-card { background: #f3f0e9; border-radius: 14px; padding: 14px 12px 12px; margin-bottom: 12px; }
-  .ph-head { display: flex; align-items: center; gap: 14px; }
+  .ph-card { background: #f4efe6; text-align: center; margin: -16px -16px 8px; padding: 18px 16px 16px; }
   .ph-photo {
-    width: 84px; height: 84px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
-    background: #e2e8eb; border: 3px solid #b38f57; color: #7b8a94; font: 13px var(--body);
+    width: 84px; height: 84px; margin: 0 auto; border-radius: 50%; border: 3px solid #c9a46a;
+    background: linear-gradient(180deg, #e3d2b4, #b99a6e);
   }
-  .ph-who { min-width: 0; }
-  .ph-name { font-family: var(--display); font-weight: 700; color: #2c4a5a; font-size: 18px; margin: 0; line-height: 1.2; }
-  .ph-years { color: #3d4a52; font-size: 14px; margin: 4px 0 0; }
-  .ph-epi { font-style: italic; color: #7b8a94; font-size: 13px; margin: 4px 0 0; }
-  .ph-actions { display: flex; gap: 6px; margin-top: 12px; }
-  .ph-actions button {
-    flex: 1; font: 600 12px var(--body); padding: 7px 4px; border-radius: 999px; cursor: pointer;
-    border: 1.5px solid #b38f57; background: #fff; color: #b38f57;
+  .ph-name { font-family: var(--display); font-weight: 700; color: #1d3442; font-size: 18px; margin: 10px 0 0; line-height: 1.2; }
+  .ph-years { color: #5c6b75; font-size: 14px; margin: 2px 0 0; }
+  .ph-share {
+    margin-top: 12px; font: 600 13px var(--body); padding: 6px 16px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid #c9a46a; background: transparent; color: #a8844d;
   }
-  .ph-actions button.solid { background: #b38f57; color: #fff; }
-  .ph-acc { display: flex; flex-direction: column; gap: 6px; }
-  .ph-acc > div { border: 1px solid #e2e8eb; border-radius: 10px; background: #fff; overflow: hidden; }
-  .ph-acc > div:nth-child(odd) { background: #f3f0e9; }
+  .ph-acc > div { border-bottom: 1px solid #e6eaed; }
   .ph-acc button {
     display: flex; width: 100%; justify-content: space-between; align-items: center; text-align: left;
-    padding: 11px 12px; border: 0; background: none; font: 500 14px var(--body); color: #2c4a5a; cursor: pointer;
+    padding: 12px 2px; border: 0; background: none; font: 600 14px var(--body); color: #1d3442; cursor: pointer;
   }
-  .ph-acc button::after { content: "+"; color: #b38f57; font-size: 18px; }
+  .ph-acc button::after { content: "+"; color: #c9a46a; font-size: 18px; }
   .ph-acc button[aria-expanded="true"]::after { content: "–"; }
-  .ph-foot { text-align: center; color: #7b8a94; font-size: 13px; margin: 14px 0 4px; }
+  .ph-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 0 0 10px; }
+  .ph-thumbs span { display: block; height: 56px; border-radius: 8px; background: linear-gradient(180deg, #e3d2b4, #b99a6e); }
+  .ph-thumbs span:nth-child(2) { background: linear-gradient(180deg, #f1e6d2, #c9ab7e); }
   .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
   .ph-body.on { display: block; }
   .ph-steps { list-style: none; padding: 0; margin: 0; }
@@ -557,39 +552,29 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
         <!-- Экран: страница памяти -->
         <div class="screen on" id="scr-page" role="tabpanel">
           <div class="ph-card">
-            <div class="ph-head">
-              <div class="ph-photo" aria-hidden="true">фото</div>
-              <div class="ph-who">
-                <p class="ph-name">Имя Фамилия</p>
-                <p class="ph-years">годы жизни</p>
-                <p class="ph-epi">«Текст эпитафии»</p>
-              </div>
-            </div>
-            <div class="ph-actions">
-              <button type="button" class="solid">Свеча</button>
-              <button type="button" class="ph-share">Поделиться</button>
-              <button type="button">Музыка</button>
-            </div>
+            <div class="ph-photo" aria-hidden="true"></div>
+            <p class="ph-name">Имя Фамилия</p>
+            <p class="ph-years">годы жизни</p>
+            <button type="button" class="ph-share">Поделиться</button>
           </div>
           <div class="ph-acc">
             <div>
-              <button type="button" data-block aria-expanded="false">Основные сведения</button>
-              <div class="ph-body">Даты и места рождения и смерти, профессия, награды.</div>
+              <button type="button" data-block aria-expanded="true">История жизни</button>
+              <div class="ph-body on">Текст о жизни человека. На бесплатном тарифе до 1 500 знаков, на базовом до 15 000 знаков.</div>
+            </div>
+            <div>
+              <button type="button" data-block aria-expanded="false">Фотографии</button>
+              <div class="ph-body"><div class="ph-thumbs" aria-hidden="true"><span></span><span></span><span></span></div>Фотографии с подписями и просмотром на весь экран. Количество зависит от тарифа.</div>
             </div>
             <div>
               <button type="button" data-block aria-expanded="false">Место захоронения</button>
               <div class="ph-body">Кладбище, участок, номер могилы и фото захоронения.</div>
             </div>
             <div>
-              <button type="button" data-block aria-expanded="false">Биография</button>
-              <div class="ph-body">Текст о жизни человека. На бесплатном тарифе до 1 500 знаков, на базовом до 15 000 знаков.</div>
-            </div>
-            <div>
-              <button type="button" data-block aria-expanded="false">Фотографии</button>
-              <div class="ph-body">Фотографии с подписями и просмотром на весь экран. Количество зависит от тарифа.</div>
+              <button type="button" data-block aria-expanded="false">Видео и голос</button>
+              <div class="ph-body">Видео и голосовые записи доступны на платных тарифах.</div>
             </div>
           </div>
-          <p class="ph-foot">Создать страницу для близкого</p>
         </div>
 
         <!-- Экран: кабинет -->
