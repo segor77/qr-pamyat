@@ -692,24 +692,32 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             play.textContent = on ? "❚❚" : "▶";
             play.setAttribute("aria-pressed", String(on));
           }
-          function loadSong(cb) {
-            if (song) { cb(); return; }
-            if (loading) return;
-            loading = true;
-            say("Загружаем запись…");
-            fetch(SHARE_URL + "/public/api/resources?path=%2F&hash=" + SONG_HASH)
+          var HASHES = ["1Wv0m2WGGZRyidB_K2fIUw", "lIhIJRaBqwjAY0Hlml_1LQ"], notes = [];
+          function tryHash(k, cb) {
+            if (k >= HASHES.length) { loading = false; setPlaying(false); say("Запись не найдена. " + notes.join("; ")); return; }
+            var h = HASHES[k];
+            fetch(SHARE_URL + "/public/api/resources?path=%2F&hash=" + h)
               .then(function (r) { return r.json(); })
               .then(function (data) {
                 var items = Array.isArray(data) ? data : (data.files || data.items || []);
+                if (!items.length && data && data.name && data.viewToken) items = [data];
+                notes.push("ключ " + (k + 1) + ": полей " + Object.keys(data || {}).join(",") + ", файлов " + items.length);
                 var f = null;
                 items.forEach(function (x) { if (!f && x && x.name && x.name.indexOf("Когда цвели сады") !== -1) f = x; });
+                if (!f) { tryHash(k + 1, cb); return; }
                 loading = false;
-                if (!f) { setPlaying(false); say("Запись не найдена в общей папке (" + items.length + " файлов в списке)"); return; }
-                song = SHARE_URL + "/public/api/media/stream?file=" + encodeURIComponent("/" + f.name) + "&hash=" + SONG_HASH + "&viewToken=" + encodeURIComponent(f.viewToken);
+                song = SHARE_URL + "/public/api/media/stream?file=" + encodeURIComponent("/" + f.name) + "&hash=" + h + "&viewToken=" + encodeURIComponent(f.viewToken);
                 track.src = song;
                 cb();
               })
-              .catch(function (e) { loading = false; setPlaying(false); say("Не удалось подключиться к серверу: " + (e && e.message ? e.message : "ошибка")); });
+              .catch(function (e) { notes.push("ключ " + (k + 1) + ": ошибка " + (e && e.message ? e.message : "связи")); tryHash(k + 1, cb); });
+          }
+          function loadSong(cb) {
+            if (song) { cb(); return; }
+            if (loading) return;
+            loading = true; notes = [];
+            say("Загружаем запись…");
+            tryHash(0, cb);
           }
           play.addEventListener("click", function () {
             if (!track.paused) { track.pause(); setPlaying(false); return; }
