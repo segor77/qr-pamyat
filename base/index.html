@@ -384,9 +384,10 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   }
   function fadeIn(){ a.volume = 0; play(); fade(VOL, 3000); }
   function fadeOut(cb){ fade(0, 2400, function(){ a.pause(); a.volume = VOL; if (cb) cb(); }); }
-  function src(name){ return SHARE + '/public/api/raw?files=' + encodeURIComponent('/' + name) + '&hash=' + HASH; }
-  function clean(n){ return n.replace(/\.[^.]+$/, '').replace(/\s*\(\d+\)$/, ''); }
-  function setList(names){ if (names && names.length){ list = names.map(function(n){ return { name: clean(n), src: src(n) }; }); } }
+  // потоковый адрес файла из общей папки: сервер выдаёт для каждого файла свой ключ просмотра (viewToken)
+  function src(name, token){ return SHARE + '/public/api/media/stream?file=' + encodeURIComponent('/' + name) + '&hash=' + HASH + '&viewToken=' + encodeURIComponent(token); }
+  function clean(n){ return n.replace(/\.[^.]+$/, '').replace(/\s*\(\d+\)$/, '').replace(/^\d+\s*[-–.]?\s*/, ''); }
+  function setList(files){ if (files && files.length){ list = files.map(function(f){ return { name: clean(f.name), src: src(f.name, f.viewToken) }; }); } }
   function load(k){ i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name; }
   function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
   var SPK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>';
@@ -423,9 +424,9 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
   box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
-    .then(function(d){ return (d.files || []).filter(function(f){ return /^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name); }).map(function(f){ return f.name; }); })
-    .catch(function(){ return fetch('../audio/playlist.json', { cache: 'no-store' }).then(function(r){ return r.json(); }).catch(function(){ return []; }); })
-    .then(function(names){ var was = !a.paused; setList(names); if (!was){ load(0); if (!off) play(); } });
+    .then(function(d){ return (d.files || []).filter(function(f){ return f.viewToken && (/^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name)); }); })
+    .catch(function(){ return []; })
+    .then(function(files){ var was = !a.paused; setList(files); if (!was){ load(0); if (!off) play(); } });
   function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) play(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){
