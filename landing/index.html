@@ -179,6 +179,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
   .cards4, .cards3 { display: grid; gap: 18px; }
   .cards4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .cards3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .card {
     background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px;
@@ -425,7 +426,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
     .contact { grid-template-columns: 1fr; }
   }
   @media (max-width: 720px) {
-    .cards4 { grid-template-columns: 1fr; }
+    .cards4, .cards-three { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .block { padding: 44px 0; }
@@ -491,12 +492,12 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
         <article class="card">
           <span class="num">1</span>
           <h3>Передача готового портала</h3>
-          <p>Наша команда передаёт вам весь портал: программы, компьютер в интернете, на котором он работает, и все пароли. Дальше вы сами или с любым специалистом поддерживаете его работу.</p>
+          <p>После запуска мы передаём вам полный доступ к порталу и серверу, где он работает. Дальше вы сами организуете поддержку работы и развития проекта.</p>
         </article>
         <article class="card">
           <span class="num">2</span>
           <h3>Портал под ключ: я веду его за вас</h3>
-          <p>Наша команда создаёт портал и дальше ведёт его: держу его в интернете, обновляю, слежу за безопасностью, делаю запасные копии данных и добавляю возможности по мере роста. Вы занимаетесь только продажами. Данные клиентов в любой момент можно выгрузить файлом.</p>
+          <p>Мы создаём портал, размещаем его, обновляем, следим за безопасностью, выполняем резервное копирование данных, добавляем новые возможности по мере роста. Вы занимаетесь продажами и модерированием контента.</p>
         </article>
       </div>
       <div class="card" style="margin-top:18px;">
@@ -539,25 +540,20 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   <section class="block" id="path">
     <div class="container">
       <h2>Как пройдём путь до запуска</h2>
-      <p class="lead2">Четыре шага. Сроки и стоимость согласуем на втором шаге, в личном разговоре.</p>
-      <div class="cards4">
+      <p class="lead2">Три шага. Сроки и стоимость согласуем на втором шаге, в личном разговоре.</p>
+      <div class="cards4 cards-three">
         <article class="card">
           <span class="num">1</span>
-          <h3>Обсуждаем ТЗ</h3>
-          <p>Вы отмечаете замечания в Google Документе или в разговоре. Наша команда вносит правки во все версии документа: в Word, PDF и на сайте.</p>
-        </article>
-        <article class="card">
-          <span class="num">2</span>
           <h3>Выбираем вариант</h3>
           <p>Передача готового портала или портал под ключ. Условия каждого варианта обсуждаем лично.</p>
         </article>
         <article class="card">
-          <span class="num">3</span>
+          <span class="num">2</span>
           <h3>Фиксируем условия</h3>
           <p>Стоимость, сроки и состав работ согласуем и записываем. Это защищает обе стороны.</p>
         </article>
         <article class="card">
-          <span class="num">4</span>
+          <span class="num">3</span>
           <h3>Запускаем первый этап</h3>
           <p>Портал с оплатой, кабинетом и заказом табличек готов к первым продажам.</p>
         </article>
