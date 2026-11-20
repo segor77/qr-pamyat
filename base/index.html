@@ -456,7 +456,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     if (act === 'play'){ if (a.paused){ off = false; fadeIn(); } else { off = true; fadeOut(); } remember(); }
     if (act === 'next'){ go(1); remember(); }
     if (act === 'prev'){ go(-1); remember(); }
-    if (act === 'keep'){ keep = !keep; try { localStorage.setItem('qr-music-keep', keep ? 'on' : 'off'); } catch (e) {} paintKeep(); menuOpen(false); }
+    if (act === 'keep'){ keep = !keep; try { localStorage.setItem('qr-music-keep', keep ? 'on' : 'off'); } catch (e) {} paintKeep(); setTimeout(function(){ menuOpen(false); }, 400); }
   });
   // после 10 секунд без действий в плеере он сворачивается до кнопки с динамиком; музыка при этом не выключается
   var idleT = null;
