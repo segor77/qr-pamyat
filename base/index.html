@@ -476,7 +476,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   box.addEventListener('contextmenu', function(e){ if (!e.target.closest('[data-a=spk]')) return; e.preventDefault(); menuOpen(pop.style.display !== 'block'); });
   document.addEventListener('click', function(e){ if (pop.style.display === 'block' && !box.contains(e.target)) menuOpen(false); });
   // клик вне плеера сворачивает его до кнопки с динамиком; музыка продолжает играть
-  document.addEventListener('click', function(e){ if (open && !box.contains(e.target)) { hovering = false; collapse(); } });
+  document.addEventListener('click', function(e){ if (open && !box.contains(e.target)) { hovering = false; clearTimeout(idleT); idleT = setTimeout(collapse, 1000); } });
 
   box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
   box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
