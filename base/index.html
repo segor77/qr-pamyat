@@ -400,7 +400,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
     .then(function(d){ return (d.files || []).filter(function(f){ return /^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name); }).map(function(f){ return f.name; }); })
     .catch(function(){ return fetch('../audio/playlist.json', { cache: 'no-store' }).then(function(r){ return r.json(); }).catch(function(){ return []; }); })
-    .then(function(names){ var was = !a.paused; setList(names); if (!was) load(0); });
+    .then(function(names){ var was = !a.paused; setList(names); if (!was){ load(0); if (!off){ var p = a.play(); if (p && p.catch) p.catch(function(){}); } } });
   function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) play(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden' && !a.paused){ a.pause(); a._auto = true; } else if (document.visibilityState === 'visible' && a._auto){ a._auto = false; if (!off) play(); } });
