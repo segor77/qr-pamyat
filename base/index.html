@@ -128,7 +128,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   <main>
     <section class="letter prose" id="letter">
       <p>Здравствуйте, Кирилл!</p>
-<p>Для нашего первого разговора я подготовил техническое задание на портал страниц памяти с QR-кодами. В нём описаны страницы памяти, личный кабинет для родных, три тарифа, онлайн-оплата и заказ табличек с QR-кодом. Посмотрите, пожалуйста, всё ли здесь совпадает с вашим представлением о запуске портала, и отметьте, что хотелось бы изменить.</p>
+<p>Я подготовил техническое задание на портал страниц памяти с QR-кодами. В нём описаны страницы памяти, личный кабинет для родных, три тарифа, онлайн-оплата и заказ табличек с QR-кодом. Посмотрите, пожалуйста, всё ли здесь совпадает с вашим представлением о запуске портала, и отметьте, что хотелось бы изменить.</p>
 
     </section>
     <div class="tz-head"><h2>Техническое задание</h2><span>Предварительное</span></div>
@@ -382,8 +382,8 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     clearInterval(fadeT); var from = a.volume, steps = Math.max(1, Math.round(ms / 40)), k = 0;
     fadeT = setInterval(function(){ k++; a.volume = Math.min(1, Math.max(0, from + (to - from) * k / steps)); if (k >= steps){ clearInterval(fadeT); if (done) done(); } }, 40);
   }
-  function fadeIn(){ a.volume = 0; play(); fade(VOL, 1500); }
-  function fadeOut(cb){ fade(0, 1200, function(){ a.pause(); a.volume = VOL; if (cb) cb(); }); }
+  function fadeIn(){ a.volume = 0; play(); fade(VOL, 3000); }
+  function fadeOut(cb){ fade(0, 2400, function(){ a.pause(); a.volume = VOL; if (cb) cb(); }); }
   function src(name){ return SHARE + '/public/api/raw?files=' + encodeURIComponent('/' + name) + '&hash=' + HASH; }
   function clean(n){ return n.replace(/\.[^.]+$/, '').replace(/\s*\(\d+\)$/, ''); }
   function setList(names){ if (names && names.length){ list = names.map(function(n){ return { name: clean(n), src: src(n) }; }); } }
