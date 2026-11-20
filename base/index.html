@@ -445,7 +445,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     var b = e.target.closest('button'); if (!b) return; e.stopPropagation();
     var act = b.getAttribute('data-a');
     if (act === 'spk'){
-      if (!open){ open = true; off = false; if (a.paused) fadeIn(); }
+      if (!open){ open = true; off = false; if (a.paused) fadeIn(); kick(); }
       else { open = false; off = true; fadeOut(); }
       remember(); ui();
     }
@@ -453,6 +453,11 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     if (act === 'next'){ go(1); remember(); }
     if (act === 'prev'){ go(-1); remember(); }
   });
+  // после 10 секунд без действий в плеере он сворачивается до кнопки с динамиком; музыка при этом не выключается
+  var idleT = null;
+  function collapse(){ clearTimeout(idleT); if (!open) return; open = false; ui(); }
+  function kick(){ clearTimeout(idleT); if (open) idleT = setTimeout(collapse, 10000); }
+  ['pointerdown', 'keydown', 'focusin'].forEach(function(t){ box.addEventListener(t, kick); });
   box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
   box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
