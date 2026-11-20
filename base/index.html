@@ -460,7 +460,11 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   });
   // после 10 секунд без действий в плеере он сворачивается до кнопки с динамиком; музыка при этом не выключается
   var idleT = null;
-  function collapse(){ clearTimeout(idleT); if (!open) return; open = false; menuOpen(false); ui(); }
+  // пока курсор над плеером, он не сворачивается; после ухода курсора отсчёт 10 секунд начинается заново
+  var hovering = false;
+  box.addEventListener('mouseenter', function(){ hovering = true; clearTimeout(idleT); });
+  box.addEventListener('mouseleave', function(){ hovering = false; kick(); });
+  function collapse(){ clearTimeout(idleT); if (!open || hovering) return; open = false; menuOpen(false); ui(); }
   function kick(){ clearTimeout(idleT); if (open) idleT = setTimeout(collapse, 10000); }
   ['pointerdown', 'keydown', 'focusin'].forEach(function(t){ box.addEventListener(t, kick); });
   // меню «⋯»: пункт «Не останавливать» — музыка не ставится на паузу при переходе на другую вкладку или сворачивании браузера
