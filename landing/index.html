@@ -265,6 +265,18 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-bar span { display: block; height: 100%; width: 0; background: #c9a46a; }
   .pg-audio.playing .pg-bar span { animation: pgprog 12s linear forwards; }
   @keyframes pgprog { from { width: 0; } to { width: 100%; } }
+  .phone { position: relative; }
+  .gal { position: absolute; inset: 0; z-index: 20; background: #14232d; display: flex; flex-direction: column; padding-top: 30px; }
+  .gal[hidden] { display: none; }
+  .gal-close { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; z-index: 2; }
+  .gal-stage { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0 4px; min-height: 0; }
+  .gal-img { flex: 1; min-width: 0; width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; background: #0e1a22; }
+  .gal-nav { flex: none; width: 34px; height: 56px; border: 0; border-radius: 10px; background: rgba(255,255,255,.14); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; }
+  .gal-nav:hover, .gal-close:hover { background: rgba(255,255,255,.26); }
+  .gal-info { flex: none; background: #f4efe6; padding: 12px 14px 16px; min-height: 120px; }
+  .gal-info h4 { margin: 0 0 4px; font: 600 14px var(--body); color: #1d3442; }
+  .gal-info p { margin: 0; font-size: 13px; line-height: 1.45; color: #3d4a52; }
+  .gal-info .gal-count { font-size: 11px; color: #7b8a94; margin-bottom: 4px; }
   .pg-status { font-size: 11px; color: #7b8a94; margin: 0 0 8px; min-height: 14px; }
   .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
@@ -589,6 +601,19 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
       <div class="phone" role="region" aria-label="Интерактивный макет телефона">
         <div class="phone-notch" aria-hidden="true"></div>
+        <div class="gal" id="gal" hidden role="dialog" aria-modal="true" aria-label="Галерея фотографий">
+          <button type="button" class="gal-close" id="gal-close" aria-label="Закрыть галерею">×</button>
+          <div class="gal-stage">
+            <button type="button" class="gal-nav" id="gal-prev" aria-label="Предыдущее фото">‹</button>
+            <img class="gal-img" id="gal-img" alt="">
+            <button type="button" class="gal-nav" id="gal-next" aria-label="Следующее фото">›</button>
+          </div>
+          <div class="gal-info">
+            <p class="gal-count" id="gal-count"></p>
+            <h4 id="gal-title"></h4>
+            <p id="gal-desc"></p>
+          </div>
+        </div>
         <div class="phone-tabs" role="tablist" aria-label="Экраны макета">
           <button type="button" role="tab" data-tab="scr-page" aria-selected="true" aria-controls="scr-page">Страница</button>
           <button type="button" role="tab" data-tab="scr-cab" aria-selected="false" aria-controls="scr-cab">Кабинет</button>
@@ -616,9 +641,9 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
           <section class="pg-sec">
             <h3>Фотографии</h3>
             <div class="pg-thumbs" role="group" aria-label="Фотографии">
-              <button type="button" class="t1" data-cap="Лето на даче, 1975" aria-current="true" aria-label="Лето на даче"></button>
-              <button type="button" class="t2" data-cap="Выпускной в техникуме, 1957" aria-label="Выпускной"></button>
-              <button type="button" class="t3" data-cap="С внуками, 2010" aria-label="С внуками"></button>
+              <button type="button" class="t1" data-cap="Лето на даче, 1975" data-desc="Анна у крыльца в саду. Здесь она проводила каждое лето и выращивала цветы." data-big="img/photo-dacha-1975-big.jpg" aria-label="Открыть фото: лето на даче"></button>
+              <button type="button" class="t2" data-cap="Выпускной в техникуме, 1957" data-desc="День выпуска. Анна с дипломом у входа в техникум, рядом однокурсники." data-big="img/photo-graduation-1957-big.jpg" aria-label="Открыть фото: выпускной"></button>
+              <button type="button" class="t3" data-cap="С внуками, 2010" data-desc="Семейный день на скамейке в саду: Анна с внучкой и внуком." data-big="img/photo-grandchildren-2010-big.jpg" aria-label="Открыть фото: с внуками"></button>
             </div>
             <p class="pg-cap" id="pg-cap" aria-live="polite">Лето на даче, 1975</p>
           </section>
@@ -672,13 +697,34 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
           routeBtn.setAttribute("data-open", "Как найти");
           toggle(routeBtn, document.getElementById("pg-route"));
           var thumbs = document.querySelectorAll(".pg-thumbs button");
-          thumbs.forEach(function (t) {
-            t.addEventListener("click", function () {
-              thumbs.forEach(function (x) { x.removeAttribute("aria-current"); });
-              t.setAttribute("aria-current", "true");
-              document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
-            });
+          var gal = document.getElementById("gal"), gImg = document.getElementById("gal-img");
+          var gTitle = document.getElementById("gal-title"), gDesc = document.getElementById("gal-desc"), gCount = document.getElementById("gal-count");
+          var gIdx = 0, gFrom = null;
+          function showPhoto(k) {
+            gIdx = (k + thumbs.length) % thumbs.length;
+            var t = thumbs[gIdx];
+            gImg.src = t.getAttribute("data-big");
+            gImg.alt = t.getAttribute("data-cap");
+            gTitle.textContent = t.getAttribute("data-cap");
+            gDesc.textContent = t.getAttribute("data-desc");
+            gCount.textContent = "Фото " + (gIdx + 1) + " из " + thumbs.length;
+            thumbs.forEach(function (x) { x.removeAttribute("aria-current"); });
+            t.setAttribute("aria-current", "true");
+            document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
+          }
+          function openGal(k) { gFrom = document.activeElement; showPhoto(k); gal.hidden = false; document.getElementById("gal-close").focus(); }
+          function closeGal() { gal.hidden = true; if (gFrom && gFrom.focus) gFrom.focus(); }
+          thumbs.forEach(function (t, k) { t.addEventListener("click", function () { openGal(k); }); });
+          document.getElementById("gal-prev").addEventListener("click", function () { showPhoto(gIdx - 1); });
+          document.getElementById("gal-next").addEventListener("click", function () { showPhoto(gIdx + 1); });
+          document.getElementById("gal-close").addEventListener("click", closeGal);
+          document.addEventListener("keydown", function (e) {
+            if (gal.hidden) return;
+            if (e.key === "Escape") closeGal();
+            else if (e.key === "ArrowLeft") showPhoto(gIdx - 1);
+            else if (e.key === "ArrowRight") showPhoto(gIdx + 1);
           });
+          document.querySelectorAll("[data-tab]").forEach(function (b) { b.addEventListener("click", function () { if (!gal.hidden) gal.hidden = true; }); });
           var SHARE_URL = "https://files.adminpro.win", SONG_HASH = "1Wv0m2WGGZRyidB_K2fIUw";
           var play = document.getElementById("pg-play");
           var audio = document.getElementById("pg-audio");
