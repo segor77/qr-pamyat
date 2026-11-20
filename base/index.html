@@ -358,11 +358,14 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   </main>
 </div>
 <footer><div><span>QR Память · техническое задание</span></div></footer>
-<div id="mp" style="position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:2px;padding:4px 6px;border-radius:999px;background:rgba(255,255,255,.0);color:#2F4858;opacity:.28;transition:opacity .2s,background .2s;font:500 13px var(--body)">
-  <button type="button" data-a="prev" aria-label="Предыдущий трек" title="Предыдущий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
-  <button type="button" data-a="play" aria-label="Включить музыку" title="Музыка" style="border:0;background:none;color:inherit;cursor:pointer;width:38px;height:38px;display:flex;align-items:center;justify-content:center;padding:0"></button>
-  <button type="button" data-a="next" aria-label="Следующий трек" title="Следующий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
-  <span data-a="title" style="max-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:max-width .25s;color:#4A555C"></span>
+<div id="mp" style="position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;color:#2F4858;opacity:.28;transition:opacity .2s,background .2s;font:500 13px var(--body)">
+  <span data-a="ctl" style="display:flex;align-items:center;gap:2px;max-width:0;overflow:hidden;transition:max-width .3s">
+    <span data-a="title" style="max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#4A555C;margin:0 6px 0 10px"></span>
+    <button type="button" data-a="prev" aria-label="Предыдущий трек" title="Предыдущий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+    <button type="button" data-a="play" aria-label="Пауза" title="Пауза" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
+    <button type="button" data-a="next" aria-label="Следующий трек" title="Следующий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+  </span>
+  <button type="button" data-a="spk" aria-label="Показать плеер" title="Музыка" style="border:0;background:none;color:inherit;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
 </div>
 <audio id="mp-a" preload="none"></audio>
 <script>
@@ -370,8 +373,8 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   var SHARE = 'https://files.adminpro.win', HASH = '1Wv0m2WGGZRyidB_K2fIUw';
   var FALLBACK = [{ name: 'Тихая мелодия', src: '../audio/tikho.mp3' }];
   var box = document.getElementById('mp'), a = document.getElementById('mp-a');
-  var bPlay = box.querySelector('[data-a=play]'), title = box.querySelector('[data-a=title]');
-  var list = FALLBACK.slice(), i = 0, off = false;
+  var ctl = box.querySelector('[data-a=ctl]'), bPlay = box.querySelector('[data-a=play]'), bSpk = box.querySelector('[data-a=spk]'), title = box.querySelector('[data-a=title]');
+  var list = FALLBACK.slice(), i = 0, off = false, open = false;
   try { off = localStorage.getItem('qr-music') === 'off'; } catch (e) {}
   a.volume = 0.3;
   function src(name){ return SHARE + '/public/api/raw?files=' + encodeURIComponent('/' + name) + '&hash=' + HASH; }
@@ -379,9 +382,21 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   function setList(names){ if (names && names.length){ list = names.map(function(n){ return { name: clean(n), src: src(n) }; }); } }
   function load(k){ i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name; }
   function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
-  var PL = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>';
-  var PA = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
-  function ui(){ var on = !a.paused; bPlay.innerHTML = on ? PA : PL; bPlay.setAttribute('aria-label', on ? 'Пауза' : 'Включить музыку'); }
+  var SPK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>';
+  var ON = SPK + '<path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7.5 7.5 0 0 1 0 10"/></svg>';
+  var OFF = SPK + '<path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>';
+  var PL = '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>';
+  var PA = '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+  function ui(){
+    var on = !a.paused;
+    bSpk.innerHTML = on ? ON : OFF;
+    bSpk.setAttribute('aria-label', open ? 'Выключить музыку и скрыть плеер' : 'Показать плеер');
+    bPlay.innerHTML = on ? PA : PL; bPlay.setAttribute('aria-label', on ? 'Пауза' : 'Играть');
+    ctl.style.maxWidth = open ? '360px' : '0';
+    box.style.opacity = open ? '.95' : '.28';
+    box.style.background = open ? 'rgba(255,255,255,.92)' : 'transparent';
+    box.style.boxShadow = open ? '0 6px 18px rgba(47,72,88,.12)' : 'none';
+  }
   a.addEventListener('play', ui); a.addEventListener('pause', ui); ui();
   a.addEventListener('ended', function(){ load(i + 1); play(); });
   a.addEventListener('error', function(){ if (list.length > 1){ load(i + 1); play(); } });
@@ -389,18 +404,21 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   box.addEventListener('click', function(e){
     var b = e.target.closest('button'); if (!b) return; e.stopPropagation();
     var act = b.getAttribute('data-a');
+    if (act === 'spk'){
+      if (!open){ open = true; off = false; if (a.paused) play(); }
+      else { open = false; off = true; a.pause(); }
+      remember(); ui();
+    }
     if (act === 'play'){ if (a.paused){ off = false; play(); } else { off = true; a.pause(); } remember(); }
     if (act === 'next'){ off = false; load(i + 1); play(); remember(); }
     if (act === 'prev'){ off = false; load(i - 1); play(); remember(); }
   });
-  function show(v){ box.style.opacity = v ? '.95' : '.28'; box.style.background = v ? 'rgba(255,255,255,.92)' : 'rgba(255,255,255,0)'; title.style.maxWidth = v ? '220px' : '0'; title.style.marginRight = v ? '8px' : '0'; }
-  box.addEventListener('mouseenter', function(){ show(true); }); box.addEventListener('mouseleave', function(){ show(false); });
-  box.addEventListener('focusin', function(){ show(true); }); box.addEventListener('focusout', function(){ show(false); });
-  // список треков: сначала прямо из папки (нужен CORS на сервере), иначе из playlist.json, собранного автоматически
+  box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
+  box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
     .then(function(d){ return (d.files || []).filter(function(f){ return /^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name); }).map(function(f){ return f.name; }); })
     .catch(function(){ return fetch('../audio/playlist.json', { cache: 'no-store' }).then(function(r){ return r.json(); }).catch(function(){ return []; }); })
-    .then(function(names){ var was = !a.paused; setList(names); if (!was){ load(0); if (!off){ var p = a.play(); if (p && p.catch) p.catch(function(){}); } } });
+    .then(function(names){ var was = !a.paused; setList(names); if (!was){ load(0); if (!off) play(); } });
   function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) play(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden' && !a.paused){ a.pause(); a._auto = true; } else if (document.visibilityState === 'visible' && a._auto){ a._auto = false; if (!off) play(); } });
