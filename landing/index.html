@@ -107,6 +107,58 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   h2 { font-size: 23px; }
 }
 
+/* ===== MODERN: премиальное оформление поверх базовой версии ===== */
+html.js .rv { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+html.js .rv.in { opacity: 1; transform: none; }
+html.js .rv.d1 { transition-delay: .08s; } html.js .rv.d2 { transition-delay: .16s; } html.js .rv.d3 { transition-delay: .24s; }
+h2 { padding-bottom: 8px; background-image: linear-gradient(90deg, rgba(176,141,87,.75), rgba(176,141,87,0)); background-size: 0 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 1.2s cubic-bezier(.2,.7,.2,1); }
+h2.in { background-size: 100% 1px; }
+
+.prog { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 30; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #B08D57, #E3C77E); box-shadow: 0 0 12px rgba(227,199,126,.6); }
+
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; transform: translateY(-110%); transition: transform .5s cubic-bezier(.2,.7,.2,1); background: rgba(247,244,238,.82); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.topbar.show { transform: none; }
+.topbar div { max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.topbar b { font-family: var(--display); color: var(--ink); font-size: 17px; }
+.topbar a.btn { margin: 0; padding: 9px 18px; font-size: 14px; }
+
+.hero { position: relative; overflow: hidden; color: #EDE8DD; border-bottom: none; background: radial-gradient(900px 520px at 88% 8%, rgba(176,141,87,.30), transparent 60%), radial-gradient(760px 500px at -5% 105%, rgba(110,150,170,.28), transparent 60%), linear-gradient(160deg, #1A2B36 0%, #2F4858 58%, #3C5A69 100%); }
+.hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(18px); }
+.hero::before { width: 460px; height: 460px; right: -120px; top: -140px; background: radial-gradient(circle, rgba(227,199,126,.28), transparent 70%); animation: drift 16s ease-in-out infinite; }
+.hero::after { width: 380px; height: 380px; left: -120px; bottom: -160px; background: radial-gradient(circle, rgba(150,190,205,.22), transparent 70%); animation: drift 19s ease-in-out infinite reverse; }
+@keyframes drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 36px); } }
+.hero-in { position: relative; z-index: 1; }
+.hero .eyebrow { color: #E3C77E; display: inline-flex; align-items: center; gap: 12px; }
+.hero .eyebrow::before { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, #E3C77E); transform-origin: left; animation: grow 1.2s .2s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hero h1 { color: transparent; background: linear-gradient(100deg, #FFFFFF 35%, #E9D6B0 50%, #FFFFFF 65%) 0 0 / 240% 100%; -webkit-background-clip: text; background-clip: text; animation: sheen 7s ease-in-out infinite; }
+@keyframes sheen { 0% { background-position: 100% 0; } 100% { background-position: -140% 0; } }
+.hero .sub { color: #D5CCBB; }
+.hero .meta { color: rgba(237,232,221,.7); }
+.hero .meta b { color: #fff; }
+.hero .hint { color: rgba(237,232,221,.62); }
+.hero a.btn { position: relative; overflow: hidden; background: linear-gradient(120deg, #E8CF94, #B08D57); color: #1A2B36; box-shadow: 0 12px 34px rgba(176,141,87,.38); transition: transform .3s, box-shadow .3s, background .3s; }
+.hero a.btn:hover { background: linear-gradient(120deg, #F1DCA8, #C29B62); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(176,141,87,.48); }
+.hero a.btn::after, .topbar a.btn::after { content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: skewX(-20deg); animation: shine 4.5s ease-in-out infinite; }
+@keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+.hero-in > img, .hero img { position: relative; border-radius: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.08); transform-style: preserve-3d; will-change: transform; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+
+.wrap { position: relative; }
+nav.toc a { transition: color .3s, border-color .3s, background .3s, padding-left .3s; }
+nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gold); background: rgba(176,141,87,.09); padding-left: 16px; }
+.letter { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.letter:hover { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(47,72,88,.12); }
+.tbl { transition: box-shadow .4s; }
+.tbl:hover { box-shadow: 0 16px 36px rgba(47,72,88,.1); }
+.fig img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.fig:hover img { transform: scale(1.015); }
+.noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .035; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@media (prefers-reduced-motion: reduce) {
+  html.js .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+  h2 { transition: none !important; background-size: 100% 1px !important; }
+  .hero::before, .hero::after, .hero h1, .hero a.btn::after, .topbar a.btn::after, .hero .eyebrow::before { animation: none !important; }
+}
+
 </style>
 <style>
   /* ---------- Дополнения лендинга ---------- */
@@ -315,7 +367,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     <div>
       <div class="eyebrow">QR Память · предложение для Кирилла</div>
       <h1>Портал страниц памяти с QR&#8209;кодами</h1>
-      <p class="sub">Родные создают страницу, ставят табличку с QR-кодом на памятник, а посетитель открывает страницу телефоном. Здесь собрано всё, что нужно для первых продаж: что получится, как это работает и что обсудить дальше.</p>
+      <p class="sub">Родные создают страницу, ставят табличку с QR-кодом на памятник, а посетитель открывает страницу телефоном. Ниже два варианта сотрудничества, как работает портал для родственников и что стоит обсудить до старта.</p>
       <div class="meta"><span>Для: <b>Кирилл</b></span><span>Обновлено: <b>20.11.2026</b></span><span>Статус: <b>предварительно</b></span></div>
       <div class="btn-row">
         <a class="btn2 solid" href="#phone">Посмотреть, как это выглядит</a>
@@ -328,32 +380,30 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 
 <main id="main">
 
-  <!-- Что получит портал -->
-  <section class="block" id="why">
+  <!-- Варианты сотрудничества -->
+  <section class="block" id="options">
     <div class="container">
-      <h2>Что получит портал</h2>
-      <p class="lead2">Главное из технического задания в четырёх пунктах. Полные условия ниже, в разделе с документом.</p>
+      <h2>Два варианта сотрудничества</h2>
+      <p class="lead2">Портал можно передать целиком или вести дальше вместе. Условия каждого варианта обсуждаем лично, поэтому здесь нет цен и сроков.</p>
       <div class="cards4">
         <article class="card">
           <span class="num">1</span>
-          <h3>Всё управляется из панели</h3>
-          <p>Цены, тарифы, варианты табличек, тексты сайта и писем меняются в административной панели.</p>
+          <h3>Передача готового портала</h3>
+          <p>Я передаю портал полностью: код, сервер и все доступы. Дальше вы сопровождаете его сами или с любым подрядчиком.</p>
         </article>
         <article class="card">
           <span class="num">2</span>
-          <h3>Оплата и заказ в одном месте</h3>
-          <p>Онлайн-оплата через СБП и банковские карты. Электронный чек приходит автоматически, а заказ таблички виден в кабинете на каждом этапе.</p>
+          <h3>Портал под ключ</h3>
+          <p>Я разрабатываю портал и дальше веду его: размещаю, обновляю, слежу за безопасностью и резервными копиями, дорабатываю по мере роста. Вы занимаетесь только продажами, а данные клиентов можно выгрузить в любой момент.</p>
         </article>
-        <article class="card">
-          <span class="num">3</span>
-          <h3>Проверка до публикации</h3>
-          <p>Оператор проверяет каждую страницу и каждое изменение. Замечания пишутся прямо в кабинете клиента, и только после этого страница открывается посетителям.</p>
-        </article>
-        <article class="card">
-          <span class="num">4</span>
-          <h3>Бесплатный старт</h3>
-          <p>Первая страница создаётся без оплаты. Платные тарифы открывают больше фотографий, видео, текста и редактуру оператора.</p>
-        </article>
+      </div>
+      <div class="card" style="margin-top:18px;">
+        <h3>Что важно в обоих вариантах</h3>
+        <ul>
+          <li>Портал проектируется с запасом на рост. Новые возможности достраиваются на готовую основу без переделки того, что уже работает.</li>
+          <li>Домен оформляется на вас, серверы размещаются в России.</li>
+          <li>В техническом задании только то, что нужно для запуска и первых продаж. Дальше портал развиваем по отзывам первых клиентов.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -474,8 +524,8 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   <!-- Тарифы -->
   <section class="block block-alt" id="tariffs">
     <div class="container">
-      <h2>Тарифы</h2>
-      <p class="lead2">Полная таблица сравнения есть в техническом задании. Цены на платные тарифы обсудим лично.</p>
+      <h2>Тарифы для родственников</h2>
+      <p class="lead2">Тарифы задаёте вы: состав и цены меняются в панели. Ниже предложение из технического задания. Цены на платные тарифы обсудим лично.</p>
       <div class="cards3">
         <article class="card">
           <h3>Бесплатный</h3>
@@ -514,39 +564,31 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   <!-- FAQ -->
   <section class="block" id="faq">
     <div class="container">
-      <h2>Частые вопросы</h2>
-      <p class="lead2">Короткие ответы на то, о чём обычно спрашивают первым.</p>
+      <h2>Вопросы перед стартом</h2>
+      <p class="lead2">Короткие ответы на то, что стоит решить до начала работ.</p>
       <details class="faq">
-        <summary>Кто может создать страницу?</summary>
-        <p>Родственник умершего или человек, который действует с согласия семьи. Клиент подтверждает это галочкой при создании. Оператор может попросить документ о родстве или захоронении, и видит его только оператор.</p>
+        <summary>Что нужно от вас, чтобы начать?</summary>
+        <p>Цены тарифов и табличек, название сервиса и домен, реквизиты ИП или ООО для оферты и чеков, логотип, тексты документов, аккаунт в ЮKassa и контактное лицо для согласований. Полный список есть в разделе 11 технического задания.</p>
       </details>
       <details class="faq">
-        <summary>Сколько времени занимает проверка?</summary>
-        <p>На бесплатном тарифе до 3 рабочих дней, на базовом до 1 рабочего дня, на VIP в день обращения.</p>
+        <summary>Как вы будете менять цены и тексты после запуска?</summary>
+        <p>Тарифы, цены, варианты табличек, тексты сайта, писем и уведомлений меняются в административной панели. Роли операторов и администраторов тоже настраиваются там.</p>
       </details>
       <details class="faq">
-        <summary>Можно заказать табличку раньше, чем заполнена страница?</summary>
-        <p>Да. Родные часто заказывают табличку вместе с памятником и заполняют страницу позже.</p>
+        <summary>Кто проверяет страницы клиентов?</summary>
+        <p>Оператор портала. Он проверяет каждую страницу и каждое изменение до показа посетителям. Документы о родстве видит только оператор.</p>
       </details>
       <details class="faq">
-        <summary>Что с QR-кодом, если табличку поцарапали или она выгорела на солнце?</summary>
-        <p>Код создан с коррекцией ошибок уровня H. Телефон читает его даже при повреждении до 30% поверхности. Под кодом также есть короткая ссылка для ручного ввода.</p>
+        <summary>Можно ли добавить новые функции позже?</summary>
+        <p>Да. Портал проектируется с запасом на рост, поэтому новые возможности добавляются на готовую основу без переделки того, что уже работает.</p>
       </details>
       <details class="faq">
-        <summary>Как долго хранятся страницы?</summary>
-        <p>На всех тарифах страницы хранятся на весь срок работы сервиса.</p>
+        <summary>Где будут храниться данные?</summary>
+        <p>Серверы размещаются в России. Оплату принимает ЮKassa, данные банковских карт хранятся только у неё.</p>
       </details>
       <details class="faq">
-        <summary>Можно ли перейти на другой тариф?</summary>
-        <p>Да, в любой момент. Клиент доплачивает разницу, а уже загруженные материалы сохраняются.</p>
-      </details>
-      <details class="faq">
-        <summary>Какие способы оплаты?</summary>
-        <p>СБП, банковские карты МИР, Visa и Mastercard российских банков, SberPay и T-Pay. Оплату принимает ЮKassa, карточные данные она хранит сама.</p>
-      </details>
-      <details class="faq">
-        <summary>Что нельзя публиковать?</summary>
-        <p>Материалы, запрещённые законом, оскорбления, сцены насилия, фото и видео умерших, телефоны, адреса и документы живых людей, рекламу и чужие материалы без прав на них.</p>
+        <summary>Как обсудить условия?</summary>
+        <p>Лично: в Telegram, ВКонтакте или MAX. Сроки, цены и выбор варианта сотрудничества решаем вместе.</p>
       </details>
     </div>
   </section>
@@ -1288,6 +1330,59 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 })();
 </script>
 <script data-goatcounter="https://qr-pamyat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // полоска прогресса чтения
+  var prog = document.createElement('div'); prog.className = 'prog'; document.body.appendChild(prog);
+  // липкая полоска с кнопкой: появляется, когда герой уходит из виду
+  var bar = document.createElement('div'); bar.className = 'topbar'; bar.setAttribute('aria-hidden', 'true');
+  var hbtn = document.querySelector('.hero a.btn');
+  bar.innerHTML = '<div><b>QR Память</b></div>'; bar.firstChild.appendChild(hbtn.cloneNode(true));
+  document.body.appendChild(bar);
+  var hero = document.querySelector('.hero'), img = hero.querySelector('img');
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var y = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+      bar.classList.toggle('show', y > hero.offsetHeight * 0.7);
+      if (!reduce && img && y < window.innerHeight * 1.2){ img.style.transform = 'translateY(' + (y * 0.06).toFixed(1) + 'px)'; }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // наклон картинки героя за курсором
+  if (!reduce && img && window.matchMedia('(pointer: fine)').matches){
+    hero.addEventListener('pointermove', function(e){
+      var r = img.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, yy = (e.clientY - r.top) / r.height - .5;
+      img.style.transform = 'perspective(1200px) rotateY(' + (x * 6).toFixed(2) + 'deg) rotateX(' + (-yy * 5).toFixed(2) + 'deg) translateY(' + (window.scrollY * 0.06).toFixed(1) + 'px)';
+    });
+    hero.addEventListener('pointerleave', function(){ img.style.transform = 'translateY(' + (window.scrollY * 0.06).toFixed(1) + 'px)'; });
+  }
+  // появление блоков при прокрутке
+  var targets = document.querySelectorAll('.letter, .tz-head, main > section > h2, main > section > p, main > section > ul, main > section > ol, main > section > .fig, main > section > .tbl, main > section > table, main > h2, main > .fig, main > .tbl');
+  var blocks = document.querySelectorAll('main > section.prose > *, main > section.letter > *, main > .tz-head');
+  var all = [];
+  Array.prototype.forEach.call(blocks, function(el){ all.push(el); });
+  all.forEach(function(el, i){ el.classList.add('rv'); if (i % 3 === 1) el.classList.add('d1'); if (i % 3 === 2) el.classList.add('d2'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  document.querySelectorAll('h2, .rv').forEach(function(el){ io.observe(el); });
+  // подсветка текущего раздела в содержании
+  var links = {}; document.querySelectorAll('nav.toc a').forEach(function(a){ links[a.getAttribute('href').slice(1)] = a; });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      Object.keys(links).forEach(function(k){ links[k].classList.remove('on'); });
+      if (links[en.target.id]) links[en.target.id].classList.add('on');
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('main [id]').forEach(function(el){ if (links[el.id]) spy.observe(el); });
+})();
+</script>
 
 </body>
 </html>
