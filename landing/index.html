@@ -292,6 +292,15 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .gal-coords { margin-top: 8px !important; font-size: 12px !important; color: #1d3442 !important; }
   .gal-coords button { margin-left: 6px; border: 1px solid #c9a46a; background: #fff; color: #a8844d; border-radius: 999px; padding: 2px 10px; font: 600 11px var(--body); cursor: pointer; }
   .gal-info .gal-count { font-size: 11px; color: #7b8a94; margin-bottom: 4px; }
+  .pg-epi { font-style: italic; color: #5c6b75; font-size: 13px; margin: 6px 0 0; }
+  .pg-facts { margin: 0; }
+  .pg-facts div { display: flex; gap: 8px; padding: 3px 0; font-size: 13px; }
+  .pg-facts dt { flex: none; width: 78px; color: #7b8a94; }
+  .pg-facts dd { margin: 0; color: #1d3442; }
+  .pg-foot { text-align: center; padding: 6px 16px 18px; border-top: 1px solid #e6eaed; margin-top: 8px; }
+  .pg-foot p { font-size: 12px; color: #5c6b75; margin: 10px 0 8px; }
+  .pg-remove { font: 600 12px var(--body); padding: 6px 14px; border-radius: 999px; border: 1px solid #cfd8de; background: #fff; color: #5c6b75; cursor: pointer; }
+  .pg-remove-msg { color: #a8844d !important; min-height: 14px; }
   .pg-status { font-size: 11px; color: #7b8a94; margin: 0 0 8px; min-height: 14px; }
   .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
@@ -302,6 +311,27 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .cab-status small { display: block; font-size: 12px; color: #7b8a94; margin-top: 6px; }
   .cab-bar { height: 6px; background: #e2d8c3; border-radius: 3px; margin-top: 8px; overflow: hidden; }
   .cab-bar span { display: block; height: 100%; width: 100%; background: #c9a46a; }
+  .cab-sts { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; padding: 0; }
+  .cab-sts li { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #fff; color: #7b8a94; border: 1px solid #e2d8c3; }
+  .cab-sts li[aria-current="step"] { background: #c9a46a; border-color: #c9a46a; color: #fff; font-weight: 600; }
+  .cab-tip { font-size: 12px; color: #5c6b75; background: #f4f7f8; border-radius: 8px; padding: 6px 8px; margin: 0 0 10px; line-height: 1.4; text-align: left; }
+  .cab-msg { font-size: 12px; color: #a8844d; margin: 8px 0 0; }
+  .cab-check { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: #1d3442; margin-top: 10px; text-align: left; line-height: 1.35; }
+  .cab-check input { margin-top: 2px; flex: none; }
+  .cab-ck.plain { background: #e2e8eb; color: #5c6b75; }
+  .cab-btn.danger { border-color: #c0553f; color: #c0553f; }
+  .cab-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .cab-qrrow { display: flex; gap: 12px; align-items: center; text-align: left; }
+  .cab-qr { width: 72px; height: 72px; flex: none; border: 1px solid #e2e8eb; border-radius: 8px; }
+  .cab-qrrow b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-qrrow span { display: block; font-size: 13px; color: #1d3442; margin: 2px 0; }
+  .cab-qrrow small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-line { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; font-size: 13px; color: #1d3442; }
+  .cab-chip { font: 600 11px var(--body); padding: 3px 9px; border-radius: 999px; background: #fbf6ec; color: #a8844d; border: 1px solid #e2d8c3; }
+  .cab-chip.ok { background: #e8f3ea; color: #2f6b3f; border-color: #cfe5d3; }
+  .cab-remark { background: #f4f7f8; border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; text-align: left; }
+  .cab-remark small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-remark p { margin: 2px 0 8px; font-size: 13px; color: #1d3442; line-height: 1.4; }
   .cab-steps { list-style: none; padding: 0; margin: 0; }
   .cab-step { border: 1px solid #e2e8eb; border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: #fff; }
   .cab-head { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 10px 12px; border: 0; background: none; font: 600 14px var(--body); color: #1d3442; cursor: pointer; }
@@ -360,6 +390,21 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   }
   .ph-plaque svg { width: 64px; height: 64px; display: block; margin: 0 auto 8px; }
   .ph-plaque .txt { font-family: var(--display); font-size: 14px; color: var(--ink); min-height: 36px; word-break: break-word; }
+  .ph-plaque { position: relative; }
+  .ph-plaque .pl-photo { display: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 0 auto 8px; }
+  .ph-plaque .pl-years { font-size: 12px; margin-top: 2px; letter-spacing: .04em; }
+  .ph-plaque .pl-epi { font-size: 11px; font-style: italic; margin-top: 6px; line-height: 1.35; }
+  .ph-plaque .pl-epi[hidden] { display: none; }
+  .ph-plaque.pl-classic { background: linear-gradient(160deg, #6b5535, #3d2f1d 60%, #54422a); border: 3px double #c9a46a; color: #f1e3c4; border-radius: 6px; width: 220px; }
+  .ph-plaque.pl-classic .txt { color: #f1e3c4; }
+  .ph-plaque.pl-granite { background: radial-gradient(circle at 20% 25%, #5a5e62 0 2px, transparent 3px), radial-gradient(circle at 70% 60%, #7b8085 0 1.5px, transparent 2.5px), radial-gradient(circle at 45% 80%, #4a4e52 0 2px, transparent 3px), linear-gradient(180deg, #3a3d40, #2a2c2e); background-size: 18px 18px, 23px 23px, 29px 29px, 100% 100%; border: 1px solid #1b1c1d; color: #f4f4f2; border-radius: 4px; width: 230px; }
+  .ph-plaque.pl-granite .txt { color: #fff; }
+  .ph-plaque.pl-light { background: linear-gradient(180deg, #ffffff, #efece4); border: 1px solid #d6cfbd; color: #1d3442; border-radius: 50% / 38%; width: 196px; padding: 30px 18px; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 6px #d6cfbd; }
+  .ph-plaque.pl-light .txt { color: #1d3442; }
+  .ph-plaque.pl-portrait { background: linear-gradient(180deg, #f4efe4, #e1d9c6); border: 2px solid #8a7a58; color: #2c2a24; border-radius: 90px 90px 8px 8px; width: 200px; padding-top: 22px; }
+  .ph-plaque.pl-portrait .txt { color: #2c2a24; }
+  .ph-plaque.pl-portrait .pl-photo { display: block; border: 2px solid #8a7a58; }
+  .ph-plaque.pl-portrait svg { width: 52px; height: 52px; }
   .ph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .ph-chips button {
     font: 500 12px var(--body); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line);
@@ -702,12 +747,22 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <img class="pg-avatar" src="img/avatar.png" alt="Фото: Анна Миронова" width="84" height="84">
             <p class="ph-name">Анна Миронова</p>
             <p class="ph-years">1938 — 2021</p>
+            <p class="pg-epi">«Тепло её рук мы помним всегда»</p>
             <div class="pg-actions">
               <button type="button" class="pg-candle" id="pg-candle" aria-pressed="false">Свеча · <span id="pg-candle-n">12</span></button>
               <button type="button" class="ph-share" id="pg-share">Поделиться</button>
             </div>
             <p class="pg-toast" id="pg-toast" aria-live="polite"></p>
           </div>
+          <section class="pg-sec">
+            <h3>Основные сведения</h3>
+            <dl class="pg-facts">
+              <div><dt>Родилась</dt><dd>12 марта 1938, г. Курск</dd></div>
+              <div><dt>Умерла</dt><dd>4 сентября 2021, г. Курск</dd></div>
+              <div><dt>Профессия</dt><dd>библиотекарь</dd></div>
+              <div><dt>Награды</dt><dd>медаль «Ветеран труда»</dd></div>
+            </dl>
+          </section>
           <section class="pg-sec">
             <h3>История жизни</h3>
             <p class="pg-text">Родилась в семье учителей. Окончила техникум, работала в библиотеке и вырастила двоих детей. Любила сад, пироги по воскресеньям и долгие разговоры за чаем.</p>
@@ -745,6 +800,11 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <p class="pg-status" id="pg-status" aria-live="polite"></p>
           </section>
           <p class="pg-small">Видео и голосовые записи доступны на платных тарифах.</p>
+          <div class="pg-foot">
+            <p>Создать страницу памяти для своего близкого</p>
+            <button type="button" class="pg-remove" id="pg-remove">Удалить меня со страницы</button>
+            <p class="pg-remove-msg" id="pg-remove-msg" aria-live="polite"></p>
+          </div>
         </div>
         <script>
         (function () {
@@ -755,6 +815,9 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             document.getElementById("pg-candle-n").textContent = n;
             candle.setAttribute("aria-pressed", String(lit));
             candle.classList.toggle("solid", lit);
+          });
+          document.getElementById("pg-remove").addEventListener("click", function () {
+            document.getElementById("pg-remove-msg").textContent = "Заявка оператору отправляется в рабочей версии (демо).";
           });
           var shr = document.getElementById("shr"), shrFrom = null;
           var PAGE_URL = location.href.split("#")[0] + "#phone";
@@ -906,50 +969,55 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
         <div class="screen" id="scr-cab" role="tabpanel">
           <div class="cab-status">
             <b>Страница: на проверке у оператора</b>
+            <ol class="cab-sts" aria-label="Статусы страницы">
+              <li>Черновик</li><li aria-current="step">На проверке</li><li>Нужны уточнения</li><li>Опубликована</li><li>Скрыта</li>
+            </ol>
             <div class="cab-bar" role="img" aria-label="Заполнено 7 шагов из 7"><span></span></div>
             <small>Заполнено 7 из 7 шагов · черновик сохранён автоматически</small>
           </div>
+          <span class="ph-label">Мастер создания страницы</span>
           <ul class="cab-steps">
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="true" aria-controls="cab-p1"><span class="cab-ck" aria-hidden="true">✓</span>1. Основные данные</button>
-              <div class="cab-body" id="cab-p1">
+              <div class="cab-body" id="cab-p1"><p class="cab-tip">Заполняйте по документам. Если какой-то даты нет, поле можно оставить пустым.</p>
               <div class="cab-grid">
                 <label class="cab-f"><span>Фамилия</span><input type="text" value="Миронова" autocomplete="off"></label><label class="cab-f"><span>Имя</span><input type="text" value="Анна" autocomplete="off"></label><label class="cab-f"><span>Отчество</span><input type="text" value="Сергеевна" autocomplete="off"></label>
                 <label class="cab-f"><span>Пол</span><select><option selected>Женский</option><option>Мужской</option></select></label>
-                <label class="cab-f"><span>Дата рождения</span><input type="text" value="12.03.1938" autocomplete="off"></label><label class="cab-f"><span>Место рождения</span><input type="text" value="г. Курск" autocomplete="off"></label><label class="cab-f"><span>Дата смерти</span><input type="text" value="04.09.2021" autocomplete="off"></label><label class="cab-f"><span>Место смерти</span><input type="text" value="г. Курск" autocomplete="off"></label>
-                <label class="cab-f full"><span>Кем вам приходится</span><input type="text" value="Бабушка" autocomplete="off"></label>
+                <label class="cab-f"><span>Дата рождения</span><input type="text" value="12.03.1938" autocomplete="off"></label><label class="cab-f"><span>Место рождения</span><input type="text" value="г. Курск" autocomplete="off"></label><label class="cab-f"><span>Дата смерти</span><input type="text" value="04.09.2021" autocomplete="off"></label><label class="cab-f"><span>Место смерти</span><input type="text" value="г. Курск" autocomplete="off"></label><label class="cab-f"><span>Профессия</span><input type="text" value="Библиотекарь" autocomplete="off"></label><label class="cab-f"><span>Награды</span><input type="text" value="Медаль «Ветеран труда»" autocomplete="off"></label><label class="cab-f full"><span>Эпитафия</span><input type="text" value="Тепло её рук мы помним всегда" autocomplete="off"></label><label class="cab-f full"><span>Кем вам приходится</span><input type="text" value="Бабушка" autocomplete="off"></label>
               </div>
+              <label class="cab-check"><input type="checkbox" checked> Я родственник или действую с согласия семьи</label>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p2"><span class="cab-ck" aria-hidden="true">✓</span>2. Место захоронения</button>
-              <div class="cab-body" id="cab-p2" hidden>
+              <div class="cab-body" id="cab-p2" hidden><p class="cab-tip">Номер участка и могилы обычно указан на табличке кладбища или в документах.</p>
               <div class="cab-grid">
-                <label class="cab-f full"><span>Кладбище</span><input type="text" value="Северное кладбище, Курск" autocomplete="off"></label><label class="cab-f"><span>Участок</span><input type="text" value="14" autocomplete="off"></label><label class="cab-f"><span>Могила</span><input type="text" value="27" autocomplete="off"></label>
-                <label class="cab-f full"><span>Координаты</span><input type="text" value="51.7721, 36.1948 (демо)" autocomplete="off"></label>
+                <label class="cab-f full"><span>Кладбище</span><input type="text" value="Северное кладбище, Курск" autocomplete="off"></label><label class="cab-f"><span>Участок</span><input type="text" value="14" autocomplete="off"></label><label class="cab-f"><span>Могила</span><input type="text" value="27" autocomplete="off"></label><label class="cab-f full"><span>Координаты</span><input type="text" value="51.7721, 36.1948 (демо)" autocomplete="off"></label>
               </div>
               <span class="cab-lbl">Фото захоронения · 2 из 10</span>
-              <div class="cab-photos"><img src="img/grave-view.svg" alt="Общий вид (демо)" width="52" height="52"><img src="img/grave-plaque.svg" alt="Табличка (демо)" width="52" height="52"><button type="button" class="cab-add" aria-label="Добавить фото захоронения">+</button></div>
+              <div class="cab-photos"><img src="img/grave-view.svg" alt="Общий вид (демо)" width="52" height="52"><img src="img/grave-plaque.svg" alt="Табличка (демо)" width="52" height="52"><button type="button" class="cab-add" data-msg="В демо загрузка отключена." aria-label="Добавить фото захоронения">+</button></div>
+              <p class="cab-msg" aria-live="polite"></p>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p3"><span class="cab-ck" aria-hidden="true">✓</span>3. Главное фото</button>
-              <div class="cab-body" id="cab-p3" hidden>
-              <div class="cab-main"><img src="img/avatar.png" alt="Главное фото" width="72" height="72"><div><b>portrait.jpg</b><span>Кадр: круг, лицо по центру</span><button type="button" class="cab-btn">Заменить фото</button></div></div>
+              <div class="cab-body" id="cab-p3" hidden><p class="cab-tip">Лучше выбрать фото, где хорошо видно лицо. Кадр можно подвинуть пальцем.</p>
+              <div class="cab-main"><img src="img/avatar.png" alt="Главное фото" width="72" height="72"><div><b>portrait.jpg</b><span>Кадр: круг, лицо по центру</span><button type="button" class="cab-btn" data-msg="В демо замена фото отключена.">Заменить фото</button></div></div>
+              <p class="cab-msg" aria-live="polite"></p>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p4"><span class="cab-ck" aria-hidden="true">✓</span>4. Биография</button>
-              <div class="cab-body" id="cab-p4" hidden>
+              <div class="cab-body" id="cab-p4" hidden><p class="cab-tip">Пишите своими словами. Оператор поправит ошибки в рамках тарифа.</p>
               <label class="cab-f full"><span>Текст о жизни</span><textarea id="cab-bio" rows="7" maxlength="15000">Родилась в семье учителей. Окончила техникум, работала в библиотеке и вырастила двоих детей. Любила сад, пироги по воскресеньям и долгие разговоры за чаем.
 
 Последние годы вела кружок для школьников и собирала семейный архив. Записывала истории родных, чтобы внуки их знали.</textarea></label>
-              <p class="cab-hint"><span id="cab-bio-n">0</span> из 15 000 знаков (тариф «Базовый»). Редактуру делает оператор в рамках тарифа.</p>
+              <p class="cab-hint"><span id="cab-bio-n">0</span> из 15 000 знаков (тариф «Базовый»).</p>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p5"><span class="cab-ck" aria-hidden="true">✓</span>5. Фото, видео и голос</button>
-              <div class="cab-body" id="cab-p5" hidden>
+              <div class="cab-body" id="cab-p5" hidden><p class="cab-tip">Можно выбрать сразу несколько файлов с телефона. К каждому фото добавьте подпись и год.</p>
               <span class="cab-lbl">Фотографии · 3 из 100</span>
               <ul class="cab-list">
                 <li><img src="img/photo-graduation-1957.jpg" alt="" width="44" height="44"><span><b>Выпускной в техникуме</b><small>1957</small></span></li>
@@ -959,31 +1027,95 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
               <span class="cab-lbl">Аудио · 1 из 10</span>
               <ul class="cab-list"><li><span class="cab-note">♪</span><span><b>Послушать</b><small>4:54</small></span></li></ul>
               <span class="cab-lbl">Видео · 0 из 5</span>
-              <button type="button" class="cab-btn">Добавить видео</button>
+              <button type="button" class="cab-btn" data-msg="В демо загрузка отключена.">Добавить видео</button>
+              <p class="cab-hint">Форматы: JPG, PNG, HEIC, WEBP, MP4, MOV, MP3, M4A. Для показа на сайте файлы сжимаются, оригиналы хранятся.</p>
+              <p class="cab-msg" aria-live="polite"></p>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p6"><span class="cab-ck" aria-hidden="true">✓</span>6. Тариф и оплата</button>
-              <div class="cab-body" id="cab-p6" hidden>
+              <div class="cab-body" id="cab-p6" hidden><p class="cab-tip">Тариф можно сменить позже. Оплата проходит на защищённой странице сервиса ЮKassa.</p>
               <div class="cab-tariffs" role="group" aria-label="Тариф">
                 <button type="button" data-tariff aria-pressed="false">Бесплатный</button>
                 <button type="button" data-tariff aria-pressed="true">Базовый</button>
                 <button type="button" data-tariff aria-pressed="false">VIP</button>
               </div>
               <p class="cab-hint" id="cab-tariff-note">Базовый: до 100 фото, видео и аудио, табличка с QR-кодом включена.</p>
-              <p class="cab-ok">Оплата получена (демо). Чек отправлен на почту.</p>
+              <span class="cab-lbl">Способ оплаты</span>
+              <div class="cab-tariffs cab-pay" role="group" aria-label="Способ оплаты">
+                <button type="button" data-pay aria-pressed="true">СБП</button>
+                <button type="button" data-pay aria-pressed="false">Карта</button>
+                <button type="button" data-pay aria-pressed="false">SberPay</button>
+                <button type="button" data-pay aria-pressed="false">T-Pay</button>
+              </div>
+              <p class="cab-ok">Оплата получена (демо). Электронный чек отправлен на почту.</p>
               </div>
             </li>
             <li class="cab-step">
               <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p7"><span class="cab-ck" aria-hidden="true">✓</span>7. Предпросмотр</button>
-              <div class="cab-body" id="cab-p7" hidden>
+              <div class="cab-body" id="cab-p7" hidden><p class="cab-tip">После отправки любые правки тоже проходят проверку оператора.</p>
               <ol class="cab-tl">
                 <li class="done">Черновик заполнен</li>
                 <li class="now">На проверке у оператора</li>
                 <li>Опубликована</li>
               </ol>
-              <p class="cab-hint">Оператор проверит страницу до показа посетителям. Пока проверка идёт, вы можете посмотреть страницу так, как увидят её посетители.</p>
+              <p class="cab-hint" id="cab-sla">Срок проверки на тарифе «Базовый»: до 1 рабочего дня. О результате придёт письмо.</p>
               <button type="button" class="cab-btn solid" id="cab-preview">Открыть предпросмотр</button>
+              </div>
+            </li>
+          </ul>
+          <span class="ph-label" style="margin-top:12px">Ещё в кабинете</span>
+          <ul class="cab-steps">
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p10"><span class="cab-ck plain" aria-hidden="true">▦</span>QR-код страницы</button>
+              <div class="cab-body" id="cab-p10" hidden><p class="cab-tip">Код создаётся вместе со страницей и остаётся постоянным.</p>
+              <div class="cab-qrrow"><svg class="cab-qr" viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" fill="#fff"/><g fill="#1d3442"><rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="2"/><rect x="4" y="6" width="1" height="2"/><rect x="3" y="3" width="1" height="1"/></g></svg><div><b>Короткая ссылка</b><span>…/k7m2xq (демо)</span><small>для ручного ввода под кодом</small></div></div>
+              <div class="cab-btns"><button type="button" class="cab-btn" data-msg="В демо скачивание отключено.">Скачать PNG</button><button type="button" class="cab-btn" data-msg="В демо скачивание отключено.">Скачать SVG</button></div>
+              <p class="cab-hint">До публикации код открывает заглушку с именем и годами жизни. Код читается даже при повреждении до 30% поверхности.</p>
+              <p class="cab-msg" aria-live="polite"></p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p11"><span class="cab-ck plain" aria-hidden="true">▭</span>Табличка, счета и чеки</button>
+              <div class="cab-body" id="cab-p11" hidden><p class="cab-tip">Табличку можно заказать до заполнения страницы.</p>
+              <p class="cab-line"><span>Заказ таблички</span><b class="cab-chip">принят</b></p>
+              <button type="button" class="cab-btn" id="cab-open-plaque">Открыть заказ таблички</button>
+              <span class="cab-lbl">Счета и чеки</span>
+              <ul class="cab-list"><li><span class="cab-note">₽</span><span><b>Тариф «Базовый»</b><small>чек отправлен на почту (демо)</small></span></li></ul>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p12"><span class="cab-ck plain" aria-hidden="true">✎</span>Замечания оператора</button>
+              <div class="cab-body" id="cab-p12" hidden><p class="cab-tip">Замечания приходят сюда и на почту. Ответить можно прямо в кабинете.</p>
+              <div class="cab-remark"><small>Оператор</small><p>Добавьте, пожалуйста, подпись к награде: за что она выдана.</p><small>Ваш ответ</small><p>Добавила в основные сведения.</p><span class="cab-chip ok">решено</span></div>
+              <label class="cab-f full"><span>Новый ответ</span><textarea rows="2" placeholder="Напишите ответ оператору"></textarea></label>
+              <button type="button" class="cab-btn" data-msg="Ответ отправлен оператору (демо).">Ответить</button>
+              <p class="cab-msg" aria-live="polite"></p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p13"><span class="cab-ck plain" aria-hidden="true">☰</span>Мои страницы</button>
+              <div class="cab-body" id="cab-p13" hidden><p class="cab-tip">Здесь все страницы, которые вы создали.</p>
+              <ul class="cab-list"><li><img src="img/avatar.png" alt="" width="44" height="44"><span><b>Анна Миронова</b><small>1938 — 2021 · на проверке</small></span></li></ul>
+              <button type="button" class="cab-btn solid" data-msg="В демо создание новой страницы отключено.">Добавить страницу родственника</button>
+              <p class="cab-hint">Опубликованную страницу можно на время скрыть: посетители увидят только заглушку.</p>
+              <p class="cab-msg" aria-live="polite"></p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p14"><span class="cab-ck plain" aria-hidden="true">◉</span>Профиль и вход</button>
+              <div class="cab-body" id="cab-p14" hidden><p class="cab-tip">Войти можно по телефону с кодом из SMS или по электронной почте.</p>
+              <div class="cab-grid"><label class="cab-f"><span>Телефон</span><input type="text" value="+7 900 000-00-00" autocomplete="off"></label><label class="cab-f"><span>Почта</span><input type="text" value="demo@example.com" autocomplete="off"></label></div>
+              <label class="cab-check"><input type="checkbox" checked disabled> Согласие на обработку персональных данных</label>
+              <label class="cab-check"><input type="checkbox" checked disabled> Оферта принята</label>
+              <p class="cab-hint">На почту приходят письма о смене статуса страницы и заказа, замечании оператора и успешной оплате. SMS нужны только для кодов входа.</p>
+              </div>
+            </li>
+            <li class="cab-step">
+              <button type="button" class="cab-head" data-step aria-expanded="false" aria-controls="cab-p15"><span class="cab-ck plain" aria-hidden="true">×</span>Удаление аккаунта и данных</button>
+              <div class="cab-body" id="cab-p15" hidden><p class="cab-tip">Если вы решите уйти, все ваши данные будут удалены по вашей просьбе.</p>
+              <button type="button" class="cab-btn danger" data-msg="В демо удаление отключено.">Удалить аккаунт и данные</button>
+              <p class="cab-msg" aria-live="polite"></p>
               </div>
             </li>
           </ul>
@@ -991,19 +1123,27 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
         <!-- Экран: табличка -->
         <div class="screen" id="scr-plaque" role="tabpanel">
-          <label class="ph-label" for="plaque-input">Надпись на табличке</label>
-          <input id="plaque-input" class="ph-input" type="text" maxlength="60" placeholder="Например: Имя Фамилия" autocomplete="off">
-          <div class="ph-plaque">
-            <svg viewBox="0 0 8 8" aria-hidden="true">
-              <rect width="8" height="8" fill="#fff"/>
-              <g fill="#1f2a27">
-                <rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/>
-                <rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="2"/><rect x="4" y="6" width="1" height="2"/><rect x="3" y="3" width="1" height="1"/>
-              </g>
-            </svg>
-            <div class="txt" id="plaque-text">Имя Фамилия</div>
+          <span class="ph-label">Вид таблички</span>
+          <div class="ph-chips pl-tpls" role="group" aria-label="Вид таблички">
+            <button type="button" data-tpl="classic" aria-pressed="true">Классика</button>
+            <button type="button" data-tpl="granite" aria-pressed="false">Гранит</button>
+            <button type="button" data-tpl="light" aria-pressed="false">Светлая</button>
+            <button type="button" data-tpl="portrait" aria-pressed="false">С портретом</button>
           </div>
-          <span class="ph-label" style="margin-top:12px">Статус заказа</span>
+          <div class="ph-plaque pl-classic" id="plaque-view">
+            <img class="pl-photo" src="img/avatar.png" alt="" width="56" height="56">
+            <svg viewBox="0 0 8 8" aria-hidden="true"><rect width="8" height="8" fill="#fff"/><g fill="#1f2a27"><rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="4" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="2"/><rect x="4" y="6" width="1" height="2"/><rect x="3" y="3" width="1" height="1"/></g></svg>
+            <div class="txt" id="plaque-text">Анна Миронова</div>
+            <div class="pl-years" id="plaque-years">1938 — 2021</div>
+            <div class="pl-epi" id="plaque-epi">Тепло её рук мы помним всегда</div>
+          </div>
+          <p class="phone-note" id="plaque-tpl-note">Классика: тёмная бронза и светлые буквы, строгий вид для любого памятника.</p>
+          <label class="ph-label" for="plaque-input">Имя на табличке</label>
+          <input id="plaque-input" class="ph-input" type="text" maxlength="60" value="Анна Миронова" autocomplete="off">
+          <label class="ph-label" for="plaque-years-in">Годы жизни</label>
+          <input id="plaque-years-in" class="ph-input" type="text" maxlength="30" value="1938 — 2021" autocomplete="off">
+          <label class="cab-check"><input type="checkbox" id="plaque-epi-on" checked> Добавить эпитафию</label>
+          <span class="ph-label" style="margin-top:14px">Статус заказа</span>
           <div class="ph-chips" role="group" aria-label="Статус заказа">
             <button type="button" data-status aria-pressed="true">принят</button>
             <button type="button" data-status aria-pressed="false">в производстве</button>
@@ -1011,7 +1151,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <button type="button" data-status aria-pressed="false">установлен</button>
           </div>
           <p class="phone-note" id="plaque-status" aria-live="polite">Сейчас: принят</p>
-          <p class="phone-note">Размеры, варианты и цены вы задаёте в панели управления.</p>
+          <p class="phone-note">Виды, размеры и цены вы задаёте в панели управления. Макеты табличек в демо условные.</p>
         </div>
       </div>
     </div>
@@ -1594,17 +1734,56 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
     b.addEventListener("click", function () {
       tbtns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
       document.getElementById("cab-tariff-note").textContent = tariffNotes[b.textContent];
+      var sla = { "Бесплатный": "до 3 рабочих дней", "Базовый": "до 1 рабочего дня", "VIP": "в день обращения" };
+      document.getElementById("cab-sla").textContent = "Срок проверки на тарифе «" + b.textContent + "»: " + sla[b.textContent] + ". О результате придёт письмо.";
     });
+  });
+  var pays = document.querySelectorAll("[data-pay]");
+  pays.forEach(function (b) {
+    b.addEventListener("click", function () { pays.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); });
+  });
+  document.querySelectorAll(".cab-body [data-msg]").forEach(function (b) {
+    b.addEventListener("click", function () { b.closest(".cab-body").querySelector(".cab-msg").textContent = b.getAttribute("data-msg"); });
+  });
+  document.getElementById("cab-open-plaque").addEventListener("click", function () {
+    var t = document.querySelector('[data-tab="scr-plaque"]'); if (t) t.click();
   });
   document.getElementById("cab-preview").addEventListener("click", function () {
     var t = document.querySelector('[data-tab="scr-page"]'); if (t) t.click();
   });
 
-  /* Надпись на табличке */
+  /* Вид и надпись на табличке */
   var input = document.getElementById("plaque-input");
+  var yearsIn = document.getElementById("plaque-years-in");
+  var epiOn = document.getElementById("plaque-epi-on");
   var plaqueText = document.getElementById("plaque-text");
-  input.addEventListener("input", function () {
+  var plaqueYears = document.getElementById("plaque-years");
+  var plaqueEpi = document.getElementById("plaque-epi");
+  var plaqueView = document.getElementById("plaque-view");
+  var tplNote = document.getElementById("plaque-tpl-note");
+  var tplNotes = {
+    classic: "Классика: тёмная бронза и светлые буквы, строгий вид для любого памятника.",
+    granite: "Гранит: тёмный камень с белой надписью, подходит к каменным памятникам.",
+    light: "Светлая: овальная форма и тёмные буквы, мягкий вид для светлых памятников.",
+    portrait: "С портретом: арка с круглым фото, имя, годы и QR-код."
+  };
+  function refreshPlaque() {
     plaqueText.textContent = input.value.trim() || "Имя Фамилия";
+    plaqueYears.textContent = yearsIn.value.trim();
+    plaqueYears.hidden = !yearsIn.value.trim();
+    plaqueEpi.hidden = !epiOn.checked;
+  }
+  input.addEventListener("input", refreshPlaque);
+  yearsIn.addEventListener("input", refreshPlaque);
+  epiOn.addEventListener("change", refreshPlaque);
+  var tplBtns = document.querySelectorAll("[data-tpl]");
+  tplBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      tplBtns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      var k = b.getAttribute("data-tpl");
+      plaqueView.className = "ph-plaque pl-" + k;
+      tplNote.textContent = tplNotes[k];
+    });
   });
 
   /* Статусы заказа */
