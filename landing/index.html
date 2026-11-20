@@ -232,6 +232,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .ph-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 0 0 10px; }
   .ph-thumbs span { display: block; height: 56px; border-radius: 8px; background: linear-gradient(180deg, #e3d2b4, #b99a6e); }
   .ph-thumbs span:nth-child(2) { background: linear-gradient(180deg, #f1e6d2, #c9ab7e); }
+  #scr-page { padding: 0; overflow: hidden; }
+  #scr-page img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
   .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
   .ph-body.on { display: block; }
@@ -551,30 +553,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
         <!-- Экран: страница памяти -->
         <div class="screen on" id="scr-page" role="tabpanel">
-          <div class="ph-card">
-            <div class="ph-photo" aria-hidden="true"></div>
-            <p class="ph-name">Имя Фамилия</p>
-            <p class="ph-years">годы жизни</p>
-            <button type="button" class="ph-share">Поделиться</button>
-          </div>
-          <div class="ph-acc">
-            <div>
-              <button type="button" data-block aria-expanded="true">История жизни</button>
-              <div class="ph-body on">Текст о жизни человека. На бесплатном тарифе до 1 500 знаков, на базовом до 15 000 знаков.</div>
-            </div>
-            <div>
-              <button type="button" data-block aria-expanded="true">Фотографии</button>
-              <div class="ph-body on"><div class="ph-thumbs" aria-hidden="true"><span></span><span></span><span></span></div>Фотографии с подписями и просмотром на весь экран. Количество зависит от тарифа.</div>
-            </div>
-            <div>
-              <button type="button" data-block aria-expanded="true">Место захоронения</button>
-              <div class="ph-body on ph-note-card">Кладбище, участок, номер могилы и фото захоронения.</div>
-            </div>
-            <div>
-              <button type="button" data-block aria-expanded="true">Видео и голос</button>
-              <div class="ph-body on">Видео и голосовые записи доступны на платных тарифах.</div>
-            </div>
-          </div>
+          <img src="img/phone_page.png" width="254" height="590" alt="Страница памяти: фото, кнопка «Поделиться», разделы «История жизни», «Фотографии», «Место захоронения» и «Видео и голос»">
         </div>
 
         <!-- Экран: кабинет -->
