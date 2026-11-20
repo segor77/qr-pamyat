@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Память: техническое задание</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* layout: светлая «мемориальная» страница, герой с иллюстрацией, затем письмо-карточка и ТЗ с оглавлением сбоку */
+  --ink: #2F4858;
+  --gold: #B08D57;
+  --paper: #F7F4EE;
+  --card: #FFFFFF;
+  --line: #E4DED2;
+  --muted: #6E7C85;
+  --text: #2A2F33;
+  --sage: #E9EFDF;
+  --display: "PT Serif", Georgia, "Times New Roman", serif;
+  --body: "Golos Text", "Segoe UI", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--text); font: 17px/1.62 var(--body); }
+a { color: var(--ink); }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+
+.hero { background: linear-gradient(180deg, #FBF9F5 0%, var(--paper) 100%); border-bottom: 1px solid var(--line); }
+.hero-in { max-width: 1180px; margin: 0 auto; padding: 40px 24px 32px; display: grid; gap: 28px; }
+.eyebrow { color: var(--gold); font-weight: 600; letter-spacing: .22em; font-size: 13px; text-transform: uppercase; }
+.hero h1 { font-family: var(--display); font-weight: 700; color: var(--ink); font-size: clamp(30px, 4.6vw, 52px); line-height: 1.12; margin: 8px 0 10px; text-wrap: balance; }
+.hero .sub { font-size: 19px; color: #4A555C; margin: 0; max-width: 46ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; color: var(--muted); font-size: 15px; }
+.meta b { color: var(--ink); font-weight: 600; }
+.hero img { width: 100%; height: auto; border-radius: 18px; box-shadow: 0 18px 50px rgba(47,72,88,.12); display: block; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; align-items: start; }
+nav.toc { position: sticky; top: 24px; font-size: 14.5px; }
+nav.toc .ttl { font-weight: 600; color: var(--gold); letter-spacing: .14em; text-transform: uppercase; font-size: 12px; margin-bottom: 10px; }
+nav.toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; border-left: 2px solid var(--line); }
+nav.toc a { display: block; padding: 5px 12px; text-decoration: none; color: #4A555C; border-left: 2px solid transparent; margin-left: -2px; }
+nav.toc a:hover { color: var(--ink); border-left-color: var(--gold); background: rgba(176,141,87,.07); }
+
+main { min-width: 0; }
+.letter { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 36px 44px; box-shadow: 0 6px 24px rgba(47,72,88,.06); position: relative; }
+.letter::before { content: ""; position: absolute; left: 0; top: 28px; bottom: 28px; width: 4px; background: var(--gold); border-radius: 0 4px 4px 0; }
+.letter h2 { margin-top: 0; }
+.prose { max-width: 72ch; }
+.prose p, .prose li { text-align: justify; hyphens: auto; }
+.prose strong { color: var(--ink); }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li { margin: 4px 0; }
+.prose ul li::marker { color: var(--gold); }
+.prose ol li::marker { color: var(--gold); font-weight: 700; }
+
+.tz-head { margin: 56px 0 8px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.tz-head h2 { margin: 0; font-size: 34px; }
+.tz-head span { color: var(--muted); font-size: 15px; }
+h2 { font-family: var(--display); color: var(--ink); font-size: 27px; line-height: 1.25; margin: 48px 0 14px; text-wrap: balance; }
+main > section h2::before { content: ""; display: inline-block; width: 5px; height: .9em; background: var(--gold); border-radius: 3px; margin-right: 12px; vertical-align: -0.08em; }
+
+.fig { margin: 26px 0 30px; text-align: center; }
+.fig img { max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.fig.narrow img { max-width: 300px; }
+.fig figcaption { color: var(--muted); font-size: 14px; font-style: italic; margin-top: 8px; }
+
+.tbl { overflow-x: auto; margin: 18px 0 26px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.45; min-width: 640px; }
+th { background: var(--ink); color: #fff; text-align: left; font-weight: 600; padding: 12px 14px; }
+td { padding: 11px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+tbody tr:nth-child(even) td { background: #FAF8F3; }
+td:first-child { font-weight: 600; color: var(--ink); }
+table.tariff th:not(:first-child), table.tariff td:not(:first-child) { text-align: center; width: 22%; }
+table.tariff th:last-child { background: var(--gold); }
+td.c { text-align: center; }
+.yes { color: var(--gold); font-weight: 700; font-size: 19px; }
+.no { color: #AAB3B8; }
+
+a.tg { color: var(--ink); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; }
+a.tg:hover { color: var(--gold); }
+footer a.tg { color: var(--muted); }
+a.btn { display: inline-block; margin-top: 22px; background: var(--ink); color: #fff; text-decoration: none; font-weight: 600; padding: 12px 22px; border-radius: 999px; box-shadow: 0 6px 18px rgba(47,72,88,.18); }
+a.btn:hover { background: var(--gold); }
+.hint { color: var(--muted); font-size: 14px; margin: 10px 0 0; max-width: 46ch; }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+@media (min-width: 980px) {
+  .hero-in { grid-template-columns: 0.9fr 1.3fr; align-items: center; padding: 56px 24px 48px; }
+}
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; gap: 20px; }
+  nav.toc { position: static; }
+  nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); border-left: none; }
+  nav.toc a { border-left: none; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .letter { padding: 24px 20px; }
+  .prose p, .prose li { text-align: left; }
+  h2 { font-size: 23px; }
+}
+
+/* ===== MODERN: премиальное оформление поверх базовой версии ===== */
+html.js .rv { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+html.js .rv.in { opacity: 1; transform: none; }
+html.js .rv.d1 { transition-delay: .08s; } html.js .rv.d2 { transition-delay: .16s; } html.js .rv.d3 { transition-delay: .24s; }
+h2 { padding-bottom: 8px; background-image: linear-gradient(90deg, rgba(176,141,87,.75), rgba(176,141,87,0)); background-size: 0 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 1.2s cubic-bezier(.2,.7,.2,1); }
+h2.in { background-size: 100% 1px; }
+
+.prog { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 30; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #B08D57, #E3C77E); box-shadow: 0 0 12px rgba(227,199,126,.6); }
+
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; transform: translateY(-110%); transition: transform .5s cubic-bezier(.2,.7,.2,1); background: rgba(247,244,238,.82); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.topbar.show { transform: none; }
+.topbar div { max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.topbar b { font-family: var(--display); color: var(--ink); font-size: 17px; }
+.topbar a.btn { margin: 0; padding: 9px 18px; font-size: 14px; }
+
+.hero { position: relative; overflow: hidden; color: #EDE8DD; border-bottom: none; background: radial-gradient(900px 520px at 88% 8%, rgba(176,141,87,.30), transparent 60%), radial-gradient(760px 500px at -5% 105%, rgba(110,150,170,.28), transparent 60%), linear-gradient(160deg, #1A2B36 0%, #2F4858 58%, #3C5A69 100%); }
+.hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(18px); }
+.hero::before { width: 460px; height: 460px; right: -120px; top: -140px; background: radial-gradient(circle, rgba(227,199,126,.28), transparent 70%); animation: drift 16s ease-in-out infinite; }
+.hero::after { width: 380px; height: 380px; left: -120px; bottom: -160px; background: radial-gradient(circle, rgba(150,190,205,.22), transparent 70%); animation: drift 19s ease-in-out infinite reverse; }
+@keyframes drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 36px); } }
+.hero-in { position: relative; z-index: 1; }
+.hero .eyebrow { color: #E3C77E; display: inline-flex; align-items: center; gap: 12px; }
+.hero .eyebrow::before { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, #E3C77E); transform-origin: left; animation: grow 1.2s .2s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hero h1 { color: transparent; background: linear-gradient(100deg, #FFFFFF 35%, #E9D6B0 50%, #FFFFFF 65%) 0 0 / 240% 100%; -webkit-background-clip: text; background-clip: text; animation: sheen 7s ease-in-out infinite; }
+@keyframes sheen { 0% { background-position: 100% 0; } 100% { background-position: -140% 0; } }
+.hero .sub { color: #D5CCBB; }
+.hero .meta { color: rgba(237,232,221,.7); }
+.hero .meta b { color: #fff; }
+.hero .hint { color: rgba(237,232,221,.62); }
+.hero a.btn { position: relative; overflow: hidden; background: linear-gradient(120deg, #E8CF94, #B08D57); color: #1A2B36; box-shadow: 0 12px 34px rgba(176,141,87,.38); transition: transform .3s, box-shadow .3s, background .3s; }
+.hero a.btn:hover { background: linear-gradient(120deg, #F1DCA8, #C29B62); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(176,141,87,.48); }
+.hero a.btn::after, .topbar a.btn::after { content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: skewX(-20deg); animation: shine 4.5s ease-in-out infinite; }
+@keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+.hero-in > img, .hero img { position: relative; border-radius: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.08); transform-style: preserve-3d; will-change: transform; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+
+.wrap { position: relative; }
+nav.toc a { transition: color .3s, border-color .3s, background .3s, padding-left .3s; }
+nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gold); background: rgba(176,141,87,.09); padding-left: 16px; }
+.letter { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.letter:hover { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(47,72,88,.12); }
+.tbl { transition: box-shadow .4s; }
+.tbl:hover { box-shadow: 0 16px 36px rgba(47,72,88,.1); }
+.fig img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.fig:hover img { transform: scale(1.015); }
+.noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .035; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@media (prefers-reduced-motion: reduce) {
+  html.js .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+  h2 { transition: none !important; background-size: 100% 1px !important; }
+  .hero::before, .hero::after, .hero h1, .hero a.btn::after, .topbar a.btn::after, .hero .eyebrow::before { animation: none !important; }
+}
+</style>
+<script>document.documentElement.classList.add("js");</script>
+<meta name="robots" content="noindex">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="eyebrow">QR Память</div>
+      <h1>Портал страниц памяти с QR&#8209;кодами</h1>
+      <div class="meta"><span>Для: <b>Кирилл</b></span><span>Обновлено: 20.11.2026</span></div>
+      <a class="btn" href="https://docs.google.com/document/d/1jnt-Z2AgLJZZaeJXZcQHfBxMwK-VOrXndeVfX-nSEyY/edit" target="_blank" rel="noopener">Оставить замечания и правки</a>
+      <p class="hint">Откроется Google Документ: выделите текст и добавьте комментарий или предложите правку. Под каждой правкой будет видно имя автора.</p>
+    </div>
+    <img src="../img/hero_base.png" alt="Белый памятник с QR-кодом, рядом берёза и цветы; телефон в руке показывает страницу памяти с биографией, фотографиями и местом захоронения" width="1530" height="941">
+  </div>
+</header>
+<div class="wrap">
+  <nav class="toc" aria-label="Содержание">
+    <div class="ttl">Содержание</div>
+    <ol><li><a href="#letter">Письмо</a></li><li><a href="#s1">1. Назначение портала</a></li><li><a href="#s2">2. Роли пользователей</a></li><li><a href="#s3">3. Тарифы</a></li><li><a href="#s4">4. Страница памяти</a></li><li><a href="#s5">5. Личный кабинет клиента</a></li><li><a href="#s6">6. Проверка и публикация материалов</a></li><li><a href="#s7">7. QR-коды и таблички</a></li><li><a href="#s8">8. Оплата и уведомления</a></li><li><a href="#s9">9. Сайт</a></li><li><a href="#s10">10. Административная панель</a></li><li><a href="#s11">11. Что нужно от заказчика для старта</a></li><li><a href="#s12">12. Контакты</a></li></ol>
+  </nav>
+  <main>
+    <section class="letter prose" id="letter">
+      <p>Здравствуйте, Кирилл!</p>
+<p>Я подготовил техническое задание на портал страниц памяти с QR-кодами. В нём описаны страницы памяти, личный кабинет для родных, три тарифа, онлайн-оплата и заказ табличек с QR-кодом. Посмотрите, пожалуйста, всё ли здесь совпадает с вашим представлением о запуске портала, и отметьте, что хотелось бы изменить.</p>
+
+    </section>
+    <div class="tz-head"><h2>Техническое задание</h2><span>Предварительное</span></div>
+    <section class="prose">
+      <h2 id="s1">1. Назначение портала</h2>
+<p>Портал хранит страницы памяти об умерших людях. Родственник создаёт страницу в личном кабинете, заказывает табличку с QR-кодом и устанавливает её на памятник. Посетитель наводит камеру телефона на код и сразу видит страницу: фотографии, биографию и сведения о человеке.</p>
+<p>Портал включает всё необходимое для первых продаж: страницу памяти, личный кабинет, три тарифа, проверку материалов оператором, онлайн-оплату, заказ табличек и административную панель.</p>
+<h2 id="s2">2. Роли пользователей</h2>
+<div class="tbl"><table>
+
+<thead>
+<tr class="header">
+<th>Роль</th>
+<th>Кто это</th>
+<th>Что может делать</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Посетитель</td>
+<td>Человек, который отсканировал QR-код или перешёл по ссылке</td>
+<td>Смотреть страницу, делиться ссылкой</td>
+</tr>
+<tr class="even">
+<td>Клиент</td>
+<td>Родственник, который создал страницу</td>
+<td>Заполнять страницу, загружать материалы, выбирать и оплачивать тариф, заказывать табличку, создавать страницы других родственников</td>
+</tr>
+<tr class="odd">
+<td>Оператор</td>
+<td>Сотрудник портала</td>
+<td>Проверять и исправлять материалы, писать клиенту замечания, публиковать страницы, вести заказы табличек</td>
+</tr>
+<tr class="even">
+<td>Администратор</td>
+<td>Владелец проекта</td>
+<td>Всё, что может оператор, а также цены, тарифы, варианты табличек, тексты сайта и писем, сотрудники</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s3">3. Тарифы</h2>
+<div class="tbl"><table class="tariff">
+
+<thead>
+<tr class="header">
+<th>Что входит</th>
+<th>Бесплатный</th>
+<th>Базовый</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ФИО, даты и места рождения и смерти, место захоронения</td>
+<td class="c"><span class="yes" aria-label="да">✓</span></td>
+<td class="c"><span class="yes" aria-label="да">✓</span></td>
+<td class="c"><span class="yes" aria-label="да">✓</span></td>
+</tr>
+<tr class="even">
+<td>Фото захоронения</td>
+<td>1 фото</td>
+<td>до 10 фото</td>
+<td>до 10 фото</td>
+</tr>
+<tr class="odd">
+<td>Фотографии человека</td>
+<td>главное фото + до 5</td>
+<td>до 100</td>
+<td>без ограничений (в пределах 10 ГБ)</td>
+</tr>
+<tr class="even">
+<td>Биография</td>
+<td>до 1 500 знаков</td>
+<td>до 15 000 знаков</td>
+<td>без ограничений</td>
+</tr>
+<tr class="odd">
+<td>Видео и аудио</td>
+<td class="c"><span class="no">—</span></td>
+<td>до 5 видео и 10 аудиозаписей</td>
+<td>без ограничений (в пределах 10 ГБ)</td>
+</tr>
+<tr class="even">
+<td>Проверка и редактура оператором</td>
+<td>проверка и исправление ошибок</td>
+<td>редактура биографии</td>
+<td>закреплённый редактор, публикация в день обращения</td>
+</tr>
+<tr class="odd">
+<td>Табличка с QR-кодом</td>
+<td>цифровой QR-код для самостоятельной печати, табличка за доплату</td>
+<td>табличка включена</td>
+<td>две таблички премиум-качества и установка</td>
+</tr>
+<tr class="even">
+<td>Реклама на странице</td>
+<td class="c"><span class="no">нет</span></td>
+<td class="c"><span class="no">нет</span></td>
+<td class="c"><span class="no">нет</span></td>
+</tr>
+<tr class="odd">
+<td>Срок хранения</td>
+<td>на весь срок работы сервиса</td>
+<td>на весь срок работы сервиса</td>
+<td>на весь срок работы сервиса</td>
+</tr>
+<tr class="even">
+<td>Оплата</td>
+<td>0 ₽</td>
+<td>разово, цена согласуется</td>
+<td>разово, цена согласуется</td>
+</tr>
+</tbody>
+</table></div>
+<p>Клиент может перейти на более высокий тариф в любой момент с доплатой разницы.</p>
+<h2 id="s4">4. Страница памяти</h2>
+<p>Страницу чаще всего открывают с телефона прямо у памятника, поэтому она делается в первую очередь под мобильный экран и медленный интернет. Оформление единое для всех страниц, спокойное, без рекламы и всплывающих окон.</p>
+<p><strong>Блоки страницы (сверху вниз):</strong></p>
+<ol type="1">
+<li>Шапка: главное фото, ФИО, годы жизни, эпитафия и кнопка «Поделиться».</li>
+<li>Основные сведения: даты и места рождения и смерти, профессия, награды.</li>
+<li>Место захоронения: кладбище, участок, номер могилы и фото захоронения.</li>
+<li>Биография.</li>
+<li>Фотографии человека с подписями и просмотром на весь экран.</li>
+<li>Видео и аудио на платных тарифах: семейные записи, голос человека.</li>
+<li>Подвал: спокойная строка «Создать страницу памяти для своего близкого» и кнопка «Удалить меня со страницы» для людей, которые есть на фото или в тексте.</li>
+</ol>
+<p><strong>Доступ.</strong> Страница открывается по QR-коду и прямой ссылке. Поисковики её не индексируют. Владелец может на время скрыть страницу.</p>
+<p><strong>Поделиться.</strong> Кнопки для ВКонтакте, Telegram, Одноклассников, MAX и WhatsApp. При отправке ссылки показывается превью с фото, именем и годами жизни.</p>
+<h2 id="s5">5. Личный кабинет клиента</h2>
+<p>Интерфейс рассчитан на пожилых людей: крупный шрифт, простые шаги и подсказки на каждом шаге.</p>
+<p><strong>Регистрация и вход:</strong> по номеру телефона с кодом в SMS или по электронной почте. При регистрации две отдельные галочки: согласие на обработку персональных данных и принятие оферты. Обе по умолчанию не отмечены, дата, время и версия текста сохраняются в базе.</p>
+<p><strong>Мастер создания страницы:</strong></p>
+<ol type="1">
+<li>Основные данные: ФИО, пол, даты и места рождения и смерти, степень родства клиента.</li>
+<li>Место захоронения: кладбище, участок, номер могилы, фото захоронения.</li>
+<li>Главное фото с кадрированием.</li>
+<li>Биография.</li>
+<li>Фотографии, а на платных тарифах ещё видео и аудио, с подписями и годом.</li>
+<li>Выбор тарифа и оплата.</li>
+<li>Предпросмотр и отправка на проверку.</li>
+</ol>
+<p>Черновик сохраняется автоматически, к заполнению можно вернуться в любой день.</p>
+<p><strong>Загрузка материалов:</strong> форматы JPG, PNG, HEIC, WEBP, MP4, MOV, MP3, M4A; несколько файлов сразу прямо с телефона; сжатие для показа на сайте с хранением оригинала.</p>
+<p><strong>Статусы страницы:</strong> черновик; на проверке; нужны уточнения; опубликована; скрыта.</p>
+<p><strong>Ещё в кабинете:</strong></p>
+<ul>
+<li>список своих страниц и кнопка «Добавить страницу родственника»;</li>
+<li>замечания оператора и ответы на них;</li>
+<li>заказ таблички и его статус, счета и чеки;</li>
+<li>удаление аккаунта и данных.</li>
+</ul>
+<h2 id="s6">6. Проверка и публикация материалов</h2>
+<p>Каждая страница и каждое её изменение проходят проверку оператора до показа посетителям.</p>
+<p><strong>Порядок:</strong></p>
+<ol type="1">
+<li>Клиент отправляет страницу на проверку.</li>
+<li>Оператор проверяет материалы, исправляет ошибки и редактирует биографию в рамках тарифа.</li>
+<li>При замечаниях оператор пишет их в кабинете клиента и переводит страницу в статус «нужны уточнения», клиенту приходит письмо.</li>
+<li>Оператор публикует страницу, и QR-код начинает вести на неё.</li>
+</ol>
+<p><strong>Что не публикуется:</strong> материалы, запрещённые законом; оскорбления и нецензурная лексика; фото и видео со сценами насилия, телами умерших, откровенными сценами; телефоны, адреса и документы живых людей; реклама; чужие материалы, на которые у клиента нет прав.</p>
+<p><strong>Право создать страницу.</strong> При создании клиент подтверждает галочкой, что он родственник умершего или действует с согласия семьи. Оператор может запросить документ о родстве или захоронении, документы видит только оператор.</p>
+<p><strong>Сроки проверки:</strong> бесплатный тариф — до 3 рабочих дней, базовый — до 1 рабочего дня, VIP — в день обращения.</p>
+<p>По каждой публикации и каждому изменению в базе сохраняется, кто и когда его сделал.</p>
+<h2 id="s7">7. QR-коды и таблички</h2>
+<p>Каждая страница получает постоянный QR-код в момент создания. Код ведёт на короткую ссылку портала, а ссылка перенаправляет на страницу, поэтому табличка продолжает работать при любых изменениях на сайте.</p>
+<p><strong>Требования к QR-коду:</strong></p>
+<ul>
+<li>коррекция ошибок уровня H: в код добавлены запасные данные, поэтому телефон читает его даже при повреждении до 30% поверхности (царапины, грязь, выгорание на улице); код получается плотнее, и размер на табличке подбирается с учётом этого;</li>
+<li>под кодом короткая ссылка для ручного ввода;</li>
+<li>до публикации код ведёт на заглушку с именем и годами жизни;</li>
+<li>владелец скачивает код в PNG и SVG.</li>
+</ul>
+<p><strong>Таблички.</strong> Варианты табличек, размеры и цены администратор задаёт в панели.</p>
+<p><strong>Заказ в кабинете:</strong></p>
+<ol type="1">
+<li>Клиент выбирает табличку и надпись и видит макет на экране.</li>
+<li>Выбирает способ получения: установка мастером или самовывоз.</li>
+<li>Оплачивает заказ.</li>
+<li>Следит за статусом: принят → в производстве → готов → установлен.</li>
+</ol>
+<figure class="fig "><img src="../img/plaque.png" alt="Статусы заказа таблички в личном кабинете" loading="lazy"><figcaption>Статусы заказа таблички в личном кабинете</figcaption></figure><p>Заказать табличку можно до того, как страница заполнена: родные часто заказывают её вместе с памятником и заполняют страницу позже.</p>
+<h2 id="s8">8. Оплата и уведомления</h2>
+<p><strong>Приём оплаты</strong> через ЮKassa: СБП, банковские карты МИР, Visa и Mastercard российских банков, SberPay и T-Pay. Электронный чек отправляется покупателю автоматически после каждой оплаты. Возврат денег оформляется из админ-панели, чек возврата формируется сам. Данные карт хранятся только у ЮKassa.</p>
+<p><strong>Уведомления</strong> приходят по электронной почте:</p>
+<ul>
+<li>смена статуса страницы и заказа таблички;</li>
+<li>замечание оператора;</li>
+<li>успешная оплата.</li>
+</ul>
+<p>SMS используются только для кодов входа.</p>
+<h2 id="s9">9. Сайт</h2>
+<p><strong>Главная страница:</strong> понятное описание сервиса и того, как он работает; пример страницы памяти; тарифы с ценами; ответы на частые вопросы; кнопка заказа на первом экране и внизу страницы.</p>
+<p><strong>Документы:</strong> оферта, политика обработки персональных данных и тексты согласий на отдельных страницах.</p>
+<p><strong>Аналитика:</strong> Яндекс Метрика с баннером согласия на cookies и целями «начало оформления», «оплата» и «заказ таблички».</p>
+<h2 id="s10">10. Административная панель</h2>
+<p>Доступ к панели у операторов и администраторов, права настраиваются по ролям. Разделы панели:</p>
+<ul>
+<li><strong>Очередь проверки:</strong> новые страницы и изменения, с сортировкой по сроку и тарифу;</li>
+<li><strong>Страницы памяти:</strong> поиск, просмотр, редактирование, смена статуса и тарифа;</li>
+<li><strong>Заказы табличек</strong> и их статусы;</li>
+<li><strong>Клиенты и оплаты:</strong> карточка клиента с заказами и платежами, возвраты;</li>
+<li><strong>Тарифы, цены и варианты табличек;</strong></li>
+<li><strong>Тексты</strong> главной страницы, документов и писем;</li>
+<li><strong>Сотрудники и роли.</strong></li>
+</ul>
+<h2 id="s11">11. Что нужно от заказчика для старта</h2>
+<ul>
+<li>Цены тарифов и табличек.</li>
+<li>Название сервиса и доменное имя.</li>
+<li>Реквизиты юридического лица или ИП для оферты, чеков и ЮKassa.</li>
+<li>Логотип и фирменные цвета, при их отсутствии мы подготовим варианты.</li>
+<li>Тексты оферты, политики обработки персональных данных и согласий.</li>
+<li>Договорённости по изготовлению табличек: материалы, поставщик, сроки.</li>
+<li>Аккаунт в ЮKassa.</li>
+<li>Контактное лицо для оперативных согласований.</li>
+</ul>
+<h2 id="s12">12. Контакты</h2>
+<p>По вопросам и замечаниям к техническому заданию:</p>
+<ul>
+<li>Сергей (Telegram: <a href="https://t.me/send_them_all" class="uri">https://t.me/send_them_all</a>)</li>
+</ul>
+
+    </section>
+  </main>
+</div>
+<footer><div><span>QR Память · техническое задание</span></div></footer>
+<div id="mp" style="position:fixed;right:16px;bottom:16px;z-index:10;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;color:#2F4858;opacity:.28;transition:opacity .2s,background .2s;font:500 13px var(--body)">
+  <span data-a="ctl" style="display:flex;flex-direction:column;max-width:0;overflow:hidden;transition:max-width .3s">
+    <span data-a="row" style="display:flex;align-items:center;gap:2px">
+    <span data-a="title" style="max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#4A555C;margin:0 6px 0 10px"></span>
+    <button type="button" data-a="prev" aria-label="Предыдущий трек" title="Предыдущий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+    <button type="button" data-a="play" aria-label="Пауза" title="Пауза" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
+    <button type="button" data-a="next" aria-label="Следующий трек" title="Следующий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+        </span>
+    <span data-a="bar" role="slider" aria-label="Перемотка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:block;position:relative;height:14px;margin:2px 10px 0;cursor:pointer">
+      <span style="position:absolute;left:0;right:0;top:5px;height:4px;background:#D9E1E6;border-radius:2px"><span data-a="fill" style="display:block;height:100%;width:0;background:#B08D57;border-radius:2px"></span></span>
+    </span>
+    <span style="display:flex;justify-content:space-between;margin:0 10px 6px;font-size:11px;color:#7A8A93;font-variant-numeric:tabular-nums"><span data-a="cur">0:00</span><span data-a="dur">0:00</span></span>
+  </span>
+  <button type="button" data-a="spk" aria-label="Показать плеер" title="Музыка" style="border:0;background:none;color:inherit;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
+<span data-a="menu-pop" role="menu" style="display:none;position:absolute;right:4px;bottom:calc(100% + 8px);min-width:200px;padding:6px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(47,72,88,.18);font:500 13px var(--body);color:#2F4858">
+    <button type="button" data-a="keep" role="menuitemcheckbox" aria-checked="false" style="border:0;background:none;color:inherit;cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border-radius:6px;font:inherit;text-align:left"><span data-a="tick" style="width:14px;color:#B08D57"></span>Не останавливать</button>
+  </span>
+</div>
+<audio id="mp-a" preload="none"></audio>
+<script>
+(function(){
+  var SHARE = 'https://files.adminpro.win', HASH = '1Wv0m2WGGZRyidB_K2fIUw';
+  var FALLBACK = [{ name: 'Тихая мелодия', src: '../audio/tikho.mp3' }];
+  var box = document.getElementById('mp'), a = document.getElementById('mp-a');
+  var ctl = box.querySelector('[data-a=ctl]'), bPlay = box.querySelector('[data-a=play]'), bSpk = box.querySelector('[data-a=spk]'), title = box.querySelector('[data-a=title]');
+  var list = FALLBACK.slice(), i = 0, off = false, open = false;
+  try { off = localStorage.getItem('qr-music') === 'off'; } catch (e) {}
+  var keep = false; try { keep = localStorage.getItem('qr-music-keep') === 'on'; } catch (e) {}
+  var VOL = 0.3, fadeT = null; a.volume = VOL;
+  // плавное изменение громкости; вкладки, где играет звук, браузер не притормаживает
+  function fade(to, ms, done){
+    clearInterval(fadeT); var from = a.volume, steps = Math.max(1, Math.round(ms / 40)), k = 0;
+    fadeT = setInterval(function(){ k++; a.volume = Math.min(1, Math.max(0, from + (to - from) * k / steps)); if (k >= steps){ clearInterval(fadeT); if (done) done(); } }, 40);
+  }
+  function fadeIn(ms){ a.volume = 0; play(); fade(VOL, ms || 3000); }
+  function fadeOut(cb){ fade(0, 2400, function(){ a.pause(); a.volume = VOL; if (cb) cb(); }); }
+  // потоковый адрес файла из общей папки: сервер выдаёт для каждого файла свой ключ просмотра (viewToken)
+  function src(name, token){ return SHARE + '/public/api/media/stream?file=' + encodeURIComponent('/' + name) + '&hash=' + HASH + '&viewToken=' + encodeURIComponent(token); }
+  function clean(n){ return n.replace(/\.[^.]+$/, '').replace(/\s*\(\d+\)$/, '').replace(/^\d+\s*[-–.]?\s*/, ''); }
+  function setList(files){ if (files && files.length){ list = files.map(function(f){ return { file: f.name, name: clean(f.name), src: src(f.name, f.viewToken) }; }); } }
+  function load(k, seek){
+    i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name;
+    holdSave = !!seek;
+    if (seek){ a.addEventListener('loadedmetadata', function h(){ a.removeEventListener('loadedmetadata', h); if (isFinite(a.duration) && seek < a.duration - 3) a.currentTime = seek; holdSave = false; }); }
+  }
+  // запоминаем место в треке: после закрытия браузера музыка продолжится с того же места (хранится на этом устройстве)
+  var holdSave = false, lastSave = 0;
+  function savePos(force){
+    var now = Date.now(); if (holdSave || !list[i] || !list[i].file || !a.currentTime) return;
+    if (!force && now - lastSave < 2000) return; lastSave = now;
+    try { localStorage.setItem('qr-music-pos', JSON.stringify({ f: list[i].file, t: Math.round(a.currentTime * 10) / 10 })); } catch (e) {}
+  }
+  function savedPos(){ try { return JSON.parse(localStorage.getItem('qr-music-pos') || 'null'); } catch (e) { return null; } }
+  a.addEventListener('timeupdate', function(){ savePos(false); });
+  // полоска прогресса: показывает позицию и перематывает по клику
+  var fill = box.querySelector('[data-a=fill]'), bar = box.querySelector('[data-a=bar]'), cur = box.querySelector('[data-a=cur]'), dur = box.querySelector('[data-a=dur]');
+  function fmt(s){ if (!isFinite(s) || s < 0) s = 0; s = Math.floor(s); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function prog(){ var d = a.duration, ok = isFinite(d) && d > 0, p = ok ? Math.min(1, a.currentTime / d) : 0; fill.style.width = (p * 100) + '%'; bar.setAttribute('aria-valuenow', Math.round(p * 100)); cur.textContent = fmt(a.currentTime); dur.textContent = ok ? fmt(d) : '0:00'; }
+  a.addEventListener('timeupdate', prog); a.addEventListener('durationchange', prog); a.addEventListener('loadedmetadata', prog);
+  bar.addEventListener('click', function(e){ var d = a.duration; if (!isFinite(d) || d <= 0) return; var r = bar.getBoundingClientRect(), p = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); a.currentTime = p * d; prog(); savePos(true); });
+  a.addEventListener('pause', function(){ savePos(true); });
+  window.addEventListener('pagehide', function(){ savePos(true); });
+  function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
+  // переключение трека: звук затихает за 1 секунду, затем новый трек плавно нарастает за 1 секунду
+  var SW = 1000, pend = null;
+  function go(delta){
+    off = false; pend = (pend === null ? i : pend) + delta;
+    var run = function(){ load(pend); pend = null; fadeIn(SW); };
+    if (a.paused) run(); else fade(0, SW, run);
+  }
+  var SPK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>';
+  var ON = SPK + '<path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7.5 7.5 0 0 1 0 10"/></svg>';
+  var OFF = SPK + '<path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>';
+  var PL = '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>';
+  var PA = '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+  function ui(){
+    var on = !a.paused;
+    bSpk.innerHTML = on ? ON : OFF;
+    bSpk.setAttribute('aria-label', open ? 'Выключить музыку и скрыть плеер' : 'Показать плеер');
+    bPlay.innerHTML = on ? PA : PL; bPlay.setAttribute('aria-label', on ? 'Пауза' : 'Играть');
+    ctl.style.maxWidth = open ? '360px' : '0';
+    box.style.opacity = open ? '.95' : '.28';
+    box.style.background = open ? 'rgba(255,255,255,.92)' : 'transparent';
+    box.style.boxShadow = open ? '0 6px 18px rgba(47,72,88,.12)' : 'none';
+  }
+  a.addEventListener('play', ui); a.addEventListener('pause', ui); ui();
+  a.addEventListener('ended', function(){ try { localStorage.removeItem('qr-music-pos'); } catch (e) {} load(i + 1); fadeIn(SW); });
+  a.addEventListener('error', function(){ if (list.length > 1){ load(i + 1); play(); } });
+  function remember(){ try { localStorage.setItem('qr-music', off ? 'off' : 'on'); } catch (e) {} }
+  box.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return; e.stopPropagation();
+    var act = b.getAttribute('data-a');
+    if (act === 'spk'){
+      if (!open){ open = true; off = false; if (a.paused) fadeIn(); kick(); }
+      else { open = false; off = true; fadeOut(); }
+      remember(); ui();
+    }
+    if (act === 'play'){ if (a.paused){ off = false; fadeIn(); } else { off = true; fadeOut(); } remember(); }
+    if (act === 'next'){ go(1); remember(); }
+    if (act === 'prev'){ go(-1); remember(); }
+    if (act === 'keep'){ keep = !keep; try { localStorage.setItem('qr-music-keep', keep ? 'on' : 'off'); } catch (e) {} paintKeep(); setTimeout(function(){ menuOpen(false); }, 1000); }
+  });
+  // после 10 секунд без действий в плеере он сворачивается до кнопки с динамиком; музыка при этом не выключается
+  var idleT = null;
+  // пока курсор над плеером, он не сворачивается; после ухода курсора отсчёт 10 секунд начинается заново
+  var hovering = false;
+  box.addEventListener('mouseenter', function(){ hovering = true; clearTimeout(idleT); });
+  box.addEventListener('mouseleave', function(){ hovering = false; kick(); });
+  function collapse(){ clearTimeout(idleT); if (!open || hovering) return; open = false; menuOpen(false); ui(); }
+  function kick(){ clearTimeout(idleT); if (open) idleT = setTimeout(collapse, 10000); }
+  ['pointerdown', 'keydown', 'focusin'].forEach(function(t){ box.addEventListener(t, kick); });
+  // меню «⋯»: пункт «Не останавливать» — музыка не ставится на паузу при переходе на другую вкладку или сворачивании браузера
+  var pop = box.querySelector('[data-a=menu-pop]'), mBtn = box.querySelector('[data-a=spk]'), keepBtn = box.querySelector('[data-a=keep]'), tick = box.querySelector('[data-a=tick]');
+  function paintKeep(){ keepBtn.setAttribute('aria-checked', keep ? 'true' : 'false'); tick.textContent = keep ? '✓' : ''; }
+  function menuOpen(v){ pop.style.display = v ? 'block' : 'none'; mBtn.setAttribute('aria-expanded', v ? 'true' : 'false'); }
+  paintKeep();
+  // правый клик по кнопке музыки открывает меню (на телефоне — долгое нажатие)
+  box.addEventListener('contextmenu', function(e){ if (!e.target.closest('[data-a=spk]')) return; e.preventDefault(); menuOpen(pop.style.display !== 'block'); });
+  document.addEventListener('click', function(e){ if (pop.style.display === 'block' && !box.contains(e.target)) menuOpen(false); });
+  // клик вне плеера сворачивает его до кнопки с динамиком; музыка продолжает играть
+  document.addEventListener('click', function(e){ if (open && !box.contains(e.target)) { hovering = false; clearTimeout(idleT); idleT = setTimeout(collapse, 1000); } });
+
+  box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
+  box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
+  fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
+    .then(function(d){ return (d.files || []).filter(function(f){ return f.viewToken && (/^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name)); }); })
+    .catch(function(){ return []; })
+    .then(function(files){ var was = !a.paused; setList(files); if (!was){ var sp = savedPos(), k = 0, t = 0; if (sp){ list.forEach(function(x, n){ if (x.file === sp.f){ k = n; t = sp.t; } }); } load(k, t); if (!off) play(); } });
+  function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) fadeIn(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
+  ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden' && !a.paused && !keep){ a._auto = true; fadeOut(); }
+    else if (document.visibilityState === 'visible'){ a._auto = false; if (!off && a.paused) fadeIn(); }
+  });
+  // повторная попытка включить музыку, когда окно получает фокус (браузер может разрешить звук позже, чем откроется страница)
+  window.addEventListener('focus', function(){ if (!off && a.paused && document.visibilityState === 'visible') fadeIn(); });
+})();
+</script>
+<script>
+/* Статистика страницы ТЗ в Google Таблицу: одна строка на визит, без IP и без отпечатка. */
+(function(){
+  var URL = 'https://script.google.com/macros/s/AKfycbzIQBCIvDGJX0lCX-PgUwkN1NE6oHmuHG6mi47PTL7-dDdhUZw5XDD2ViywG-XpHgfItg/exec';
+  var ua = navigator.userAgent;
+  function pick(list){ for (var i=0;i<list.length;i++){ if (list[i][1].test(ua)) return list[i][0]; } return 'другое'; }
+  var q = new URLSearchParams(location.search);
+  var v = {
+    id: Math.random().toString(36).slice(2, 10),
+    start: Date.now(),
+    ref: (location.pathname.indexOf('/base') > -1 ? 'базовое · ' : '') + (q.get('ref') || '—'),
+    device: /Mobi|Android|iPhone/i.test(ua) ? (/iPad|Tablet/i.test(ua) ? 'планшет' : 'телефон') : (/iPad|Tablet/i.test(ua) ? 'планшет' : 'компьютер'),
+    browser: pick([['Яндекс Браузер',/YaBrowser/],['Edge',/Edg\//],['Opera',/OPR\//],['Firefox',/Firefox\//],['Chrome',/Chrome\//],['Safari',/Safari\//]]),
+    os: pick([['Android',/Android/],['iOS',/iPhone|iPad|iPod/],['Windows',/Windows/],['macOS',/Mac OS X/],['Linux',/Linux/]]),
+    screen: screen.width + '×' + screen.height,
+    lang: navigator.language || '',
+    tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || '',
+    secs: 0, depth: 0, read: [], clicks: []
+  };
+  var since = document.visibilityState === 'visible' ? Date.now() : null;
+  function send(){
+    if (since !== null){ v.secs += (Date.now() - since) / 1000; since = Date.now(); }
+    var body = JSON.stringify(v);
+    if (navigator.sendBeacon) navigator.sendBeacon(URL, body);
+    else fetch(URL, {method: 'POST', body: body, mode: 'no-cors', keepalive: true});
+  }
+  window.qrStat = {
+    click: function(n){ if (v.clicks.indexOf(n) < 0) v.clicks.push(n); send(); },
+    read: function(n){ if (v.read.indexOf(n) < 0) v.read.push(n); },
+    depth: function(p){ if (p > v.depth) v.depth = p; }
+  };
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden'){ send(); since = null; }
+    else since = Date.now();
+  });
+  window.addEventListener('pagehide', send);
+  setTimeout(send, 5000);
+  setInterval(function(){ if (document.visibilityState === 'visible') send(); }, 120000);
+})();
+</script>
+<script>
+/* Статистика страницы ТЗ: события GoatCounter (клики, время на странице). Без cookies и без данных о человеке. */
+(function(){
+  function ev(name, title){
+    if (window.qrStat){
+      if (name.indexOf('read-') === 0) qrStat.read((title || '').replace('Прочитан раздел: ', ''));
+      else if (name.indexOf('scroll-') === 0) qrStat.depth(+name.slice(7));
+      else if (name.indexOf('time-') !== 0) qrStat.click((title || name).replace('Клик: ', ''));
+    }
+    function send(){ window.goatcounter.count({path: name, title: title || name, event: true}); }
+    if (window.goatcounter && window.goatcounter.count) send();
+    else { var n=0, t=setInterval(function(){ if (window.goatcounter && window.goatcounter.count){ clearInterval(t); send(); } else if (++n>40) clearInterval(t); }, 250); }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a'); if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (h.indexOf('docs.google.com') > -1) ev('click-zamechaniya', 'Клик: Оставить замечания');
+    else if (h.indexOf('t.me/') > -1) ev('click-telegram', 'Клик: Telegram');
+    else if (h.charAt(0) === '#' && a.closest('nav')) ev('toc-' + h.slice(1), 'Оглавление: ' + a.textContent.trim().slice(0,60));
+  });
+  window.addEventListener('beforeprint', function(){ ev('print', 'Печать страницы'); });
+  var copied = false;
+  document.addEventListener('copy', function(){ if (!copied){ copied = true; ev('copy', 'Копирование текста'); } });
+  // Докуда долистали
+  var depthSent = 0;
+  function depth(){
+    var h = document.documentElement, p = (h.scrollTop + window.innerHeight) / h.scrollHeight * 100;
+    [25,50,75,100].forEach(function(m){ if (p >= (m === 100 ? 98 : m) && depthSent < m){ depthSent = m; ev('scroll-' + m, 'Долистали до ' + m + '%'); } });
+  }
+  window.addEventListener('scroll', depth, {passive: true});
+  // Какие разделы прочитали: раздел был текущим на экране не меньше 10 секунд
+  var heads = Array.prototype.slice.call(document.querySelectorAll('#letter, h2[id^="s"]')), spent = {}, done = {};
+  setInterval(function(){
+    if (document.visibilityState !== 'visible') return;
+    var cur = null, lim = window.innerHeight * 0.4;
+    heads.forEach(function(h){ if (h.getBoundingClientRect().top < lim) cur = h; });
+    if (!cur) return;
+    var id = cur.id; spent[id] = (spent[id] || 0) + 1;
+    if (spent[id] >= 10 && !done[id]){
+      done[id] = true;
+      var name = id === 'letter' ? 'Письмо' : cur.textContent.trim().slice(0,60);
+      ev('read-' + id, 'Прочитан раздел: ' + name);
+    }
+  }, 1000);
+  // Время, когда вкладка была активна
+  var visible = 0, since = document.visibilityState === 'visible' ? Date.now() : null;
+  function bucket(s){ return s < 60 ? 'до 1 мин' : s < 300 ? '1–5 мин' : s < 900 ? '5–15 мин' : s < 1800 ? '15–30 мин' : 'больше 30 мин'; }
+  var lastRank = -1, order = ['до 1 мин','1–5 мин','5–15 мин','15–30 мин','больше 30 мин'];
+  function flush(){
+    if (since !== null){ visible += Date.now() - since; since = null; }
+    var b = bucket(visible / 1000), r = order.indexOf(b);
+    if (r <= lastRank) return; lastRank = r;
+    ev('time-' + b.replace(/\s+/g,'-'), 'Время на странице: ' + b);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden') flush();
+    else { since = Date.now(); }
+  });
+  window.addEventListener('pagehide', flush);
+})();
+</script>
+<script data-goatcounter="https://qr-pamyat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // полоска прогресса чтения
+  var prog = document.createElement('div'); prog.className = 'prog'; document.body.appendChild(prog);
+  // липкая полоска с кнопкой: появляется, когда герой уходит из виду
+  var bar = document.createElement('div'); bar.className = 'topbar'; bar.setAttribute('aria-hidden', 'true');
+  var hbtn = document.querySelector('.hero a.btn');
+  bar.innerHTML = '<div><b>QR Память</b></div>'; bar.firstChild.appendChild(hbtn.cloneNode(true));
+  document.body.appendChild(bar);
+  var hero = document.querySelector('.hero'), img = hero.querySelector('img');
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var y = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+      bar.classList.toggle('show', y > hero.offsetHeight * 0.7);
+      if (!reduce && img && y < window.innerHeight * 1.2){ img.style.transform = 'translateY(' + (y * 0.06).toFixed(1) + 'px)'; }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // наклон картинки героя за курсором
+  if (!reduce && img && window.matchMedia('(pointer: fine)').matches){
+    hero.addEventListener('pointermove', function(e){
+      var r = img.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, yy = (e.clientY - r.top) / r.height - .5;
+      img.style.transform = 'perspective(1200px) rotateY(' + (x * 6).toFixed(2) + 'deg) rotateX(' + (-yy * 5).toFixed(2) + 'deg) translateY(' + (window.scrollY * 0.06).toFixed(1) + 'px)';
+    });
+    hero.addEventListener('pointerleave', function(){ img.style.transform = 'translateY(' + (window.scrollY * 0.06).toFixed(1) + 'px)'; });
+  }
+  // появление блоков при прокрутке
+  var targets = document.querySelectorAll('.letter, .tz-head, main > section > h2, main > section > p, main > section > ul, main > section > ol, main > section > .fig, main > section > .tbl, main > section > table, main > h2, main > .fig, main > .tbl');
+  var blocks = document.querySelectorAll('main > section.prose > *, main > section.letter > *, main > .tz-head');
+  var all = [];
+  Array.prototype.forEach.call(blocks, function(el){ all.push(el); });
+  all.forEach(function(el, i){ el.classList.add('rv'); if (i % 3 === 1) el.classList.add('d1'); if (i % 3 === 2) el.classList.add('d2'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  document.querySelectorAll('h2, .rv').forEach(function(el){ io.observe(el); });
+  // подсветка текущего раздела в содержании
+  var links = {}; document.querySelectorAll('nav.toc a').forEach(function(a){ links[a.getAttribute('href').slice(1)] = a; });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      Object.keys(links).forEach(function(k){ links[k].classList.remove('on'); });
+      if (links[en.target.id]) links[en.target.id].classList.add('on');
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('main [id]').forEach(function(el){ if (links[el.id]) spy.observe(el); });
+})();
+</script>
+</body>
+</html>
