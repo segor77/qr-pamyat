@@ -239,7 +239,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-sec h3 { font: 600 14px var(--body); color: #1d3442; margin: 0 0 8px; }
   .pg-line { display: block; height: 7px; border-radius: 4px; background: #d9dee2; margin: 0 0 8px; }
   .pg-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 6px; }
-  .pg-thumbs span { display: block; height: 60px; border-radius: 10px; }
+  .pg-thumbs > * { display: block; width: 100%; height: 60px; border: 0; padding: 0; border-radius: 10px; cursor: pointer; }
+  .pg-thumbs > [aria-current="true"] { outline: 2px solid #c9a46a; outline-offset: 2px; }
   .pg-thumbs .t1 { background: radial-gradient(circle at 35% 42%, #7a5c36 0 5px, transparent 6px), radial-gradient(circle at 65% 42%, #7a5c36 0 5px, transparent 6px), linear-gradient(#d8bd8f, #b99460); }
   .pg-thumbs .t2 { background: radial-gradient(circle at 72% 28%, #f5e6bd 0 6px, transparent 7px), linear-gradient(160deg, transparent 46%, #b4936a 47%), linear-gradient(#e2cba0, #c4a674); }
   .pg-thumbs .t3 { background: radial-gradient(circle at 50% 36%, #6b5036 0 12px, transparent 13px), radial-gradient(ellipse at 50% 120%, #6b5036 0 26px, transparent 27px), linear-gradient(#dcc296, #bb9865); }
@@ -247,7 +248,23 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-place b { display: block; font: 600 13px var(--body); color: #1d3442; }
   .pg-place span { display: block; font-size: 12px; color: #3d4a52; margin-top: 2px; }
   .pg-place small { display: block; font-size: 11px; color: #7b8a94; margin-top: 2px; }
-  .pg-video { margin: 8px 16px 16px; padding: 8px; text-align: center; font-size: 12px; color: #5c6b75; border: 1px solid #cfd8de; border-radius: 999px; }
+  .pg-actions { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+  .pg-actions .ph-share { margin-top: 0; }
+  .pg-candle { font: 600 13px var(--body); padding: 6px 12px; border-radius: 999px; cursor: pointer; border: 1.5px solid #c9a46a; background: transparent; color: #a8844d; }
+  .pg-candle.solid { background: #c9a46a; color: #fff; }
+  .pg-toast { font-size: 12px; color: #5c6b75; min-height: 16px; margin: 8px 0 0; }
+  .pg-text { font-size: 13px; line-height: 1.5; color: #3d4a52; margin: 0 0 6px; }
+  .pg-hidden { display: none; }
+  .pg-more { background: none; border: 0; padding: 0; font: 600 12px var(--body); color: #a8844d; cursor: pointer; text-decoration: underline; }
+  .pg-cap { font-size: 12px; color: #5c6b75; margin: 6px 0 0; min-height: 16px; }
+  .pg-audio { display: flex; align-items: center; gap: 10px; background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 6px; }
+  .pg-audio button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: #c9a46a; color: #fff; font-size: 12px; cursor: pointer; flex: none; }
+  .pg-audio b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .pg-bar { height: 4px; background: #d9dee2; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+  .pg-bar span { display: block; height: 100%; width: 0; background: #c9a46a; }
+  .pg-audio.playing .pg-bar span { animation: pgprog 12s linear forwards; }
+  @keyframes pgprog { from { width: 0; } to { width: 100%; } }
+  .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
   .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
   .ph-body.on { display: block; }
@@ -568,29 +585,100 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
         <!-- Экран: страница памяти -->
         <div class="screen on" id="scr-page" role="tabpanel">
           <div class="pg-head">
-            <img class="pg-avatar" src="img/avatar.png" alt="Фото человека" width="84" height="84">
-            <p class="ph-name">Имя Фамилия</p>
-            <p class="ph-years">годы жизни</p>
-            <button type="button" class="ph-share">Поделиться</button>
+            <img class="pg-avatar" src="img/avatar.png" alt="Фото: Анна Миронова" width="84" height="84">
+            <p class="ph-name">Анна Миронова</p>
+            <p class="ph-years">1938 — 2021</p>
+            <div class="pg-actions">
+              <button type="button" class="pg-candle" id="pg-candle" aria-pressed="false">Свеча · <span id="pg-candle-n">12</span></button>
+              <button type="button" class="ph-share" id="pg-share">Поделиться</button>
+            </div>
+            <p class="pg-toast" id="pg-toast" aria-live="polite"></p>
           </div>
           <section class="pg-sec">
             <h3>История жизни</h3>
-            <span class="pg-line" style="width:100%"></span><span class="pg-line" style="width:96%"></span><span class="pg-line" style="width:100%"></span><span class="pg-line" style="width:70%"></span>
+            <p class="pg-text">Родилась в семье учителей. Окончила техникум, работала в библиотеке и вырастила двоих детей. Любила сад, пироги по воскресеньям и долгие разговоры за чаем.</p>
+            <p class="pg-text pg-hidden" id="pg-bio-more">Последние годы вела кружок для школьников и собирала семейный архив. Записывала истории родных, чтобы внуки их знали.</p>
+            <button type="button" class="pg-more" id="pg-bio-btn" aria-expanded="false">Читать дальше</button>
           </section>
           <section class="pg-sec">
             <h3>Фотографии</h3>
-            <div class="pg-thumbs" aria-hidden="true"><span class="t1"></span><span class="t2"></span><span class="t3"></span></div>
+            <div class="pg-thumbs" role="group" aria-label="Фотографии">
+              <button type="button" class="t1" data-cap="Лето на даче, 1975" aria-current="true" aria-label="Лето на даче"></button>
+              <button type="button" class="t2" data-cap="Выпускной в техникуме, 1957" aria-label="Выпускной"></button>
+              <button type="button" class="t3" data-cap="С внуками, 2010" aria-label="С внуками"></button>
+            </div>
+            <p class="pg-cap" id="pg-cap" aria-live="polite">Лето на даче, 1975</p>
           </section>
           <section class="pg-sec">
             <h3>Место захоронения</h3>
             <div class="pg-place">
               <b>Северное кладбище</b>
-              <span>участок ___, могила ___</span>
+              <span>участок 14, могила 27</span>
               <small>фото захоронения</small>
             </div>
+            <button type="button" class="pg-more" id="pg-route-btn" aria-expanded="false">Как найти</button>
+            <p class="pg-text pg-hidden" id="pg-route">От главного входа прямо по центральной аллее до перекрёстка, затем направо ещё 150 метров.</p>
           </section>
-          <div class="pg-video">▶ видео и голос</div>
+          <section class="pg-sec">
+            <h3>Видео и голос</h3>
+            <div class="pg-audio" id="pg-audio">
+              <button type="button" id="pg-play" aria-pressed="false" aria-label="Слушать запись">▶</button>
+              <div>
+                <b>Поздравление внукам</b>
+                <div class="pg-bar"><span></span></div>
+              </div>
+            </div>
+          </section>
+          <p class="pg-small">Видео и голосовые записи доступны на платных тарифах.</p>
         </div>
+        <script>
+        (function () {
+          var n = 12, lit = false;
+          var candle = document.getElementById("pg-candle");
+          candle.addEventListener("click", function () {
+            lit = !lit; n += lit ? 1 : -1;
+            document.getElementById("pg-candle-n").textContent = n;
+            candle.setAttribute("aria-pressed", String(lit));
+            candle.classList.toggle("solid", lit);
+          });
+          document.getElementById("pg-share").addEventListener("click", function () {
+            document.getElementById("pg-toast").textContent = "Ссылка скопирована (это демо)";
+          });
+          function toggle(btn, box) {
+            btn.addEventListener("click", function () {
+              var open = box.classList.toggle("pg-hidden") === false;
+              btn.setAttribute("aria-expanded", String(open));
+              btn.textContent = open ? "Свернуть" : btn.getAttribute("data-open");
+            });
+          }
+          var bioBtn = document.getElementById("pg-bio-btn");
+          bioBtn.setAttribute("data-open", "Читать дальше");
+          toggle(bioBtn, document.getElementById("pg-bio-more"));
+          var routeBtn = document.getElementById("pg-route-btn");
+          routeBtn.setAttribute("data-open", "Как найти");
+          toggle(routeBtn, document.getElementById("pg-route"));
+          var thumbs = document.querySelectorAll(".pg-thumbs button");
+          thumbs.forEach(function (t) {
+            t.addEventListener("click", function () {
+              thumbs.forEach(function (x) { x.removeAttribute("aria-current"); });
+              t.setAttribute("aria-current", "true");
+              document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
+            });
+          });
+          var play = document.getElementById("pg-play");
+          var audio = document.getElementById("pg-audio");
+          play.addEventListener("click", function () {
+            var on = audio.classList.toggle("playing");
+            play.textContent = on ? "❚❚" : "▶";
+            play.setAttribute("aria-pressed", String(on));
+          });
+          audio.addEventListener("animationend", function () {
+            audio.classList.remove("playing");
+            play.textContent = "▶";
+            play.setAttribute("aria-pressed", "false");
+          });
+        })();
+        </script>
 
         <!-- Экран: кабинет -->
         <div class="screen" id="scr-cab" role="tabpanel">
