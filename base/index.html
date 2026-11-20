@@ -358,7 +358,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   </main>
 </div>
 <footer><div><span>QR Память · базовая версия ТЗ</span></div></footer>
-<button id="mus" type="button" aria-pressed="false" aria-label="Включить музыку" title="Музыка" style="position:fixed;right:18px;bottom:18px;z-index:10;border:1px solid #E4DED2;background:#fff;color:#2F4858;border-radius:999px;width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(47,72,88,.12);cursor:pointer"></button>
+<button id="mus" type="button" aria-pressed="false" aria-label="Включить музыку" title="Музыка" style="position:fixed;right:18px;bottom:18px;z-index:10;border:1px solid #E4DED2;background:transparent;color:#2F4858;border-radius:999px;width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:none;cursor:pointer;opacity:.25;transition:opacity .2s" onmouseenter="this.style.opacity=.8" onmouseleave="this.style.opacity=.25" onfocus="this.style.opacity=.8" onblur="this.style.opacity=.25"></button>
 <audio id="mus-a" src="../audio/tikho.mp3" loop preload="none"></audio>
 <script>
 (function(){
