@@ -387,8 +387,23 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   // потоковый адрес файла из общей папки: сервер выдаёт для каждого файла свой ключ просмотра (viewToken)
   function src(name, token){ return SHARE + '/public/api/media/stream?file=' + encodeURIComponent('/' + name) + '&hash=' + HASH + '&viewToken=' + encodeURIComponent(token); }
   function clean(n){ return n.replace(/\.[^.]+$/, '').replace(/\s*\(\d+\)$/, '').replace(/^\d+\s*[-–.]?\s*/, ''); }
-  function setList(files){ if (files && files.length){ list = files.map(function(f){ return { name: clean(f.name), src: src(f.name, f.viewToken) }; }); } }
-  function load(k){ i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name; }
+  function setList(files){ if (files && files.length){ list = files.map(function(f){ return { file: f.name, name: clean(f.name), src: src(f.name, f.viewToken) }; }); } }
+  function load(k, seek){
+    i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name;
+    holdSave = !!seek;
+    if (seek){ a.addEventListener('loadedmetadata', function h(){ a.removeEventListener('loadedmetadata', h); if (isFinite(a.duration) && seek < a.duration - 3) a.currentTime = seek; holdSave = false; }); }
+  }
+  // запоминаем место в треке: после закрытия браузера музыка продолжится с того же места (хранится на этом устройстве)
+  var holdSave = false, lastSave = 0;
+  function savePos(force){
+    var now = Date.now(); if (holdSave || !list[i] || !list[i].file || !a.currentTime) return;
+    if (!force && now - lastSave < 2000) return; lastSave = now;
+    try { localStorage.setItem('qr-music-pos', JSON.stringify({ f: list[i].file, t: Math.round(a.currentTime * 10) / 10 })); } catch (e) {}
+  }
+  function savedPos(){ try { return JSON.parse(localStorage.getItem('qr-music-pos') || 'null'); } catch (e) { return null; } }
+  a.addEventListener('timeupdate', function(){ savePos(false); });
+  a.addEventListener('pause', function(){ savePos(true); });
+  window.addEventListener('pagehide', function(){ savePos(true); });
   function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
   // переключение трека: звук затихает за 1 секунду, затем новый трек плавно нарастает за 1 секунду
   var SW = 1000, pend = null;
@@ -413,7 +428,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     box.style.boxShadow = open ? '0 6px 18px rgba(47,72,88,.12)' : 'none';
   }
   a.addEventListener('play', ui); a.addEventListener('pause', ui); ui();
-  a.addEventListener('ended', function(){ load(i + 1); fadeIn(SW); });
+  a.addEventListener('ended', function(){ try { localStorage.removeItem('qr-music-pos'); } catch (e) {} load(i + 1); fadeIn(SW); });
   a.addEventListener('error', function(){ if (list.length > 1){ load(i + 1); play(); } });
   function remember(){ try { localStorage.setItem('qr-music', off ? 'off' : 'on'); } catch (e) {} }
   box.addEventListener('click', function(e){
@@ -433,7 +448,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
     .then(function(d){ return (d.files || []).filter(function(f){ return f.viewToken && (/^audio\//.test(f.type) || /\.(mp3|m4a|ogg|wav|aac|flac)$/i.test(f.name)); }); })
     .catch(function(){ return []; })
-    .then(function(files){ var was = !a.paused; setList(files); if (!was){ load(0); if (!off) play(); } });
+    .then(function(files){ var was = !a.paused; setList(files); if (!was){ var sp = savedPos(), k = 0, t = 0; if (sp){ list.forEach(function(x, n){ if (x.file === sp.f){ k = n; t = sp.t; } }); } load(k, t); if (!off) play(); } });
   function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) fadeIn(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){
