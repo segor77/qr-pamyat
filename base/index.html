@@ -382,7 +382,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     clearInterval(fadeT); var from = a.volume, steps = Math.max(1, Math.round(ms / 40)), k = 0;
     fadeT = setInterval(function(){ k++; a.volume = Math.min(1, Math.max(0, from + (to - from) * k / steps)); if (k >= steps){ clearInterval(fadeT); if (done) done(); } }, 40);
   }
-  function fadeIn(){ a.volume = 0; play(); fade(VOL, 3000); }
+  function fadeIn(ms){ a.volume = 0; play(); fade(VOL, ms || 3000); }
   function fadeOut(cb){ fade(0, 2400, function(){ a.pause(); a.volume = VOL; if (cb) cb(); }); }
   // потоковый адрес файла из общей папки: сервер выдаёт для каждого файла свой ключ просмотра (viewToken)
   function src(name, token){ return SHARE + '/public/api/media/stream?file=' + encodeURIComponent('/' + name) + '&hash=' + HASH + '&viewToken=' + encodeURIComponent(token); }
@@ -390,6 +390,13 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   function setList(files){ if (files && files.length){ list = files.map(function(f){ return { name: clean(f.name), src: src(f.name, f.viewToken) }; }); } }
   function load(k){ i = (k + list.length) % list.length; a.src = list[i].src; title.textContent = list[i].name; }
   function play(){ if (!a.src) load(i); var p = a.play(); if (p && p.catch) p.catch(function(){}); }
+  // переключение трека: звук затихает за 1 секунду, затем новый трек плавно нарастает за 1 секунду
+  var SW = 1000, pend = null;
+  function go(delta){
+    off = false; pend = (pend === null ? i : pend) + delta;
+    var run = function(){ load(pend); pend = null; fadeIn(SW); };
+    if (a.paused) run(); else fade(0, SW, run);
+  }
   var SPK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>';
   var ON = SPK + '<path d="M16 9.5a4 4 0 0 1 0 5"/><path d="M18.5 7a7.5 7.5 0 0 1 0 10"/></svg>';
   var OFF = SPK + '<path d="M17 9.5l5 5M22 9.5l-5 5"/></svg>';
@@ -406,7 +413,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     box.style.boxShadow = open ? '0 6px 18px rgba(47,72,88,.12)' : 'none';
   }
   a.addEventListener('play', ui); a.addEventListener('pause', ui); ui();
-  a.addEventListener('ended', function(){ load(i + 1); play(); });
+  a.addEventListener('ended', function(){ load(i + 1); fadeIn(SW); });
   a.addEventListener('error', function(){ if (list.length > 1){ load(i + 1); play(); } });
   function remember(){ try { localStorage.setItem('qr-music', off ? 'off' : 'on'); } catch (e) {} }
   box.addEventListener('click', function(e){
@@ -418,8 +425,8 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
       remember(); ui();
     }
     if (act === 'play'){ if (a.paused){ off = false; fadeIn(); } else { off = true; fadeOut(); } remember(); }
-    if (act === 'next'){ off = false; load(i + 1); play(); remember(); }
-    if (act === 'prev'){ off = false; load(i - 1); play(); remember(); }
+    if (act === 'next'){ go(1); remember(); }
+    if (act === 'prev'){ go(-1); remember(); }
   });
   box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
   box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
