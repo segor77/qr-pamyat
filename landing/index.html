@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="QR Память: страницы памяти с QR-кодами на памятниках. Предварительное техническое задание.">
+<title>QR Память: страницы памяти с QR-кодами</title>
+<style>
+  :root {
+    --bg: #f7f5f1;
+    --surface: #ffffff;
+    --ink: #1f2a27;
+    --muted: #5d6b67;
+    --line: #e2ddd3;
+    --accent: #2f5d50;
+    --accent-ink: #ffffff;
+    --accent-soft: #e4eee9;
+    --warm: #b5835a;
+    --radius: 16px;
+    --shadow: 0 8px 28px rgba(31, 42, 39, 0.08);
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  img, svg { max-width: 100%; display: block; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 3px solid var(--warm); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { width: min(1080px, 92%); margin: 0 auto; }
+  .skip-link {
+    position: absolute; left: -9999px; top: 8px; background: var(--surface);
+    padding: 10px 14px; border-radius: 8px; z-index: 100;
+  }
+  .skip-link:focus { left: 8px; }
+
+  /* Header */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(247, 245, 241, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 14px 0; flex-wrap: wrap;
+  }
+  .brand { font-weight: 700; font-size: 20px; text-decoration: none; color: var(--ink); letter-spacing: 0.2px; }
+  .brand span { color: var(--accent); }
+  .nav { display: flex; gap: 22px; flex-wrap: wrap; }
+  .nav a { text-decoration: none; color: var(--muted); font-size: 16px; }
+  .nav a:hover { color: var(--ink); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding: 12px 24px; border-radius: 12px;
+    font: inherit; font-size: 17px; font-weight: 600;
+    text-decoration: none; border: 2px solid transparent; cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { background: #26503f; }
+  .btn-ghost { background: transparent; color: var(--accent); border-color: var(--accent); }
+  .btn-ghost:hover { background: var(--accent-soft); }
+  .btn-vk { background: #0077ff; color: #fff; }
+  .btn-vk:hover { background: #0066dd; }
+  .btn-max { background: #1f2a27; color: #fff; }
+  .btn-max:hover { background: #33413d; }
+  .btn-small { min-height: 40px; padding: 8px 14px; font-size: 15px; }
+  .btn-icon { width: 22px; height: 22px; flex: 0 0 22px; }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .eyebrow {
+    display: inline-block; padding: 6px 12px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent); font-size: 14px; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.12; margin: 0 0 20px; letter-spacing: -0.5px; }
+  .lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; max-width: 34em; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-note { margin-top: 18px; font-size: 15px; color: var(--muted); }
+
+  .hero-card {
+    background: var(--surface); border-radius: 24px; box-shadow: var(--shadow);
+    padding: 28px; border: 1px solid var(--line);
+  }
+  .memorial-mock { text-align: center; }
+  .memorial-stone {
+    margin: 0 auto; width: 84%; border-radius: 120px 120px 14px 14px;
+    background: linear-gradient(180deg, #ebe7df 0%, #d8d2c6 100%);
+    padding: 26px 18px 22px; border: 1px solid #cfc8ba;
+  }
+  .memorial-stone .photo {
+    width: 96px; height: 96px; margin: 0 auto 12px; border-radius: 50%;
+    background: linear-gradient(135deg, #a9b8b1, #6f8a80);
+  }
+  .memorial-stone .name { font-weight: 700; font-size: 18px; margin: 0; }
+  .memorial-stone .years { color: var(--muted); font-size: 15px; margin: 2px 0 14px; }
+  .qr-plate {
+    display: inline-grid; place-items: center; width: 92px; height: 92px;
+    background: #fff; border-radius: 10px; border: 1px solid var(--line);
+  }
+  .qr-plate svg { width: 70px; height: 70px; }
+  .phone-hint {
+    margin: 18px auto 0; max-width: 260px; font-size: 15px; color: var(--muted);
+    border-top: 1px dashed var(--line); padding-top: 14px;
+  }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  .section-alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  h2 { font-size: clamp(26px, 3.6vw, 36px); line-height: 1.2; margin: 0 0 14px; letter-spacing: -0.3px; }
+  .section-intro { color: var(--muted); max-width: 40em; margin: 0 0 36px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  .steps li {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 24px; box-shadow: var(--shadow);
+  }
+  .step-num {
+    display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .steps h3 { font-size: 20px; margin: 0 0 8px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 16px; }
+
+  .tariffs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .tariff {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px 24px; display: flex; flex-direction: column; box-shadow: var(--shadow);
+  }
+  .tariff.featured { border: 2px solid var(--accent); }
+  .tariff-tag {
+    align-self: flex-start; font-size: 13px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .tariff h3 { font-size: 22px; margin: 0 0 4px; }
+  .tariff .price { font-size: 17px; font-weight: 600; color: var(--muted); margin: 0 0 16px; }
+  .tariff ul { margin: 0 0 20px; padding-left: 20px; color: var(--ink); font-size: 16px; flex: 1; }
+  .tariff li { margin-bottom: 8px; }
+  .tariff-note { margin-top: 22px; font-size: 15px; color: var(--muted); }
+
+  /* Letter and TZ */
+  .doc-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: clamp(22px, 4vw, 44px);
+  }
+  .letter p { margin: 0 0 16px; }
+  .letter .sign { margin-top: 24px; color: var(--muted); }
+  .badge {
+    display: inline-block; font-size: 13px; font-weight: 600; color: #8a5a2f;
+    background: #f5e9dc; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .tz-doc h3 { font-size: 24px; margin: 40px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .tz-doc h3:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .tz-doc h4 { font-size: 18px; margin: 22px 0 8px; }
+  .tz-doc p { margin: 0 0 12px; }
+  .tz-doc ul { margin: 0 0 14px; padding-left: 22px; }
+  .tz-doc li { margin-bottom: 6px; }
+  .table-wrap { overflow-x: auto; margin: 14px 0 18px; border: 1px solid var(--line); border-radius: 12px; }
+  .tz-doc table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+  .tz-doc th, .tz-doc td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .tz-doc th { background: var(--accent-soft); font-weight: 600; }
+  .tz-doc tr:last-child td { border-bottom: 0; }
+
+  .toggle-doc { margin-top: 18px; }
+
+  /* Contacts */
+  .contact-box {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center;
+    background: var(--accent); color: #fff; border-radius: 24px; padding: clamp(28px, 5vw, 48px);
+  }
+  .contact-box h2 { color: #fff; }
+  .contact-box p { margin: 0; opacity: 0.92; }
+  .contact-buttons { display: grid; gap: 12px; }
+  .contact-buttons .btn-ghost { color: #fff; border-color: #fff; background: transparent; }
+  .contact-buttons .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+
+  /* Footer */
+  .site-footer { padding: 36px 0 48px; color: var(--muted); font-size: 15px; }
+  .site-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .footer-links button {
+    background: none; border: 0; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline;
+  }
+
+  /* Cookie banner */
+  .cookie-banner {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 80;
+    max-width: 820px; margin: 0 auto;
+    background: var(--ink); color: #fff; border-radius: 16px; padding: 18px 20px;
+    display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner p { margin: 0; font-size: 15px; flex: 1 1 340px; }
+  .cookie-banner a { color: #bfe3d4; }
+  .cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cookie-banner .btn-ghost { color: #fff; border-color: #fff; }
+  .cookie-banner .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+  .cookie-banner .btn-primary { background: #bfe3d4; color: #1f2a27; }
+  .cookie-banner .btn-primary:hover { background: #a9d8c4; }
+
+  /* Modals */
+  .modal {
+    position: fixed; inset: 0; z-index: 90; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgba(20, 28, 25, 0.55);
+  }
+  .modal.open { display: flex; }
+  .modal-dialog {
+    background: var(--surface); width: min(780px, 100%); max-height: min(86vh, 900px);
+    border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  }
+  .modal-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 20px 24px; border-bottom: 1px solid var(--line);
+  }
+  .modal-head h2 { font-size: 22px; margin: 0; }
+  .modal-close {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; width: 44px; height: 44px;
+    font-size: 22px; cursor: pointer; color: var(--ink); flex: 0 0 44px;
+  }
+  .modal-body {
+    padding: 20px 24px 28px; overflow-y: auto; -webkit-overflow-scrolling: touch; font-size: 16px;
+  }
+  .modal-body h3 { font-size: 18px; margin: 22px 0 8px; }
+  .modal-body p, .modal-body li { color: var(--ink); }
+  .modal-body ul { padding-left: 22px; }
+  .template-note {
+    background: #f5e9dc; color: #6b4524; padding: 12px 14px; border-radius: 10px; font-size: 15px; margin-bottom: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .steps, .tariffs { grid-template-columns: 1fr; }
+    .contact-box { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .hero { padding: 48px 0 40px; }
+    section { padding: 48px 0; }
+    .nav { gap: 14px; }
+    .nav a { font-size: 15px; }
+    .cta-row .btn { width: 100%; }
+    .cookie-actions { width: 100%; }
+    .cookie-actions .btn { flex: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">QR <span>Память</span></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#how">Как это работает</a>
+      <a href="#tariffs">Тарифы</a>
+      <a href="#letter">Письмо</a>
+      <a href="#tz">Техническое задание</a>
+      <a href="#contacts">Связаться</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <div class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Предварительная версия для обсуждения</span>
+        <h1>Страница памяти, которую можно открыть прямо у памятника</h1>
+        <p class="lead">Родные создают страницу с фотографиями, биографией и голосом близкого человека. На памятник ставится табличка с QR-кодом. Посетитель наводит телефон на код и сразу видит страницу.</p>
+        <div class="cta-row">
+          <a class="btn btn-vk" href="#" data-link="vk">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.8 17.4h1.1s.3 0 .5-.2c.2-.2.2-.5.2-.9 0 0 0-1.9.9-2.2.8-.3 1.9 1.8 3 2.6.8.6 1.5.5 1.5.5l3-.1s1.6-.1.8-1.4c-.1-.1-.5-1-3-3.3-2.6-2.4-2.2-2-.9-3.8.8-1.1 1.1-1.8 1-2.1-.1-.3-.7-.2-.7-.2l-3.4 0s-.3 0-.5.1c-.2.1-.3.4-.3.4s-.5 1.4-1.2 2.6c-1.5 2.5-2.1 2.6-2.4 2.4-.6-.4-.4-1.5-.4-2.4 0-2.6.4-3.7-.8-4-.4-.1-.7-.2-1.7-.2-1.3 0-2.4 0-3 .3-.4.2-.7.6-.5.6.2 0 .8.1 1.1.6.4.6.4 1.7.4 1.7s.2 3.2-.5 3.6c-.5.3-1.2-.3-2.7-2.9C4.6 8.4 4 7.1 4 7.1s-.1-.3-.3-.5c-.2-.2-.6-.3-.6-.3l-3.2 0s-.5 0-.6.2c-.1.2 0 .6 0 .6s2.6 6.1 5.6 9.2c2.7 2.8 5.8 2.6 5.8 2.6h1.5z"/></svg>
+            Написать во ВКонтакте
+          </a>
+          <a class="btn btn-max" href="#" data-link="max">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+            Написать в MAX
+          </a>
+        </div>
+        <p class="hero-note">Вопросы по техническому заданию задаём в ВКонтакте или MAX.</p>
+      </div>
+
+      <div class="hero-card" aria-hidden="true">
+        <div class="memorial-mock">
+          <div class="memorial-stone">
+            <div class="photo"></div>
+            <p class="name">Имя Фамилия</p>
+            <p class="years">годы жизни</p>
+            <div class="qr-plate">
+              <svg viewBox="0 0 70 70" role="img" aria-label="Пример QR-кода">
+                <rect width="70" height="70" fill="#fff"/>
+                <g fill="#1f2a27">
+                  <rect x="4" y="4" width="18" height="18"/><rect x="48" y="4" width="18" height="18"/><rect x="4" y="48" width="18" height="18"/>
+                  <rect x="8" y="8" width="10" height="10" fill="#fff"/><rect x="52" y="8" width="10" height="10" fill="#fff"/><rect x="8" y="52" width="10" height="10" fill="#fff"/>
+                  <rect x="11" y="11" width="4" height="4"/><rect x="55" y="11" width="4" height="4"/><rect x="11" y="55" width="4" height="4"/>
+                  <rect x="26" y="6" width="4" height="4"/><rect x="34" y="6" width="4" height="4"/><rect x="28" y="14" width="4" height="4"/>
+                  <rect x="26" y="26" width="4" height="4"/><rect x="34" y="30" width="4" height="4"/><rect x="40" y="26" width="4" height="4"/>
+                  <rect x="26" y="40" width="4" height="4"/><rect x="36" y="44" width="4" height="4"/><rect x="44" y="40" width="4" height="4"/>
+                  <rect x="30" y="52" width="4" height="4"/><rect x="40" y="56" width="4" height="4"/><rect x="50" y="48" width="4" height="4"/>
+                  <rect x="56" y="30" width="4" height="4"/><rect x="60" y="40" width="4" height="4"/><rect x="50" y="26" width="4" height="4"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <p class="phone-hint">Наведите камеру телефона на код, и страница откроется.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <section id="how" class="section-alt">
+    <div class="wrap">
+      <h2>Как это работает</h2>
+      <p class="section-intro">Вся работа идёт в личном кабинете. Шрифт крупный, а на каждом шаге есть подсказка.</p>
+      <ol class="steps">
+        <li>
+          <span class="step-num">1</span>
+          <h3>Создаёте страницу</h3>
+          <p>Заполняете пошаговый мастер: имя, даты, место захоронения, фотографии и биографию. Черновик сохраняется сам, и к нему можно вернуться в любой день.</p>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <h3>Оператор проверяет материалы</h3>
+          <p>Перед публикацией страницу смотрит оператор портала. Он исправляет ошибки и пишет замечания в кабинете. Публикация происходит только после проверки.</p>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <h3>Заказываете табличку</h3>
+          <p>Выбираете табличку с QR-кодом, оплачиваете заказ онлайн и получаете её установкой мастером или самовывозом. Заказать табличку можно и до заполнения страницы.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Tariffs -->
+  <section id="tariffs">
+    <div class="wrap">
+      <h2>Тарифы</h2>
+      <p class="section-intro">Три тарифа для старта. Цены на платные тарифы пока не утверждены: их обсуждают лично.</p>
+      <div class="tariffs">
+        <article class="tariff">
+          <span class="tariff-tag">Для знакомства</span>
+          <h3>Бесплатный</h3>
+          <p class="price">0 ₽</p>
+          <ul>
+            <li>ФИО, даты и места рождения и смерти, место захоронения</li>
+            <li>Главное фото и до 5 фотографий</li>
+            <li>Биография до 1 500 знаков</li>
+            <li>Цифровой QR-код для самостоятельной печати</li>
+            <li>Проверка оператором</li>
+          </ul>
+        </article>
+        <article class="tariff featured">
+          <span class="tariff-tag">Самый полный выбор</span>
+          <h3>Базовый</h3>
+          <p class="price">Цена согласуется</p>
+          <ul>
+            <li>До 100 фотографий и до 10 фото захоронения</li>
+            <li>Биография до 15 000 знаков с редактурой</li>
+            <li>До 5 видео и 10 аудиозаписей</li>
+            <li>Табличка с QR-кодом включена</li>
+          </ul>
+        </article>
+        <article class="tariff">
+          <span class="tariff-tag">Индивидуально</span>
+          <h3>VIP</h3>
+          <p class="price">Цена согласуется</p>
+          <ul>
+            <li>Фотографии, видео и аудио без ограничений в пределах 10 ГБ</li>
+            <li>Биография без ограничений</li>
+            <li>Закреплённый редактор и публикация в день обращения</li>
+            <li>Две таблички премиум-качества и установка</li>
+          </ul>
+        </article>
+      </div>
+      <p class="tariff-note">Страница хранится на весь срок работы сервиса. Перейти на более высокий тариф можно в любой момент, доплатив разницу.</p>
+    </div>
+  </section>
+
+  <!-- Letter -->
+  <section id="letter" class="section-alt">
+    <div class="wrap">
+      <h2>Сопроводительное письмо</h2>
+      <p class="section-intro">Письмо к техническому заданию от Сергея.</p>
+      <div class="doc-card letter">
+        <span class="badge">Предварительное</span>
+        <p>Здравствуйте, Кирилл!</p>
+        <p>Я подготовил техническое задание на портал страниц памяти с QR-кодами. В нём описаны страницы памяти, личный кабинет для родных, три тарифа, онлайн-оплата и заказ табличек с QR-кодом. Посмотрите, пожалуйста, всё ли здесь совпадает с вашим представлением о запуске портала, и отметьте, что хотелось бы изменить.</p>
+        <p class="sign">Сергей · Telegram <a href="https://t.me/send_them_all">@send_them_all</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TZ -->
+  <section id="tz">
+    <div class="wrap">
+      <h2>Техническое задание</h2>
+      <p class="section-intro">Краткое содержание базовой версии ТЗ. Документ предварительный.</p>
+      <div class="doc-card">
+        <span class="badge">Предварительное</span>
+        <div class="tz-doc" id="tz-doc" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacts -->
+  <section id="contacts">
+    <div class="wrap">
+      <div class="contact-box">
+        <div>
+          <h2>Обсудим ТЗ</h2>
+          <p>Замечания и вопросы по техническому заданию принимаем в ВКонтакте или в MAX. Ответим в рабочее время.</p>
+        </div>
+        <div class="contact-buttons">
+          <a class="btn btn-primary" href="#" data-link="vk" style="background:#fff;color:#2f5d50;">Написать во ВКонтакте</a>
+          <a class="btn btn-ghost" href="#" data-link="max">Написать в MAX</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 QR Память</span>
+    <div class="footer-links">
+      <button type="button" data-modal="privacy">Политика конфиденциальности</button>
+      <button type="button" data-modal="terms">Пользовательское соглашение</button>
+      <button type="button" data-modal="cookies">Cookies</button>
+    </div>
+  </div>
+</footer>
+
+<!-- Cookie banner -->
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Использование cookies" hidden>
+  <p>Мы используем cookies, чтобы сайт работал корректно и запоминал ваши настройки. Подробности есть в <a href="#" data-modal="privacy">политике конфиденциальности</a>.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-ghost btn-small" data-modal="cookies">Подробнее</button>
+    <button type="button" class="btn btn-primary btn-small" id="cookie-accept">Принять</button>
+  </div>
+</div>
+
+<!-- Modal: privacy -->
+<div class="modal" id="modal-privacy" role="dialog" aria-modal="true" aria-labelledby="title-privacy" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-head">
+      <h2 id="title-privacy">Политика конфиденциальности</h2>
+      <button type="button" class="modal-close" data-close aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="template-note">Шаблон. Вместо значений в квадратных скобках подставьте данные оператора и проверьте текст у юриста перед публикацией.</p>
+      <h3>1. Общие положения</h3>
+      <p>Настоящая политика описывает, какие данные обрабатывает сайт [НАЗВАНИЕ СЕРВИСА] (далее: сервис), зачем это нужно и как пользователь может влиять на обработку. Оператор персональных данных: [ПОЛНОЕ НАИМЕНОВАНИЕ ЮРИДИЧЕСКОГО ЛИЦА ИЛИ ФИО ИП], ИНН [ИНН], адрес: [АДРЕС], электронная почта: [EMAIL].</p>
+      <h3>2. Какие данные обрабатываются</h3>
+      <ul>
+        <li>данные аккаунта: номер телефона и (или) адрес электронной почты, пароль или код входа;</li>
+        <li>данные о клиенте и родственниках: ФИО, степень родства, контакты для связи;</li>
+        <li>материалы страниц памяти: фотографии, видео, аудио, тексты биографий и подписи к ним;</li>
+        <li>данные о заказах и оплатах: состав заказа, статус, чеки, сведения о платеже без данных банковской карты;</li>
+        <li>технические данные: cookies, IP-адрес, тип устройства, сведения о посещениях.</li>
+      </ul>
+      <h3>3. Цели обработки</h3>
+      <ul>
+        <li>создание аккаунта и вход в личный кабинет;</li>
+        <li>публикация страниц памяти после проверки оператором;</li>
+        <li>приём оплаты, выдача чеков и изготовление табличек;</li>
+        <li>связь с пользователем по вопросам заказа и страницы;</li>
+        <li>работа сайта и статистика посещений.</li>
+      </ul>
+      <h3>4. Основание обработки</h3>
+      <p>Обработка осуществляется с согласия пользователя. Согласие даётся отдельной галочкой при регистрации и может быть отозвано по электронной почте оператора.</p>
+      <h3>5. Хранение и защита</h3>
+      <p>Данные хранятся на серверах, расположенных на территории Российской Федерации. Оператор применяет организационные и технические меры защиты. Данные банковских карт обрабатывает только платёжный сервис, оператор их не хранит.</p>
+      <h3>6. Права пользователя</h3>
+      <p>Пользователь вправе запросить сведения о своих данных, потребовать их уточнения или удаления и отозвать согласие. Запрос направляется на адрес [EMAIL].</p>
+      <h3>7. Cookies</h3>
+      <p>Сайт использует cookies, необходимые для работы, а также cookies аналитики. Пользователь может отключить cookies в настройках браузера, однако часть функций тогда будет недоступна.</p>
+      <h3>8. Изменения политики</h3>
+      <p>Оператор может обновлять политику. Актуальная редакция всегда публикуется на этой странице с датой вступления в силу: [ДАТА].</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: terms -->
+<div class="modal" id="modal-terms" role="dialog" aria-modal="true" aria-labelledby="title-terms" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-head">
+      <h2 id="title-terms">Пользовательское соглашение</h2>
+      <button type="button" class="modal-close" data-close aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="template-note">Шаблон. Вместо значений в квадратных скобках подставьте данные оператора и проверьте текст у юриста перед публикацией.</p>
+      <h3>1. Предмет соглашения</h3>
+      <p>Соглашение регулирует отношения между сервисом [НАЗВАНИЕ СЕРВИСА] (оператор: [ПОЛНОЕ НАИМЕНОВАНИЕ], ИНН [ИНН]) и пользователем сайта. Продолжая пользоваться сайтом, пользователь подтверждает, что ознакомился с соглашением и принимает его.</p>
+      <h3>2. Регистрация и аккаунт</h3>
+      <p>Для создания страниц требуется аккаунт. Пользователь отвечает за сохранность входа и за действия, совершённые из его аккаунта.</p>
+      <h3>3. Страницы памяти и материалы</h3>
+      <ul>
+        <li>создавать страницу может родственник умершего или человек, действующий с согласия семьи; это подтверждается при создании страницы;</li>
+        <li>пользователь подтверждает, что имеет права на загружаемые материалы;</li>
+        <li>запрещено публиковать материалы, нарушающие закон, оскорбительные, содержащие сцены насилия, изображения тел умерших, откровенные сцены, а также контакты и документы живых людей;</li>
+        <li>оператор проверяет материалы до публикации и вправе отклонить их или запросить подтверждающий документ.</li>
+      </ul>
+      <h3>4. Оплата и возвраты</h3>
+      <p>Оплата производится через платёжный сервис [НАЗВАНИЕ ПЛАТЁЖНОГО СЕРВИСА]. Электронный чек направляется на указанную почту. Возврат средств оформляется в порядке, который оператор указывает в условиях тарифа и законодательстве РФ.</p>
+      <h3>5. Табличка с QR-кодом</h3>
+      <p>QR-код закрепляется за страницей и работает, пока работает сервис. Сроки изготовления и установки указываются в карточке заказа.</p>
+      <h3>6. Ответственность</h3>
+      <p>Пользователь несёт ответственность за достоверность сведений и материалов. Оператор не отвечает за содержание материалов, размещённых пользователем, после их проверки и публикации в пределах закона.</p>
+      <h3>7. Изменения соглашения</h3>
+      <p>Оператор вправе изменить соглашение. Новая редакция вступает в силу с момента публикации на сайте.</p>
+      <h3>8. Применимое право</h3>
+      <p>Соглашение регулируется законодательством Российской Федерации. Споры решаются в порядке, установленном законом, по месту нахождения оператора.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: cookies -->
+<div class="modal" id="modal-cookies" role="dialog" aria-modal="true" aria-labelledby="title-cookies" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-head">
+      <h2 id="title-cookies">Cookies</h2>
+      <button type="button" class="modal-close" data-close aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-body">
+      <h3>Что такое cookies</h3>
+      <p>Cookies — небольшие файлы, которые браузер сохраняет на устройстве. Они помогают сайту работать, запоминать настройки и понимать, как им пользуются.</p>
+      <h3>Какие cookies используются</h3>
+      <ul>
+        <li><strong>Необходимые</strong>: нужны для входа, безопасности и работы страниц. Отключить их нельзя.</li>
+        <li><strong>Аналитические</strong>: помогают понять, какие разделы сайта полезны. Подключаются только после согласия и только если такой сервис добавлен оператором.</li>
+      </ul>
+      <h3>Как управлять</h3>
+      <p>Согласие на cookies сохраняется в вашем браузере. Изменить выбор можно в настройках браузера или очистив данные сайта. Подробнее — в <a href="#" data-modal="privacy">политике конфиденциальности</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     НАСТРОЙКИ: ссылки на ВКонтакте и MAX.
+     Замените значения REPLACE_ME на реальные адреса.
+     ============================================================ */
+  var CONTACT_LINKS = {
+    vk:  "https://vk.com/REPLACE_ME",
+    max: "https://max.ru/REPLACE_ME"
+  };
+
+  document.querySelectorAll("[data-link]").forEach(function (a) {
+    var key = a.getAttribute("data-link");
+    a.href = CONTACT_LINKS[key];
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+  });
+
+  /* ============================================================
+     ТЕКСТ КРАТКОГО СОДЕРЖАНИЯ ТЗ. Редактируется здесь. Правки вносить синхронно
+     с веб-страницей на GitHub Pages, Word и PDF.
+     Разметка: "## " заголовок раздела, "### " подзаголовок,
+     "- " пункт списка, "| ... |" строка таблицы, пустая строка
+     разделяет абзацы.
+     ============================================================ */
+  var TZ_SOURCE = `
+## Продукт
+«QR Память» — портал страниц памяти об умерших людях. Родственник создаёт страницу в личном кабинете, заказывает табличку с QR-кодом и ставит её на памятник. Посетитель сканирует код телефоном и видит фото, биографию и сведения о человеке.
+
+## Статус документа
+Предварительное, версия от 20.11.2026, адресовано Кириллу. Просим проверить, совпадает ли документ с вашим представлением о запуске портала, и отметить правки в Google Документе.
+
+## Состав портала для первых продаж
+- страницы памяти, личный кабинет, три тарифа;
+- проверка оператором, онлайн-оплата, заказ табличек;
+- административная панель.
+
+## Этапы и процессы
+Отдельного плана разработки по фазам в документе нет. Описаны процессы:
+- Создание страницы клиентом: мастер из 7 шагов. Черновик сохраняется автоматически.
+- Проверка оператором: исправление ошибок, замечания в кабинете со статусом «нужны уточнения», публикация.
+- QR-код: создаётся при создании страницы и ведёт на короткую ссылку.
+- Заказ таблички: выбор и макет, способ получения, оплата, статусы «принят → в производстве → готов → установлен».
+
+## Основные разделы ТЗ
+- 1. Назначение портала: сценарий родственник → табличка → посетитель.
+- 2. Роли: посетитель, клиент, оператор и администратор с разными правами.
+- 3. Тарифы: бесплатный, базовый и VIP. Сравнение по фото, биографии, видео и аудио, проверке и табличкам. Переход на более высокий тариф с доплатой разницы.
+- 4. Страница памяти: мобильный дизайн, блоки сверху вниз, закрытие от поисковиков, скрытие владельцем, кнопки «Поделиться» для ВК, Telegram, OK, MAX и WhatsApp.
+- 5. Личный кабинет: интерфейс для пожилых людей, крупный шрифт, вход по SMS или email, две отдельные галочки согласий, загрузка материалов, статусы страниц.
+- 6. Проверка и публикация: порядок проверки, список запрещённых материалов, подтверждение родства, сроки проверки по тарифам, журнал изменений.
+- 7. QR-коды и таблички: коррекция ошибок уровня H, короткая ссылка под кодом, заглушка до публикации, выгрузка в PNG и SVG, порядок заказа.
+- 8. Оплата и уведомления: ЮKassa (СБП, карты, SberPay, T-Pay), автоматические чеки, возвраты из админки, уведомления по email, SMS только для входа.
+- 9. Сайт: главная страница, документы (оферта, политика, согласия), Яндекс Метрика с целями.
+- 10. Административная панель: очередь проверки, страницы, заказы табличек, клиенты и оплаты, тарифы и цены, тексты, сотрудники и роли.
+- 11. Что нужно от заказчика: цены, название и домен, реквизиты ИП или ООО, логотип, тексты документов, договорённости по табличкам, аккаунт ЮKassa, контактное лицо.
+- 12. Контакты: Сергей, Telegram для замечаний к ТЗ.
+
+## Данные
+- Клиент и посетитель: ФИО, пол, даты и места рождения и смерти, родство, место захоронения, фото, биография, медиа.
+- Заказы и платежи: табличка, статус заказа, счета, чеки, возвраты.
+- Согласия: факт согласия на обработку данных и оферту, дата, время и версия текста.
+- Документы о родстве или захоронении: видит только оператор.
+- Журнал: кто и когда изменил страницу или статус.
+
+## Цены
+Конкретных цен в документе нет. Бесплатный тариф стоит 0 ₽. Базовый и VIP — разово, цена согласуется. Цены табличек задаёт администратор в панели.
+`;
+
+  var MD_ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return MD_ESC[c]; }); }
+
+  function renderTZ(src) {
+    var out = [];
+    var table = null;
+    var list = false;
+    var headerDone = false;
+
+    function closeList() { if (list) { out.push("</ul>"); list = false; } }
+    function closeTable() {
+      if (table) { out.push("</tbody></table></div>"); table = null; headerDone = false; }
+    }
+
+    src.split("\n").forEach(function (raw) {
+      var line = raw.trim();
+
+      if (line.indexOf("|") === 0) {
+        closeList();
+        var cells = line.replace(/^\|/, "").replace(/\|$/, "").split("|").map(function (c) { return c.trim(); });
+        if (!table) {
+          out.push('<div class="table-wrap"><table><thead><tr>' +
+            cells.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") +
+            "</tr></thead><tbody>");
+          table = true;
+          headerDone = true;
+          return;
+        }
+        out.push("<tr>" + cells.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>");
+        return;
+      }
+
+      closeTable();
+
+      if (!line) { closeList(); return; }
+
+      if (line.indexOf("- ") === 0) {
+        if (!list) { out.push("<ul>"); list = true; }
+        out.push("<li>" + esc(line.slice(2)) + "</li>");
+        return;
+      }
+
+      closeList();
+
+      if (line.indexOf("## ") === 0) { out.push("<h3>" + esc(line.slice(3)) + "</h3>"); return; }
+      if (line.indexOf("### ") === 0) { out.push("<h4>" + esc(line.slice(4)) + "</h4>"); return; }
+      out.push("<p>" + esc(line) + "</p>");
+    });
+
+    closeList();
+    closeTable();
+    return out.join("\n");
+  }
+
+  var tzTarget = document.getElementById("tz-doc");
+  if (tzTarget) { tzTarget.innerHTML = renderTZ(TZ_SOURCE); }
+
+  /* ============================================================
+     МОДАЛЬНЫЕ ОКНА
+     ============================================================ */
+  var lastFocus = null;
+
+  function openModal(id) {
+    var modal = document.getElementById("modal-" + id);
+    if (!modal) return;
+    lastFocus = document.activeElement;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    var closeBtn = modal.querySelector("[data-close]");
+    if (closeBtn) closeBtn.focus();
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(modal) {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll("[data-modal]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      openModal(el.getAttribute("data-modal"));
+    });
+  });
+
+  document.querySelectorAll(".modal").forEach(function (modal) {
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal(modal);
+    });
+    modal.querySelectorAll("[data-close]").forEach(function (btn) {
+      btn.addEventListener("click", function () { closeModal(modal); });
+    });
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      var open = document.querySelector(".modal.open");
+      if (open) closeModal(open);
+    }
+  });
+
+  /* ============================================================
+     COOKIE-ПЛАШКА
+     ============================================================ */
+  var banner = document.getElementById("cookie-banner");
+  var COOKIE_KEY = "qr_cookie_consent";
+
+  function readConsent() {
+    try { return window.localStorage.getItem(COOKIE_KEY); } catch (err) { return null; }
+  }
+  function saveConsent(value) {
+    try { window.localStorage.setItem(COOKIE_KEY, value); } catch (err) { /* хранилище недоступно */ }
+  }
+
+  if (banner && !readConsent()) { banner.hidden = false; }
+
+  var acceptBtn = document.getElementById("cookie-accept");
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", function () {
+      saveConsent("accepted:" + new Date().toISOString());
+      banner.hidden = true;
+    });
+  }
+})();
+</script>
+</body>
+</html>
