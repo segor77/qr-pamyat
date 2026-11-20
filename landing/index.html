@@ -281,9 +281,25 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .contact .btn2.solid:hover { background: var(--gold); color: #fff; }
 
   /* Оглавление ТЗ */
+  /* Верхняя полоса страницы */
+  html { scroll-padding-top: 88px; }
+  .topbar { position: sticky; top: 0; z-index: 60; background: rgba(247,244,238,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-in { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 28px; }
+  .topbar .brand { font-family: var(--display); font-weight: 700; color: var(--ink); text-decoration: none; font-size: 19px; white-space: nowrap; }
+  .topbar nav { display: flex; gap: 22px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav a { color: #4A555C; text-decoration: none; font-size: 15px; white-space: nowrap; padding: 4px 0; border-bottom: 2px solid transparent; }
+  .topbar nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+  a.topbar-cta { min-height: 42px; padding: 8px 18px; font-size: 15px; white-space: nowrap; }
+  @media (max-width: 700px) {
+    .topbar-in { flex-wrap: wrap; gap: 10px 16px; padding: 10px 18px; }
+    .topbar nav { order: 3; flex-basis: 100%; }
+    .topbar .brand { font-size: 17px; }
+  }
+
   /* Раздел ТЗ: боковое оглавление + текст */
   .tz-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; align-items: start; }
-  .tz-side { min-width: 0; position: sticky; top: 24px; align-self: start; }
+  .tz-side { min-width: 0; position: sticky; top: 92px; align-self: start; }
   .tz-nav-desk { font-size: 14.5px; }
   .tz-nav-desk .ttl { font-weight: 600; color: var(--gold); letter-spacing: .14em; text-transform: uppercase; font-size: 12px; margin-bottom: 12px; }
   .tz-nav-desk ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
@@ -384,6 +400,21 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 <body>
 
 <a class="skip-link" href="#main" style="position:absolute;left:-9999px;top:8px;background:#fff;padding:10px 14px;border-radius:8px;z-index:100;">Перейти к содержанию</a>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#top">QR <span style="color:var(--gold)">Память</span></a>
+    <nav aria-label="Разделы страницы">
+      <a href="#options">Варианты</a>
+      <a href="#path">Путь до запуска</a>
+      <a href="#tariffs">Тарифы</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#letter-wrap">Письмо</a>
+      <a href="#tz">Техническое задание</a>
+    </nav>
+    <a class="btn2 solid topbar-cta" href="#contacts">Обсудить запуск</a>
+  </div>
+</header>
 
 <header class="hero" id="top">
   <div class="hero-in">
@@ -740,7 +771,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             </ol>
           </details>
           <nav class="tz-nav-desk" aria-label="Разделы технического задания">
-            <div class="ttl">Разделы</div>
+            <div class="ttl">Разделы документа</div>
             <ol>
             <li><a href="#s1">1. Назначение портала</a></li>
             <li><a href="#s2">2. Роли пользователей</a></li>
