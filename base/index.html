@@ -363,6 +363,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     <button type="button" data-a="prev" aria-label="Предыдущий трек" title="Предыдущий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
     <button type="button" data-a="play" aria-label="Пауза" title="Пауза" style="border:0;background:none;color:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
     <button type="button" data-a="next" aria-label="Следующий трек" title="Следующий трек" style="border:0;background:none;color:inherit;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+    <button type="button" data-a="menu" aria-label="Ещё" title="Ещё" aria-haspopup="true" aria-expanded="false" style="border:0;background:none;color:inherit;cursor:pointer;width:26px;height:32px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
     </span>
     <span data-a="bar" role="slider" aria-label="Перемотка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="display:block;position:relative;height:14px;margin:2px 10px 0;cursor:pointer">
       <span style="position:absolute;left:0;right:0;top:5px;height:4px;background:#D9E1E6;border-radius:2px"><span data-a="fill" style="display:block;height:100%;width:0;background:#B08D57;border-radius:2px"></span></span>
@@ -370,6 +371,9 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     <span style="display:flex;justify-content:space-between;margin:0 10px 6px;font-size:11px;color:#7A8A93;font-variant-numeric:tabular-nums"><span data-a="cur">0:00</span><span data-a="dur">0:00</span></span>
   </span>
   <button type="button" data-a="spk" aria-label="Показать плеер" title="Музыка" style="border:0;background:none;color:inherit;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0;flex:none"></button>
+<span data-a="menu-pop" role="menu" style="display:none;position:absolute;right:4px;bottom:calc(100% + 8px);min-width:200px;padding:6px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(47,72,88,.18);font:500 13px var(--body);color:#2F4858">
+    <button type="button" data-a="keep" role="menuitemcheckbox" aria-checked="false" style="border:0;background:none;color:inherit;cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border-radius:6px;font:inherit;text-align:left"><span data-a="tick" style="width:14px;color:#B08D57"></span>Не останавливать</button>
+  </span>
 </div>
 <audio id="mp-a" preload="none"></audio>
 <script>
@@ -380,6 +384,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   var ctl = box.querySelector('[data-a=ctl]'), bPlay = box.querySelector('[data-a=play]'), bSpk = box.querySelector('[data-a=spk]'), title = box.querySelector('[data-a=title]');
   var list = FALLBACK.slice(), i = 0, off = false, open = false;
   try { off = localStorage.getItem('qr-music') === 'off'; } catch (e) {}
+  var keep = false; try { keep = localStorage.getItem('qr-music-keep') === 'on'; } catch (e) {}
   var VOL = 0.3, fadeT = null; a.volume = VOL;
   // плавное изменение громкости; вкладки, где играет звук, браузер не притормаживает
   function fade(to, ms, done){
@@ -452,12 +457,21 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
     if (act === 'play'){ if (a.paused){ off = false; fadeIn(); } else { off = true; fadeOut(); } remember(); }
     if (act === 'next'){ go(1); remember(); }
     if (act === 'prev'){ go(-1); remember(); }
+    if (act === 'menu'){ menuOpen(pop.style.display !== 'block'); }
+    if (act === 'keep'){ keep = !keep; try { localStorage.setItem('qr-music-keep', keep ? 'on' : 'off'); } catch (e) {} paintKeep(); }
   });
   // после 10 секунд без действий в плеере он сворачивается до кнопки с динамиком; музыка при этом не выключается
   var idleT = null;
-  function collapse(){ clearTimeout(idleT); if (!open) return; open = false; ui(); }
+  function collapse(){ clearTimeout(idleT); if (!open) return; open = false; menuOpen(false); ui(); }
   function kick(){ clearTimeout(idleT); if (open) idleT = setTimeout(collapse, 10000); }
   ['pointerdown', 'keydown', 'focusin'].forEach(function(t){ box.addEventListener(t, kick); });
+  // меню «⋯»: пункт «Не останавливать» — музыка не ставится на паузу при переходе на другую вкладку или сворачивании браузера
+  var pop = box.querySelector('[data-a=menu-pop]'), mBtn = box.querySelector('[data-a=menu]'), keepBtn = box.querySelector('[data-a=keep]'), tick = box.querySelector('[data-a=tick]');
+  function paintKeep(){ keepBtn.setAttribute('aria-checked', keep ? 'true' : 'false'); tick.textContent = keep ? '✓' : ''; }
+  function menuOpen(v){ pop.style.display = v ? 'block' : 'none'; mBtn.setAttribute('aria-expanded', v ? 'true' : 'false'); }
+  paintKeep();
+  document.addEventListener('click', function(e){ if (pop.style.display === 'block' && !box.contains(e.target)) menuOpen(false); });
+
   box.addEventListener('mouseenter', function(){ if (!open) box.style.opacity = '.7'; });
   box.addEventListener('mouseleave', function(){ if (!open) box.style.opacity = '.28'; });
   fetch(SHARE + '/public/api/resources?path=%2F&hash=' + HASH).then(function(r){ return r.json(); })
@@ -467,7 +481,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   function first(e){ if (e && e.target && e.target.closest && e.target.closest('#mp')) return; if (!off && a.paused) fadeIn(); ['pointerdown','keydown','touchstart'].forEach(function(t){ document.removeEventListener(t, first, true); }); }
   ['pointerdown','keydown','touchstart'].forEach(function(t){ document.addEventListener(t, first, true); });
   document.addEventListener('visibilitychange', function(){
-    if (document.visibilityState === 'hidden' && !a.paused){ a._auto = true; fadeOut(); }
+    if (document.visibilityState === 'hidden' && !a.paused && !keep){ a._auto = true; fadeOut(); }
     else if (document.visibilityState === 'visible'){ a._auto = false; if (!off && a.paused) fadeIn(); }
   });
   // повторная попытка включить музыку, когда окно получает фокус (браузер может разрешить звук позже, чем откроется страница)
