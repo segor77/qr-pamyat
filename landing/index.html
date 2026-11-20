@@ -712,8 +712,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             t.setAttribute("aria-current", "true");
             document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
           }
-          function openGal(k) { gFrom = document.activeElement; showPhoto(k); gal.hidden = false; document.getElementById("gal-close").focus(); }
-          function closeGal() { gal.hidden = true; if (gFrom && gFrom.focus) gFrom.focus(); }
+          function openGal(k) { gFrom = document.activeElement; showPhoto(k); gal.hidden = false; document.getElementById("gal-close").focus({ preventScroll: true }); }
+          function closeGal() { gal.hidden = true; if (gFrom && gFrom.focus) gFrom.focus({ preventScroll: true }); }
           thumbs.forEach(function (t, k) { t.addEventListener("click", function () { openGal(k); }); });
           document.getElementById("gal-prev").addEventListener("click", function () { showPhoto(gIdx - 1); });
           document.getElementById("gal-next").addEventListener("click", function () { showPhoto(gIdx + 1); });
