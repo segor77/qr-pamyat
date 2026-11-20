@@ -636,7 +636,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <div class="pg-audio" id="pg-audio">
               <button type="button" id="pg-play" aria-pressed="false" aria-label="Слушать запись">▶</button>
               <div>
-                <b>Поздравление внукам</b>
+                <b>Анна Герман — «Когда цвели сады»</b>
                 <div class="pg-bar"><span></span></div>
               </div>
             </div>
@@ -677,17 +677,51 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
               document.getElementById("pg-cap").textContent = t.getAttribute("data-cap");
             });
           });
+          var SHARE_URL = "https://files.adminpro.win", SONG_HASH = "lIhIJRaBqwjAY0Hlml_1LQ";
           var play = document.getElementById("pg-play");
           var audio = document.getElementById("pg-audio");
-          play.addEventListener("click", function () {
-            var on = audio.classList.toggle("playing");
+          var bar = audio.querySelector(".pg-bar span");
+          var track = new Audio();
+          track.preload = "none";
+          var song = null, loading = false;
+          function setPlaying(on) {
             play.textContent = on ? "❚❚" : "▶";
             play.setAttribute("aria-pressed", String(on));
+          }
+          function loadSong(cb) {
+            if (song) { cb(); return; }
+            if (loading) return;
+            loading = true;
+            fetch(SHARE_URL + "/public/api/resources?path=%2F&hash=" + SONG_HASH)
+              .then(function (r) { return r.json(); })
+              .then(function (data) {
+                var items = Array.isArray(data) ? data : (data.items || []);
+                var f = null;
+                items.forEach(function (x) { if (!f && x && x.name && x.name.indexOf("Когда цвели сады") !== -1) f = x; });
+                loading = false;
+                if (!f) { setPlaying(false); return; }
+                song = SHARE_URL + "/public/api/media/stream?file=" + encodeURIComponent("/" + f.name) + "&hash=" + SONG_HASH + "&viewToken=" + encodeURIComponent(f.viewToken);
+                track.src = song;
+                cb();
+              })
+              .catch(function () { loading = false; setPlaying(false); });
+          }
+          play.addEventListener("click", function () {
+            if (!track.paused) { track.pause(); setPlaying(false); return; }
+            var g = document.getElementById("mp-a");
+            if (g && !g.paused) g.pause();
+            loadSong(function () {
+              track.play().then(function () { setPlaying(true); }).catch(function () { setPlaying(false); });
+            });
           });
-          audio.addEventListener("animationend", function () {
-            audio.classList.remove("playing");
-            play.textContent = "▶";
-            play.setAttribute("aria-pressed", "false");
+          track.addEventListener("timeupdate", function () {
+            if (track.duration) bar.style.width = (track.currentTime / track.duration * 100) + "%";
+          });
+          track.addEventListener("ended", function () { setPlaying(false); bar.style.width = "0"; });
+          track.addEventListener("pause", function () { setPlaying(false); });
+          window.addEventListener("load", function () {
+            var g = document.getElementById("mp-a");
+            if (g) g.addEventListener("play", function () { track.pause(); });
           });
         })();
         </script>
