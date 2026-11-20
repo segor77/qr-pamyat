@@ -281,11 +281,17 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .contact .btn2.solid:hover { background: var(--gold); color: #fff; }
 
   /* Оглавление ТЗ */
-  .toc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 8px; }
-  .toc-chips a {
-    font-size: 14px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
-    text-decoration: none; background: #fff; color: var(--ink);
+  .toc-chips {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    margin: 8px 0 28px; overflow: hidden;
   }
+  .toc-chips a {
+    display: block; padding: 12px 18px; font-size: 15px; text-decoration: none; color: var(--ink);
+    border-bottom: 1px solid var(--line); border-right: 1px solid var(--line);
+  }
+  .toc-chips a:hover { background: #FBF6EC; color: var(--gold); }
+  @media (max-width: 560px) { .toc-chips { grid-template-columns: 1fr; } }
 
   footer .wrap-foot { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
   .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
