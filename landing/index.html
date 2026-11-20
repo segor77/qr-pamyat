@@ -265,6 +265,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-bar span { display: block; height: 100%; width: 0; background: #c9a46a; }
   .pg-audio.playing .pg-bar span { animation: pgprog 12s linear forwards; }
   @keyframes pgprog { from { width: 0; } to { width: 100%; } }
+  .pg-status { font-size: 11px; color: #7b8a94; margin: 0 0 8px; min-height: 14px; }
   .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
   .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
   .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
@@ -636,10 +637,11 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <div class="pg-audio" id="pg-audio">
               <button type="button" id="pg-play" aria-pressed="false" aria-label="Слушать запись">▶</button>
               <div>
-                <b>Анна Герман — «Когда цвели сады»</b>
+                <b>Послушать</b>
                 <div class="pg-bar"><span></span></div>
               </div>
             </div>
+            <p class="pg-status" id="pg-status" aria-live="polite"></p>
           </section>
           <p class="pg-small">Видео и голосовые записи доступны на платных тарифах.</p>
         </div>
@@ -684,6 +686,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
           var track = new Audio();
           track.preload = "none";
           var song = null, loading = false;
+          var status = document.getElementById("pg-status");
+          function say(t) { status.textContent = t; }
           function setPlaying(on) {
             play.textContent = on ? "❚❚" : "▶";
             play.setAttribute("aria-pressed", String(on));
@@ -692,6 +696,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             if (song) { cb(); return; }
             if (loading) return;
             loading = true;
+            say("Загружаем запись…");
             fetch(SHARE_URL + "/public/api/resources?path=%2F&hash=" + SONG_HASH)
               .then(function (r) { return r.json(); })
               .then(function (data) {
@@ -699,25 +704,26 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
                 var f = null;
                 items.forEach(function (x) { if (!f && x && x.name && x.name.indexOf("Когда цвели сады") !== -1) f = x; });
                 loading = false;
-                if (!f) { setPlaying(false); return; }
+                if (!f) { setPlaying(false); say("Запись не найдена в общей папке (" + items.length + " файлов в списке)"); return; }
                 song = SHARE_URL + "/public/api/media/stream?file=" + encodeURIComponent("/" + f.name) + "&hash=" + SONG_HASH + "&viewToken=" + encodeURIComponent(f.viewToken);
                 track.src = song;
                 cb();
               })
-              .catch(function () { loading = false; setPlaying(false); });
+              .catch(function (e) { loading = false; setPlaying(false); say("Не удалось подключиться к серверу: " + (e && e.message ? e.message : "ошибка")); });
           }
           play.addEventListener("click", function () {
             if (!track.paused) { track.pause(); setPlaying(false); return; }
             var g = document.getElementById("mp-a");
             if (g && !g.paused) g.pause();
             loadSong(function () {
-              track.play().then(function () { setPlaying(true); }).catch(function () { setPlaying(false); });
+              track.play().then(function () { setPlaying(true); say(""); }).catch(function (e) { setPlaying(false); say("Не удалось воспроизвести: " + (e && e.name ? e.name : "ошибка")); });
             });
           });
           track.addEventListener("timeupdate", function () {
             if (track.duration) bar.style.width = (track.currentTime / track.duration * 100) + "%";
           });
-          track.addEventListener("ended", function () { setPlaying(false); bar.style.width = "0"; });
+          track.addEventListener("ended", function () { setPlaying(false); bar.style.width = "0"; say(""); });
+          track.addEventListener("error", function () { setPlaying(false); say("Файл не открывается: проверьте ссылку на сервере"); });
           track.addEventListener("pause", function () { setPlaying(false); });
           window.addEventListener("load", function () {
             var g = document.getElementById("mp-a");
