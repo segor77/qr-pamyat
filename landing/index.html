@@ -199,11 +199,11 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .phone-wrap { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: center; }
   .phone-note { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
   .phone {
-    width: 300px; height: 620px; margin: 0 auto; border-radius: 42px; border: 10px solid #1f2a27;
+    width: 300px; height: 620px; margin: 0 auto; border-radius: 42px; border: 10px solid #2c4a5a;
     background: #fff; overflow: hidden; display: flex; flex-direction: column;
     box-shadow: 0 24px 60px rgba(47,72,88,.22);
   }
-  .phone-notch { width: 110px; height: 22px; background: #1f2a27; border-radius: 0 0 14px 14px; margin: 0 auto; flex: none; }
+  .phone-notch { width: 110px; height: 14px; background: #e2e8eb; border-radius: 8px; margin: 10px auto 6px; flex: none; }
   .phone-tabs { display: flex; gap: 4px; padding: 8px; background: var(--paper); border-bottom: 1px solid var(--line); flex: none; }
   .phone-tabs button {
     flex: 1; font: 600 12px var(--body); padding: 8px 4px; border: 0; border-radius: 8px;
@@ -212,22 +212,33 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .phone-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
   .screen { display: none; padding: 16px; overflow-y: auto; flex: 1; font-size: 15px; }
   .screen.on { display: block; }
-  .ph-photo { width: 92px; height: 92px; border-radius: 50%; margin: 6px auto 10px; background: linear-gradient(135deg, #C9D6CF, #8FA7A0); }
-  .ph-name { text-align: center; font-family: var(--display); font-weight: 700; color: var(--ink); font-size: 19px; margin: 0; }
-  .ph-years { text-align: center; color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
-  .ph-epi { text-align: center; font-style: italic; color: #4A555C; font-size: 14px; margin: 0 0 12px; }
-  .ph-share {
-    display: block; margin: 0 auto 14px; font: 600 13px var(--body); padding: 8px 14px; border-radius: 999px;
-    border: 1px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer;
+  .ph-card { background: #f3f0e9; border-radius: 14px; padding: 14px 12px 12px; margin-bottom: 12px; }
+  .ph-head { display: flex; align-items: center; gap: 14px; }
+  .ph-photo {
+    width: 84px; height: 84px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
+    background: #e2e8eb; border: 3px solid #b38f57; color: #7b8a94; font: 13px var(--body);
   }
-  .ph-acc > div { border-bottom: 1px solid var(--line); }
+  .ph-who { min-width: 0; }
+  .ph-name { font-family: var(--display); font-weight: 700; color: #2c4a5a; font-size: 18px; margin: 0; line-height: 1.2; }
+  .ph-years { color: #3d4a52; font-size: 14px; margin: 4px 0 0; }
+  .ph-epi { font-style: italic; color: #7b8a94; font-size: 13px; margin: 4px 0 0; }
+  .ph-actions { display: flex; gap: 6px; margin-top: 12px; }
+  .ph-actions button {
+    flex: 1; font: 600 12px var(--body); padding: 7px 4px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid #b38f57; background: #fff; color: #b38f57;
+  }
+  .ph-actions button.solid { background: #b38f57; color: #fff; }
+  .ph-acc { display: flex; flex-direction: column; gap: 6px; }
+  .ph-acc > div { border: 1px solid #e2e8eb; border-radius: 10px; background: #fff; overflow: hidden; }
+  .ph-acc > div:nth-child(odd) { background: #f3f0e9; }
   .ph-acc button {
     display: flex; width: 100%; justify-content: space-between; align-items: center; text-align: left;
-    padding: 11px 4px; border: 0; background: none; font: 600 14px var(--body); color: var(--ink); cursor: pointer;
+    padding: 11px 12px; border: 0; background: none; font: 500 14px var(--body); color: #2c4a5a; cursor: pointer;
   }
-  .ph-acc button::after { content: "+"; color: var(--gold); font-size: 18px; }
+  .ph-acc button::after { content: "+"; color: #b38f57; font-size: 18px; }
   .ph-acc button[aria-expanded="true"]::after { content: "–"; }
-  .ph-body { display: none; padding: 0 4px 12px; font-size: 14px; color: #4A555C; }
+  .ph-foot { text-align: center; color: #7b8a94; font-size: 13px; margin: 14px 0 4px; }
+  .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
   .ph-body.on { display: block; }
   .ph-steps { list-style: none; padding: 0; margin: 0; }
   .ph-steps li { margin-bottom: 6px; }
@@ -545,11 +556,21 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
 
         <!-- Экран: страница памяти -->
         <div class="screen on" id="scr-page" role="tabpanel">
-          <div class="ph-photo" aria-hidden="true"></div>
-          <p class="ph-name">Имя Фамилия</p>
-          <p class="ph-years">годы жизни</p>
-          <p class="ph-epi">«Текст эпитафии»</p>
-          <button type="button" class="ph-share">Поделиться</button>
+          <div class="ph-card">
+            <div class="ph-head">
+              <div class="ph-photo" aria-hidden="true">фото</div>
+              <div class="ph-who">
+                <p class="ph-name">Имя Фамилия</p>
+                <p class="ph-years">годы жизни</p>
+                <p class="ph-epi">«Текст эпитафии»</p>
+              </div>
+            </div>
+            <div class="ph-actions">
+              <button type="button" class="solid">Свеча</button>
+              <button type="button" class="ph-share">Поделиться</button>
+              <button type="button">Музыка</button>
+            </div>
+          </div>
           <div class="ph-acc">
             <div>
               <button type="button" data-block aria-expanded="false">Основные сведения</button>
@@ -568,6 +589,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
               <div class="ph-body">Фотографии с подписями и просмотром на весь экран. Количество зависит от тарифа.</div>
             </div>
           </div>
+          <p class="ph-foot">Создать страницу для близкого</p>
         </div>
 
         <!-- Экран: кабинет -->
