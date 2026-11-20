@@ -267,6 +267,18 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .pg-audio.playing .pg-bar span { animation: pgprog 12s linear forwards; }
   @keyframes pgprog { from { width: 0; } to { width: 100%; } }
   .phone { position: relative; }
+  .shr { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; justify-content: flex-end; }
+  .shr[hidden] { display: none; }
+  .shr-back { position: absolute; inset: 0; background: rgba(20,35,45,.55); }
+  .shr-sheet { position: relative; background: #fff; border-radius: 18px 18px 0 0; padding: 16px 14px 18px; }
+  .shr-sheet h4 { margin: 0; font: 700 16px var(--body); color: #1d3442; }
+  .shr-sub { margin: 2px 0 12px; font-size: 12px; color: #7b8a94; }
+  .shr-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: #eef1f3; color: #1d3442; font-size: 20px; line-height: 1; cursor: pointer; }
+  .shr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 6px; }
+  .shr-it { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 2px; border: 0; background: none; font: 500 12px var(--body); color: #1d3442; text-align: center; text-decoration: none; cursor: pointer; border-radius: 10px; }
+  .shr-it:hover { background: #f4efe6; }
+  .shr-ic { width: 44px; height: 44px; border-radius: 50%; background: #2c4a5a; color: #fff; display: flex; align-items: center; justify-content: center; font: 700 14px var(--body); }
+  #shr-copy .shr-ic { background: #c9a46a; }
   .gal { position: absolute; inset: 0; z-index: 20; background: #14232d; display: flex; flex-direction: column; padding-top: 30px; }
   .gal[hidden] { display: none; }
   .gal-close { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; z-index: 2; }
@@ -618,6 +630,22 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             <p class="gal-coords" id="gal-coords" hidden><span id="gal-coords-t"></span> <button type="button" id="gal-copy">Скопировать</button></p>
           </div>
         </div>
+        <div class="shr" id="shr" hidden role="dialog" aria-modal="true" aria-label="Поделиться страницей">
+          <div class="shr-back" id="shr-back"></div>
+          <div class="shr-sheet">
+            <button type="button" class="shr-close" id="shr-close" aria-label="Закрыть">×</button>
+            <h4>Поделиться страницей</h4>
+            <p class="shr-sub">Анна Миронова, 1938 — 2021 (демо)</p>
+            <div class="shr-grid">
+              <a class="shr-it" id="shr-vk" target="_blank" rel="noopener noreferrer"><span class="shr-ic">ВК</span>ВКонтакте</a>
+              <a class="shr-it" id="shr-tg" target="_blank" rel="noopener noreferrer"><span class="shr-ic">Tg</span>Telegram</a>
+              <a class="shr-it" id="shr-max" target="_blank" rel="noopener noreferrer"><span class="shr-ic">M</span>MAX</a>
+              <a class="shr-it" id="shr-ok" target="_blank" rel="noopener noreferrer"><span class="shr-ic">ОК</span>Одноклассники</a>
+              <a class="shr-it" id="shr-mail"><span class="shr-ic">@</span>Почта</a>
+              <button type="button" class="shr-it" id="shr-copy"><span class="shr-ic">⧉</span><span id="shr-copy-t">Скопировать ссылку</span></button>
+            </div>
+          </div>
+        </div>
         <div class="phone-tabs" role="tablist" aria-label="Экраны макета">
           <button type="button" role="tab" data-tab="scr-page" aria-selected="true" aria-controls="scr-page">Страница</button>
           <button type="button" role="tab" data-tab="scr-cab" aria-selected="false" aria-controls="scr-cab">Кабинет</button>
@@ -684,9 +712,27 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
             candle.setAttribute("aria-pressed", String(lit));
             candle.classList.toggle("solid", lit);
           });
-          document.getElementById("pg-share").addEventListener("click", function () {
-            document.getElementById("pg-toast").textContent = "Ссылка скопирована (это демо)";
+          var shr = document.getElementById("shr"), shrFrom = null;
+          var PAGE_URL = location.href.split("#")[0] + "#phone";
+          var PAGE_TEXT = "Страница памяти: Анна Миронова, 1938 — 2021 (демо)";
+          var u = encodeURIComponent(PAGE_URL), t = encodeURIComponent(PAGE_TEXT);
+          document.getElementById("shr-vk").href = "https://vk.com/share.php?url=" + u + "&title=" + t;
+          document.getElementById("shr-tg").href = "https://t.me/share/url?url=" + u + "&text=" + t;
+          document.getElementById("shr-max").href = "https://max.ru/:share?text=" + encodeURIComponent(PAGE_TEXT + " " + PAGE_URL);
+          document.getElementById("shr-ok").href = "https://connect.ok.ru/offer?url=" + u + "&title=" + t;
+          document.getElementById("shr-mail").href = "mailto:?subject=" + t + "&body=" + u;
+          function openShr() { shrFrom = document.activeElement; document.getElementById("shr-copy-t").textContent = "Скопировать ссылку"; shr.hidden = false; document.getElementById("shr-close").focus({ preventScroll: true }); }
+          function closeShr() { shr.hidden = true; if (shrFrom && shrFrom.focus) shrFrom.focus({ preventScroll: true }); }
+          document.getElementById("pg-share").addEventListener("click", openShr);
+          document.getElementById("shr-close").addEventListener("click", closeShr);
+          document.getElementById("shr-back").addEventListener("click", closeShr);
+          document.getElementById("shr-copy").addEventListener("click", function () {
+            var tt = document.getElementById("shr-copy-t");
+            try { navigator.clipboard.writeText(PAGE_URL).then(function () { tt.textContent = "Ссылка скопирована"; }, function () { tt.textContent = "Не удалось"; }); }
+            catch (e) { tt.textContent = "Не удалось"; }
           });
+          document.addEventListener("keydown", function (e) { if (!shr.hidden && e.key === "Escape") closeShr(); });
+          document.querySelectorAll("[data-tab]").forEach(function (b) { b.addEventListener("click", function () { shr.hidden = true; }); });
           function toggle(btn, box) {
             btn.addEventListener("click", function () {
               var open = box.classList.toggle("pg-hidden") === false;
