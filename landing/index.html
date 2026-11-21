@@ -499,7 +499,7 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
     border-radius: 3px; margin-right: 12px; vertical-align: -0.08em;
   }
   @media (max-width: 900px) {
-    .tz-layout { grid-template-columns: 1fr; gap: 0; }
+    .tz-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .tz-nav-desk { display: none; }
     .tz-nav-mobile { display: block; margin-bottom: 28px; }
   }
@@ -521,7 +521,8 @@ nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gol
   .cookie-banner p { margin: 0; font-size: 15px; flex: 1 1 340px; }
   .cookie-banner a { color: #bfe3d4; }
   .cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-  .cookie-banner .btn-ghost { color: #fff; border-color: #fff; }
+  .cookie-banner .btn-ghost { color: #fff; border: 1px solid #fff; background: transparent; }
+  .cookie-banner .btn-small { min-height: 44px; padding: 10px 18px; font-size: 15px; }
   .cookie-banner .btn-ghost:hover { background: rgba(255,255,255,0.12); }
   .cookie-banner .btn-primary { background: #bfe3d4; color: #1f2a27; }
   .cookie-banner .btn-primary:hover { background: #a9d8c4; }
