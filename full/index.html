@@ -2,8 +2,10 @@
 <html lang="ru">
 <head>
 <meta name="robots" content="noindex, nofollow">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="QR Память: портал страниц памяти с QR-кодами. Предварительное предложение и техническое задание.">
 <title>QR Память: полное ТЗ (все этапы)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +64,7 @@ main { min-width: 0; }
 .tz-head h2 { margin: 0; font-size: 34px; }
 .tz-head span { color: var(--muted); font-size: 15px; }
 h2 { font-family: var(--display); color: var(--ink); font-size: 27px; line-height: 1.25; margin: 48px 0 14px; text-wrap: balance; }
-main > section h2::before { content: ""; display: inline-block; width: 5px; height: .9em; background: var(--gold); border-radius: 3px; margin-right: 12px; vertical-align: -0.08em; }
+main > section h2.tz-h::before { content: none; }
 
 .fig { margin: 26px 0 30px; text-align: center; }
 .fig img { max-width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
@@ -105,24 +107,491 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
   .prose p, .prose li { text-align: left; }
   h2 { font-size: 23px; }
 }
+
+/* ===== MODERN: премиальное оформление поверх базовой версии ===== */
+html.js .rv { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+html.js .rv.in { opacity: 1; transform: none; }
+html.js .rv.d1 { transition-delay: .08s; } html.js .rv.d2 { transition-delay: .16s; } html.js .rv.d3 { transition-delay: .24s; }
+h2 { padding-bottom: 8px; background-image: linear-gradient(90deg, rgba(176,141,87,.75), rgba(176,141,87,0)); background-size: 0 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 1.2s cubic-bezier(.2,.7,.2,1); }
+h2.in { background-size: 100% 1px; }
+
+.prog { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 30; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #B08D57, #E3C77E); box-shadow: 0 0 12px rgba(227,199,126,.6); }
+
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; transform: translateY(-110%); transition: transform .5s cubic-bezier(.2,.7,.2,1); background: rgba(247,244,238,.82); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.topbar.show { transform: none; }
+.topbar div { max-width: 1180px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.topbar b { font-family: var(--display); color: var(--ink); font-size: 17px; }
+.topbar a.btn { margin: 0; padding: 9px 18px; font-size: 14px; }
+
+.hero { position: relative; overflow: hidden; color: #EDE8DD; border-bottom: none; background: radial-gradient(900px 520px at 88% 8%, rgba(176,141,87,.30), transparent 60%), radial-gradient(760px 500px at -5% 105%, rgba(110,150,170,.28), transparent 60%), linear-gradient(160deg, #1A2B36 0%, #2F4858 58%, #3C5A69 100%); }
+.hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(18px); }
+.hero::before { width: 460px; height: 460px; right: -120px; top: -140px; background: radial-gradient(circle, rgba(227,199,126,.28), transparent 70%); animation: drift 16s ease-in-out infinite; }
+.hero::after { width: 380px; height: 380px; left: -120px; bottom: -160px; background: radial-gradient(circle, rgba(150,190,205,.22), transparent 70%); animation: drift 19s ease-in-out infinite reverse; }
+@keyframes drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 36px); } }
+.hero-in { position: relative; z-index: 1; }
+.hero .eyebrow { color: #E3C77E; display: inline-flex; align-items: center; gap: 12px; }
+.hero .eyebrow::before { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, #E3C77E); transform-origin: left; animation: grow 1.2s .2s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hero h1 { color: transparent; background: linear-gradient(100deg, #FFFFFF 35%, #E9D6B0 50%, #FFFFFF 65%) 0 0 / 240% 100%; -webkit-background-clip: text; background-clip: text; animation: sheen 7s ease-in-out infinite; }
+@keyframes sheen { 0% { background-position: 100% 0; } 100% { background-position: -140% 0; } }
+.hero .sub { color: #D5CCBB; }
+.hero .meta { color: rgba(237,232,221,.7); }
+.hero .meta b { color: #fff; }
+.hero .hint { color: rgba(237,232,221,.62); }
+.hero a.btn { position: relative; overflow: hidden; background: linear-gradient(120deg, #E8CF94, #B08D57); color: #1A2B36; box-shadow: 0 12px 34px rgba(176,141,87,.38); transition: transform .3s, box-shadow .3s, background .3s; }
+.hero a.btn:hover { background: linear-gradient(120deg, #F1DCA8, #C29B62); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(176,141,87,.48); }
+.hero a.btn::after, .topbar a.btn::after { content: ""; position: absolute; top: 0; bottom: 0; width: 45%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); transform: skewX(-20deg); animation: shine 4.5s ease-in-out infinite; }
+@keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+.hero-in > img, .hero img { position: relative; border-radius: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.08); transform-style: preserve-3d; will-change: transform; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+
+.wrap { position: relative; }
+nav.toc a { transition: color .3s, border-color .3s, background .3s, padding-left .3s; }
+nav.toc a.on { color: var(--ink); font-weight: 600; border-left-color: var(--gold); background: rgba(176,141,87,.09); padding-left: 16px; }
+.letter { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.letter:hover { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(47,72,88,.12); }
+.tbl { transition: box-shadow .4s; }
+.tbl:hover { box-shadow: 0 16px 36px rgba(47,72,88,.1); }
+.fig img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.fig:hover img { transform: scale(1.015); }
+.noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .035; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+@media (prefers-reduced-motion: reduce) {
+  html.js .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+  h2 { transition: none !important; background-size: 100% 1px !important; }
+  .hero::before, .hero::after, .hero h1, .hero a.btn::after, .topbar a.btn::after, .hero .eyebrow::before { animation: none !important; }
+}
+
+</style>
+<style>
+  /* ---------- Дополнения лендинга ---------- */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  .block { padding: 64px 0; }
+  .block-alt { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .block h2 { margin-top: 0; }
+  .lead2 { color: #4A555C; max-width: 62ch; margin: 0 0 32px; font-size: 18px; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  a.btn2 {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 50px;
+    padding: 12px 24px; border-radius: 999px; font-weight: 600; text-decoration: none;
+    border: 2px solid var(--ink); color: var(--ink); background: transparent;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  a.btn2.solid { background: var(--ink); color: #fff; }
+  a.btn2:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+  .cards4, .cards3 { display: grid; gap: 18px; }
+  .cards4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cards3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+    box-shadow: 0 6px 20px rgba(47,72,88,.06);
+  }
+  .card h3 { font-family: var(--display); color: var(--ink); font-size: 20px; line-height: 1.3; margin: 0 0 8px; }
+  .card p { margin: 0; color: #4A555C; font-size: 16px; }
+  .card ul { padding-left: 18px; margin: 0; color: #4A555C; font-size: 16px; }
+  .card li { margin-bottom: 6px; }
+  .card .price { font-weight: 600; color: var(--ink); margin: 0 0 12px; }
+  .card .more { display: inline-block; margin-top: 14px; color: var(--ink); font-weight: 600; }
+  .num {
+    display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    background: #EFE7D8; color: #8a6a3b; font-weight: 700; margin-bottom: 12px;
+  }
+
+  /* Телефон */
+  .phone-wrap { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: center; }
+  .phone-note { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+  .phone {
+    width: 300px; height: 620px; margin: 0 auto; border-radius: 42px; border: 10px solid #2c4a5a;
+    background: #fff; overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: 0 24px 60px rgba(47,72,88,.22);
+  }
+  .phone-notch { width: 110px; height: 14px; background: #e2e8eb; border-radius: 8px; margin: 10px auto 6px; flex: none; }
+  .phone-tabs { display: flex; gap: 4px; padding: 8px; background: var(--paper); border-bottom: 1px solid var(--line); flex: none; }
+  .phone-tabs button {
+    flex: 1; font: 600 12px var(--body); padding: 8px 4px; border: 0; border-radius: 8px;
+    background: transparent; color: #4A555C; cursor: pointer;
+  }
+  .phone-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+  .screen { display: none; padding: 16px; overflow-y: auto; flex: 1; font-size: 15px; }
+  .screen.on { display: block; }
+  .ph-card { background: #f4efe6; text-align: center; margin: -16px -16px 8px; padding: 18px 16px 16px; }
+  .ph-photo {
+    width: 84px; height: 84px; margin: 0 auto; border-radius: 50%; border: 3px solid #c9a46a;
+    background: linear-gradient(180deg, #f6ecdc, #e3cfa9);
+  }
+  .ph-name { font-family: var(--display); font-weight: 700; color: #1d3442; font-size: 18px; margin: 10px 0 0; line-height: 1.2; }
+  .ph-years { color: #5c6b75; font-size: 14px; margin: 2px 0 0; }
+  .ph-share {
+    margin-top: 12px; font: 600 13px var(--body); padding: 6px 16px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid #c9a46a; background: transparent; color: #a8844d;
+  }
+  .ph-acc > div { border-bottom: 1px solid #e6eaed; }
+  .ph-acc button {
+    display: flex; width: 100%; justify-content: space-between; align-items: center; text-align: left;
+    padding: 12px 2px; border: 0; background: none; font: 600 14px var(--body); color: #1d3442; cursor: pointer;
+  }
+  .ph-acc button::after { content: none; }
+  .ph-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 0 0 10px; }
+  .ph-thumbs span { display: block; height: 56px; border-radius: 8px; background: linear-gradient(180deg, #e3d2b4, #b99a6e); }
+  .ph-thumbs span:nth-child(2) { background: linear-gradient(180deg, #f1e6d2, #c9ab7e); }
+  #scr-page { padding: 0; overflow-y: auto; }
+  .pg-head { background: #f4efe6; text-align: center; padding: 18px 16px 16px; }
+  .pg-avatar { display: block; width: 84px; height: 84px; margin: 0 auto; border-radius: 50%; object-fit: cover; border: 3px solid #c9a46a; background: #f4efe6; }
+  .pg-sec { padding: 14px 16px 4px; }
+  .pg-sec h3 { font: 600 14px var(--body); color: #1d3442; margin: 0 0 8px; }
+  .pg-line { display: block; height: 7px; border-radius: 4px; background: #d9dee2; margin: 0 0 8px; }
+  .pg-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 6px; }
+  .pg-thumbs > * { display: block; width: 100%; height: 60px; border: 0; padding: 0; border-radius: 10px; cursor: pointer; }
+  .pg-thumbs > [aria-current="true"] { outline: 2px solid #c9a46a; outline-offset: 2px; }
+  .pg-thumbs .t1 { background: url(img/photo-dacha-1975.jpg) center / cover no-repeat; }
+  .pg-thumbs .t2 { background: url(img/photo-graduation-1957.jpg) center / cover no-repeat; }
+  .pg-thumbs .t3 { background: url(img/photo-grandchildren-2010.jpg) center / cover no-repeat; }
+  .pg-place { display: block; width: 100%; border: 0; text-align: left; font: inherit; cursor: pointer; background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; }
+  .pg-place:hover { background: #efe8d8; }
+  .pg-place b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .pg-place span { display: block; font-size: 12px; color: #3d4a52; margin-top: 2px; }
+  .pg-place small { display: block; font-size: 11px; font-weight: 600; color: #a8844d; margin-top: 4px; }
+  .pg-actions { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+  .pg-actions .ph-share { margin-top: 0; }
+  .pg-candle { font: 600 13px var(--body); padding: 6px 12px; border-radius: 999px; cursor: pointer; border: 1.5px solid #c9a46a; background: transparent; color: #a8844d; }
+  .pg-candle.solid { background: #c9a46a; color: #fff; }
+  .pg-toast { font-size: 12px; color: #5c6b75; min-height: 16px; margin: 8px 0 0; }
+  .pg-text { font-size: 13px; line-height: 1.5; color: #3d4a52; margin: 0 0 6px; }
+  .pg-hidden { display: none; }
+  .pg-more { background: none; border: 0; padding: 0; font: 600 12px var(--body); color: #a8844d; cursor: pointer; text-decoration: underline; }
+  .pg-cap { font-size: 12px; color: #5c6b75; margin: 6px 0 0; min-height: 16px; }
+  .pg-audio { display: flex; align-items: center; gap: 10px; background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 6px; }
+  .pg-audio button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: #c9a46a; color: #fff; font-size: 12px; cursor: pointer; flex: none; }
+  .pg-audio b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .pg-bar { height: 4px; background: #d9dee2; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+  .pg-bar span { display: block; height: 100%; width: 0; background: #c9a46a; }
+  .pg-audio.playing .pg-bar span { animation: pgprog 12s linear forwards; }
+  @keyframes pgprog { from { width: 0; } to { width: 100%; } }
+  .phone { position: relative; }
+  .shr { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; justify-content: flex-end; }
+  .shr[hidden] { display: none; }
+  .shr-back { position: absolute; inset: 0; background: rgba(20,35,45,.55); }
+  .shr-sheet { position: relative; background: #fff; border-radius: 18px 18px 0 0; padding: 16px 14px 18px; }
+  .shr-sheet h4 { margin: 0; font: 700 16px var(--body); color: #1d3442; }
+  .shr-sub { margin: 2px 0 12px; font-size: 12px; color: #7b8a94; }
+  .shr-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: #eef1f3; color: #1d3442; font-size: 20px; line-height: 1; cursor: pointer; }
+  .shr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 6px; }
+  .shr-it { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 2px; border: 0; background: none; font: 500 12px var(--body); color: #1d3442; text-align: center; text-decoration: none; cursor: pointer; border-radius: 10px; }
+  .shr-it:hover { background: #f4efe6; }
+  .shr-ic { width: 44px; height: 44px; border-radius: 50%; background: #2c4a5a; color: #fff; display: flex; align-items: center; justify-content: center; font: 700 14px var(--body); }
+  #shr-copy .shr-ic { background: #c9a46a; }
+  .gal { position: absolute; inset: 0; z-index: 20; background: #14232d; display: flex; flex-direction: column; padding-top: 30px; }
+  .gal[hidden] { display: none; }
+  .gal-close { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 24px; line-height: 1; cursor: pointer; z-index: 2; }
+  .gal-stage { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0 4px; min-height: 0; }
+  .gal-img { flex: 1; min-width: 0; width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; background: #0e1a22; }
+  .gal-nav { flex: none; width: 34px; height: 56px; border: 0; border-radius: 10px; background: rgba(255,255,255,.14); color: #fff; font-size: 28px; line-height: 1; cursor: pointer; }
+  .gal-nav:hover, .gal-close:hover { background: rgba(255,255,255,.26); }
+  .gal-info { flex: none; background: #f4efe6; padding: 12px 14px 16px; min-height: 120px; }
+  .gal-info h4 { margin: 0 0 4px; font: 600 14px var(--body); color: #1d3442; }
+  .gal-info p { margin: 0; font-size: 13px; line-height: 1.45; color: #3d4a52; }
+  .gal-coords { margin-top: 8px !important; font-size: 12px !important; color: #1d3442 !important; }
+  .gal-coords button { margin-left: 6px; border: 1px solid #c9a46a; background: #fff; color: #a8844d; border-radius: 999px; padding: 2px 10px; font: 600 11px var(--body); cursor: pointer; }
+  .gal-info .gal-count { font-size: 11px; color: #7b8a94; margin-bottom: 4px; }
+  .pg-epi { font-style: italic; color: #5c6b75; font-size: 13px; margin: 6px 0 0; }
+  .pg-facts { margin: 0; }
+  .pg-facts div { display: flex; gap: 8px; padding: 3px 0; font-size: 13px; }
+  .pg-facts dt { flex: none; width: 78px; color: #7b8a94; }
+  .pg-facts dd { margin: 0; color: #1d3442; }
+  .pg-foot { text-align: center; padding: 6px 16px 18px; border-top: 1px solid #e6eaed; margin-top: 8px; }
+  .pg-foot p { font-size: 12px; color: #5c6b75; margin: 10px 0 8px; }
+  .pg-remove { font: 600 12px var(--body); padding: 6px 14px; border-radius: 999px; border: 1px solid #cfd8de; background: #fff; color: #5c6b75; cursor: pointer; }
+  .pg-remove-msg { color: #a8844d !important; min-height: 14px; }
+  .pg-status { font-size: 11px; color: #7b8a94; margin: 0 0 8px; min-height: 14px; }
+  .pg-small { font-size: 11px; color: #7b8a94; margin: 4px 16px 16px; }
+  .ph-body.ph-note-card { background: #f4efe6; border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; color: #1d3442; }
+  .ph-body { display: none; padding: 0 12px 12px; font-size: 14px; color: #4A555C; }
+  .ph-body.on { display: block; }
+  .cab-status { background: #f4efe6; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
+  .cab-status b { display: block; font: 600 14px var(--body); color: #1d3442; }
+  .cab-status small { display: block; font-size: 12px; color: #7b8a94; margin-top: 6px; }
+  .cab-bar { height: 6px; background: #e2d8c3; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .cab-bar span { display: block; height: 100%; width: 100%; background: #c9a46a; }
+  .cab-sts { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; padding: 0; }
+  .cab-sts li { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #fff; color: #7b8a94; border: 1px solid #e2d8c3; }
+  .cab-sts li[aria-current="step"] { background: #c9a46a; border-color: #c9a46a; color: #fff; font-weight: 600; }
+  .cab-tip { font-size: 12px; color: #5c6b75; background: #f4f7f8; border-radius: 8px; padding: 6px 8px; margin: 0 0 10px; line-height: 1.4; text-align: left; }
+  .cab-msg { font-size: 12px; color: #a8844d; margin: 8px 0 0; }
+  .cab-check { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: #1d3442; margin-top: 10px; text-align: left; line-height: 1.35; }
+  .cab-check input { margin-top: 2px; flex: none; }
+  .cab-ck.plain { background: #e2e8eb; color: #5c6b75; }
+  .cab-btn.danger { border-color: #c0553f; color: #c0553f; }
+  .cab-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .cab-qrrow { display: flex; gap: 12px; align-items: center; text-align: left; }
+  .cab-qr { width: 72px; height: 72px; flex: none; border: 1px solid #e2e8eb; border-radius: 8px; }
+  .cab-qrrow b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-qrrow span { display: block; font-size: 13px; color: #1d3442; margin: 2px 0; }
+  .cab-qrrow small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-line { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; font-size: 13px; color: #1d3442; }
+  .cab-chip { font: 600 11px var(--body); padding: 3px 9px; border-radius: 999px; background: #fbf6ec; color: #a8844d; border: 1px solid #e2d8c3; }
+  .cab-chip.ok { background: #e8f3ea; color: #2f6b3f; border-color: #cfe5d3; }
+  .cab-remark { background: #f4f7f8; border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; text-align: left; }
+  .cab-remark small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-remark p { margin: 2px 0 8px; font-size: 13px; color: #1d3442; line-height: 1.4; }
+  .cab-steps { list-style: none; padding: 0; margin: 0; }
+  .cab-step { border: 1px solid #e2e8eb; border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: #fff; }
+  .cab-head { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 10px 12px; border: 0; background: none; font: 600 14px var(--body); color: #1d3442; cursor: pointer; }
+  .cab-head[aria-expanded="true"] { background: #fbf6ec; }
+  .cab-ck { flex: none; width: 20px; height: 20px; border-radius: 50%; background: #c9a46a; color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .cab-body { padding: 10px 12px 12px; border-top: 1px solid #e2e8eb; }
+  .cab-body[hidden] { display: none; }
+  .cab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cab-f { display: block; text-align: left; }
+  .cab-f.full { grid-column: 1 / -1; }
+  .cab-f > span, .cab-lbl { display: block; font-size: 11px; color: #7b8a94; margin: 0 0 3px; }
+  .cab-lbl { margin: 10px 0 5px; }
+  .cab-f input, .cab-f select, .cab-f textarea { width: 100%; box-sizing: border-box; font: 13px var(--body); color: #1d3442; padding: 6px 8px; border: 1px solid #d7dee2; border-radius: 8px; background: #fff; }
+  .cab-f textarea { resize: vertical; line-height: 1.45; }
+  .cab-hint { font-size: 12px; color: #5c6b75; margin: 8px 0 0; line-height: 1.4; }
+  .cab-ok { font-size: 12px; color: #2f6b3f; background: #e8f3ea; border-radius: 8px; padding: 6px 8px; margin: 8px 0 0; }
+  .cab-photos { display: flex; gap: 6px; align-items: center; }
+  .cab-photos img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; background: #eef1f3; }
+  .cab-add { width: 52px; height: 52px; border: 1.5px dashed #c9a46a; border-radius: 8px; background: none; color: #a8844d; font-size: 22px; cursor: pointer; }
+  .cab-main { display: flex; gap: 12px; align-items: center; text-align: left; }
+  .cab-main img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #c9a46a; flex: none; }
+  .cab-main b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-main span { display: block; font-size: 12px; color: #7b8a94; margin: 2px 0 8px; }
+  .cab-btn { font: 600 12px var(--body); padding: 6px 12px; border-radius: 999px; border: 1.5px solid #c9a46a; background: #fff; color: #a8844d; cursor: pointer; }
+  .cab-btn.solid { background: #c9a46a; color: #fff; margin-top: 10px; }
+  .cab-list { list-style: none; margin: 0; padding: 0; }
+  .cab-list li { display: flex; align-items: center; gap: 8px; padding: 4px 0; text-align: left; }
+  .cab-list img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; flex: none; }
+  .cab-list b { display: block; font: 600 13px var(--body); color: #1d3442; }
+  .cab-list small { display: block; font-size: 11px; color: #7b8a94; }
+  .cab-note { width: 44px; height: 44px; border-radius: 8px; background: #f4efe6; color: #a8844d; display: flex; align-items: center; justify-content: center; font-size: 18px; flex: none; }
+  .cab-tariffs { display: flex; gap: 6px; }
+  .cab-tariffs button { flex: 1; font: 600 12px var(--body); padding: 8px 4px; border-radius: 10px; border: 1.5px solid #d7dee2; background: #fff; color: #1d3442; cursor: pointer; }
+  .cab-tariffs button[aria-pressed="true"] { border-color: #c9a46a; background: #fbf6ec; color: #a8844d; }
+  .cab-tl { list-style: none; margin: 0; padding: 0; text-align: left; }
+  .cab-tl li { position: relative; padding: 4px 0 4px 22px; font-size: 13px; color: #7b8a94; }
+  .cab-tl li::before { content: ""; position: absolute; left: 3px; top: 9px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #c9d2d6; background: #fff; }
+  .cab-tl li.done { color: #1d3442; } .cab-tl li.done::before { background: #c9a46a; border-color: #c9a46a; }
+  .cab-tl li.now { color: #1d3442; font-weight: 600; } .cab-tl li.now::before { border-color: #c9a46a; }
+  .ph-steps { list-style: none; padding: 0; margin: 0; }
+  .ph-steps li { margin-bottom: 6px; }
+  .ph-steps button {
+    width: 100%; text-align: left; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
+    background: #fff; font: 500 14px var(--body); color: var(--ink); cursor: pointer;
+  }
+  .ph-steps button[aria-pressed="true"] { border-color: var(--gold); background: #FBF6EC; }
+  .ph-detail { margin-top: 12px; padding: 12px; background: var(--paper); border-radius: 10px; font-size: 14px; color: #4A555C; min-height: 72px; }
+  .ph-label { display: block; text-align: left; color: var(--muted); font-size: 14px; margin: 0 0 6px; }
+  .ph-input {
+    width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+    font: 15px var(--body); margin-bottom: 10px; color: var(--text);
+  }
+  .ph-plaque {
+    margin: 8px auto; width: 210px; padding: 14px 10px; border-radius: 10px; text-align: center;
+    background: linear-gradient(180deg, #EFEDE8, #DCD8CE); border: 1px solid #cfc8ba;
+  }
+  .ph-plaque svg { width: 64px; height: 64px; display: block; margin: 0 auto 8px; }
+  .ph-plaque .txt { font-family: var(--display); font-size: 14px; color: var(--ink); min-height: 36px; word-break: break-word; }
+  .ph-plaque { position: relative; }
+  .ph-plaque .pl-photo { display: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 0 auto 8px; }
+  .ph-plaque .pl-years { font-size: 12px; margin-top: 2px; letter-spacing: .04em; }
+  .ph-plaque .pl-epi { font-size: 11px; font-style: italic; margin-top: 6px; line-height: 1.35; }
+  .ph-plaque .pl-epi[hidden] { display: none; }
+  .ph-plaque.pl-classic { background: linear-gradient(160deg, #6b5535, #3d2f1d 60%, #54422a); border: 3px double #c9a46a; color: #f1e3c4; border-radius: 6px; width: 220px; }
+  .ph-plaque.pl-classic .txt { color: #f1e3c4; }
+  .ph-plaque.pl-granite { background: radial-gradient(circle at 20% 25%, #5a5e62 0 2px, transparent 3px), radial-gradient(circle at 70% 60%, #7b8085 0 1.5px, transparent 2.5px), radial-gradient(circle at 45% 80%, #4a4e52 0 2px, transparent 3px), linear-gradient(180deg, #3a3d40, #2a2c2e); background-size: 18px 18px, 23px 23px, 29px 29px, 100% 100%; border: 1px solid #1b1c1d; color: #f4f4f2; border-radius: 4px; width: 230px; }
+  .ph-plaque.pl-granite .txt { color: #fff; }
+  .ph-plaque.pl-light { background: linear-gradient(180deg, #ffffff, #efece4); border: 1px solid #d6cfbd; color: #1d3442; border-radius: 50% / 38%; width: 196px; padding: 30px 18px; box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 6px #d6cfbd; }
+  .ph-plaque.pl-light .txt { color: #1d3442; }
+  .ph-plaque.pl-portrait { background: linear-gradient(180deg, #f4efe4, #e1d9c6); border: 2px solid #8a7a58; color: #2c2a24; border-radius: 90px 90px 8px 8px; width: 200px; padding-top: 22px; }
+  .ph-plaque.pl-portrait .txt { color: #2c2a24; }
+  .ph-plaque.pl-portrait .pl-photo { display: block; border: 2px solid #8a7a58; }
+  .ph-plaque.pl-portrait svg { width: 52px; height: 52px; }
+  #scr-plaque { padding: 10px 14px; }
+  #scr-plaque .ph-chips { margin-top: 0; gap: 4px; }
+  #scr-plaque .ph-chips button { font-size: 11px; padding: 5px 8px; }
+  #scr-plaque .ph-plaque { margin: 8px auto 4px; padding: 10px 8px; }
+  #scr-plaque .ph-plaque svg { width: 70px; height: 70px; margin-bottom: 4px; }
+  #scr-plaque .ph-plaque.pl-portrait { padding-top: 14px; }
+  #scr-plaque .ph-plaque.pl-portrait svg { width: 56px; height: 56px; }
+  #scr-plaque .ph-plaque .pl-photo { width: 44px; height: 44px; margin-bottom: 4px; }
+  #scr-plaque .ph-plaque.pl-light { padding: 18px 16px; }
+  #scr-plaque .ph-plaque .txt { min-height: 0; font-size: 13px; }
+  #scr-plaque .ph-input { padding: 7px 9px; font-size: 13px; margin-bottom: 0; min-width: 0; }
+  #scr-plaque .cab-check { margin-top: 8px; }
+  .pl-row { display: flex; gap: 6px; margin-top: 6px; }
+  .pl-note { font-size: 12px; color: var(--muted); margin: 6px 0 0; line-height: 1.35; }
+  .pl-stat { margin-top: 8px !important; }
+  .ph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .ph-chips button {
+    font: 500 12px var(--body); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line);
+    background: #fff; color: var(--ink); cursor: pointer;
+  }
+  .ph-chips button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* FAQ */
+  details.faq { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  details.faq:first-of-type { border-top: 1px solid var(--line); }
+  details.faq summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); font-size: 17px; list-style: none;
+    display: flex; justify-content: space-between; gap: 16px; align-items: center;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after { content: "+"; color: var(--gold); font-size: 24px; line-height: 1; }
+  details.faq[open] summary::after { content: "–"; }
+  details.faq p { margin: 10px 0 0; color: #4A555C; }
+
+  /* Контакты */
+  .contact {
+    background: var(--ink); color: #fff; border-radius: 22px; padding: clamp(28px, 5vw, 44px);
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: center;
+  }
+  .contact h2 { color: #fff; margin-top: 0; }
+  .contact p { margin: 0; color: #DCE4E8; }
+  .contact-buttons { display: grid; gap: 12px; }
+  .contact .btn2 { border-color: #fff; color: #fff; }
+  .contact .btn2:hover { background: #fff; color: var(--ink); border-color: #fff; }
+  .contact .btn2.solid { background: #fff; color: var(--ink); }
+  .contact .btn2.solid:hover { background: var(--gold); color: #fff; }
+
+  /* Кнопки в тёмной шапке: читаемый контраст */
+  .hero .btn-row { flex-wrap: nowrap; }
+  .hero .btn-row a.btn2 { border-color: rgba(237,232,221,.6); color: #EDE8DD; background: transparent; }
+  .hero .btn-row a.btn2.solid { background: linear-gradient(120deg, #E8CF94, #B08D57); border-color: transparent; color: #1A2B36; }
+  .hero .btn-row a.btn2:hover { background: #E3C77E; border-color: #E3C77E; color: #1A2B36; }
+
+  /* Оглавление ТЗ */
+  /* Верхняя полоса страницы */
+  html { scroll-padding-top: 88px; }
+  .topbar { position: sticky; top: 0; z-index: 60; background: rgba(247,244,238,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-in { max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 28px; }
+  .topbar .brand { font-family: var(--display); font-weight: 700; color: var(--ink); text-decoration: none; font-size: 19px; white-space: nowrap; }
+  .topbar nav { display: flex; gap: 22px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav a { color: #4A555C; text-decoration: none; font-size: 15px; white-space: nowrap; padding: 4px 0; border-bottom: 2px solid transparent; }
+  .topbar nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+  a.topbar-cta { min-height: 42px; padding: 8px 18px; font-size: 15px; white-space: nowrap; }
+  @media (max-width: 700px) {
+    .topbar-in { flex-wrap: wrap; gap: 10px 16px; padding: 10px 18px; }
+    .topbar nav { order: 3; flex-basis: 100%; }
+    .topbar .brand { font-size: 17px; }
+  }
+
+  /* Раздел ТЗ: боковое оглавление + текст */
+  .tz-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; align-items: start; }
+  .tz-side { min-width: 0; position: sticky; top: 92px; align-self: start; }
+  .tz-nav-desk { font-size: 14.5px; }
+  .tz-nav-desk .ttl { font-weight: 600; color: var(--gold); letter-spacing: .14em; text-transform: uppercase; font-size: 12px; margin-bottom: 12px; }
+  .tz-nav-desk ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+  .tz-nav-desk a {
+    display: block; padding: 6px 14px; margin-left: -2px; border-left: 2px solid transparent;
+    color: #4A555C; text-decoration: none; line-height: 1.4; border-radius: 0 6px 6px 0;
+  }
+  .tz-nav-desk a:hover { color: var(--ink); border-left-color: var(--gold); background: rgba(176,141,87,.07); }
+  .tz-nav-desk a[aria-current="true"] { color: var(--ink); font-weight: 600; border-left-color: var(--ink); background: rgba(47,72,88,.05); }
+  .tz-main .tz-head { margin-top: 0; }
+  .tz-main h2 { display: flex; align-items: center; gap: 12px; }
+  .tz-ico { width: 52px; height: 52px; flex: none; fill: none; stroke: var(--gold); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 900px) {
+    .tz-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .tz-nav-desk { display: none; }
+  }
+
+  footer .wrap-foot { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
+  .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .footer-links button { background: none; border: 0; padding: 0; font: inherit; color: var(--ink); cursor: pointer; text-decoration: underline; }
+
+  /* Cookie и модальные окна */
+  /* Cookie banner */
+  .cookie-banner {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 80;
+    max-width: 820px; margin: 0 auto;
+    background: var(--ink); color: #fff; border-radius: 16px; padding: 18px 20px;
+    display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner p { margin: 0; font-size: 15px; flex: 1 1 340px; }
+  .cookie-banner a { color: #bfe3d4; }
+  .cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cookie-banner .btn-ghost { color: #fff; border: 1px solid #fff; background: transparent; }
+  .cookie-banner .btn-small { min-height: 44px; padding: 10px 18px; font-size: 15px; }
+  .cookie-banner .btn-ghost:hover { background: rgba(255,255,255,0.12); }
+  .cookie-banner .btn-primary { background: #bfe3d4; color: #1f2a27; }
+  .cookie-banner .btn-primary:hover { background: #a9d8c4; }
+
+  /* Modals */
+  .modal {
+    position: fixed; inset: 0; z-index: 90; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgba(20, 28, 25, 0.55);
+  }
+  .modal.open { display: flex; }
+  .modal-dialog {
+    background: var(--surface); width: min(780px, 100%); max-height: min(86vh, 900px);
+    border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  }
+  .modal-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 20px 24px; border-bottom: 1px solid var(--line);
+  }
+  .modal-head h2 { font-size: 22px; margin: 0; }
+  .modal-close {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; width: 44px; height: 44px;
+    font-size: 22px; cursor: pointer; color: var(--ink); flex: 0 0 44px;
+  }
+  .modal-body {
+    padding: 20px 24px 28px; overflow-y: auto; -webkit-overflow-scrolling: touch; font-size: 16px;
+  }
+  .modal-body h3 { font-size: 18px; margin: 22px 0 8px; }
+  .modal-body p, .modal-body li { color: var(--ink); }
+  .modal-body ul { padding-left: 22px; }
+  .template-note {
+    background: #f5e9dc; color: #6b4524; padding: 12px 14px; border-radius: 10px; font-size: 15px; margin-bottom: 8px;
+  }
+
+
+
+  @media (max-width: 900px) {
+    .phone-wrap { grid-template-columns: 1fr; gap: 36px; }
+    .cards3 { grid-template-columns: 1fr; }
+    .contact { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .cards4, .cards-three { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .block { padding: 44px 0; }
+    .container { padding: 0 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    a.btn2 { transition: none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap" style="grid-template-columns:minmax(0,1fr)"><main>
-<div class="tz-head"><h2>Техническое задание</h2><span>Все этапы</span></div>
-<nav class="toc-full"><p><strong>Разделы</strong></p><ol><li><a href="#s1">1. Общие сведения</a></li><li><a href="#s2">2. Роли пользователей</a></li><li><a href="#s3">3. Тарифы</a></li><li><a href="#s4">4. Публичная страница памяти</a></li><li><a href="#s5">5. Личный кабинет клиента</a></li><li><a href="#s6">6. Модерация и улучшение материалов</a></li><li><a href="#s7">7. QR-коды и заказ таблички</a></li><li><a href="#s8">8. Административная панель</a></li><li><a href="#s9">9. Оплата, юридические требования и хранение данных</a></li><li><a href="#s10">10. Нефункциональные требования</a></li><li><a href="#s11">11. Этапы разработки и открытые вопросы</a></li></ol></nav>
+<header class="topbar" style="transform:none">
+  <div class="topbar-in">
+    <a class="brand" href="#top">QR <span style="color:var(--gold)">Память</span></a>
+    <nav aria-label="Разделы страницы"><a href="#tz">Техническое задание</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap" style="display:block;max-width:1180px;margin:0 auto;padding:40px 24px 80px;">
+<div id="tz" class="tz-head"><h2>Техническое задание</h2><span>Все этапы</span></div>
+<div class="tz-layout">
+<nav class="tz-nav-desk" aria-label="Разделы ТЗ"><div class="ttl">Разделы</div><ol><li><a href="#s1">1. Общие сведения</a></li><li><a href="#s2">2. Роли пользователей</a></li><li><a href="#s3">3. Тарифы</a></li><li><a href="#s4">4. Публичная страница памяти</a></li><li><a href="#s5">5. Личный кабинет клиента</a></li><li><a href="#s6">6. Модерация и улучшение материалов</a></li><li><a href="#s7">7. QR-коды и заказ таблички</a></li><li><a href="#s8">8. Административная панель</a></li><li><a href="#s9">9. Оплата, юридические требования и хранение данных</a></li><li><a href="#s10">10. Нефункциональные требования</a></li><li><a href="#s11">11. Этапы разработки и открытые вопросы</a></li></ol></nav>
+<div class="tz-main">
 <h3>ТЗ: портал страниц памяти с QR-кодами на памятниках</h3>
-<section><h2 id="s1">1. Общие сведения</h2>
+<section><h2 class="tz-h" id="s1"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg>1. Общие сведения</h2>
 <p>Портал хранит страницы памяти об умерших людях. Клиент заказывает табличку с QR-кодом на памятник, код ведёт на страницу человека с годами жизни, фото, видео, аудио и биографией. Клиент сам заполняет карточку в личном кабинете, а оператор (со второго этапа ещё и ИИ-агент) проверяет и дорабатывает материалы перед публикацией.</p>
 <p>Как зарабатывает портал: продажа платных тарифов, изготовление и установка табличек с QR-кодом, дополнительные услуги (написание биографии, оцифровка архива, монтаж видео).</p>
 <p>Аудитория: родственники умерших, владельцы умерших домашних животных, ритуальные агентства, мастерские по изготовлению памятников, кладбища и колумбарии, военные и общественные организации, которые увековечивают память своих членов.</p>
 </section>
-<section><h2 id="s2">2. Роли пользователей</h2>
+<section><h2 class="tz-h" id="s2"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.3"/><path d="M3 20c0-3.4 2.7-5.8 6-5.8s6 2.4 6 5.8"/><path d="M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.4c1.9.8 2.9 2.6 2.9 5.6"/></svg>2. Роли пользователей</h2>
 <p>На портале шесть ролей, у каждой свой набор прав.</p>
 <div class="tbl"><table><thead><tr><th>Роль</th><th>Кто это</th><th>Что может делать</th></tr></thead><tbody><tr><td>Посетитель</td><td>Человек, который отсканировал QR-код или перешёл по ссылке</td><td>Смотреть открытые страницы, оставлять запись в гостевой книге (после модерации), искать страницы по имени, предлагать свои фото и воспоминания</td></tr><tr><td>Клиент (владелец страницы)</td><td>Родственник или доверенное лицо, которое создало страницу</td><td>Заполнять карточку, загружать материалы, выбирать и оплачивать тариф, заказывать табличку, настраивать приватность, одобрять записи гостей, приглашать соавторов, передавать права другому родственнику</td></tr><tr><td>Соавтор</td><td>Родственник, которого пригласил клиент (в базовом и VIP-тарифе)</td><td>Добавлять материалы и воспоминания. Удалять страницу и менять тариф он не может</td></tr><tr><td>Оператор-модератор</td><td>Сотрудник компании</td><td>Проверять и редактировать материалы, принимать и отклонять правки ИИ, переписываться с клиентом, публиковать страницу, вести заказы табличек</td></tr><tr><td>Администратор</td><td>Руководитель проекта</td><td>Всё, что у оператора, плюс тарифы и цены, управление сотрудниками, настройки ИИ-агента, отчёты, партнёрские аккаунты</td></tr><tr><td>Партнёр</td><td>Ритуальное агентство или мастерская памятников</td><td>Оформлять заказы от имени своих клиентов, видеть статусы и своё вознаграждение</td></tr></tbody></table></div>
 <p>Со второго этапа ИИ-агент работает как помощник оператора и клиента, на первом этапе всё делает оператор. Он проверяет и улучшает материалы и может сам принимать окончательное решение о публикации в рамках правил, которые настроил администратор (подробно в разделе 6).</p>
 </section>
-<section><h2 id="s3">3. Тарифы</h2>
+<section><h2 class="tz-h" id="s3"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12.2V4.5A1.5 1.5 0 0 1 4.5 3h7.7L21 11.8 12.8 20 3 12.2z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>3. Тарифы</h2>
 <p>Клиенту доступны три тарифа. Состав и лимиты ниже предложены как стартовая точка, цены заказчик утверждает отдельно. Все цифры лимитов администратор меняет в панели без участия разработчика.</p>
 <div class="tbl"><table><thead><tr><th>Что входит</th><th>Бесплатный</th><th>Базовый</th><th>VIP</th></tr></thead><tbody><tr><td>ФИО, даты и места рождения и смерти, место захоронения</td><td>да</td><td>да</td><td>да</td></tr><tr><td>Фото захоронения</td><td>1 фото</td><td>до 10 фото</td><td>до 10 фото + съёмка фотографом при установке таблички</td></tr><tr><td>Схема, как найти захоронение</td><td>точка на карте и маршрут</td><td>точка, маршрут, схема пути от входа, фото ориентиров</td><td>то же + схему составляет мастер при установке</td></tr><tr><td>Фотографии</td><td>главное фото + до 5</td><td>до 100</td><td>без ограничений (в пределах 10 ГБ)</td></tr><tr><td>Биография</td><td>до 1 500 знаков</td><td>до 15 000 знаков, разделы по этапам жизни</td><td>без ограничений, лента времени жизни</td></tr><tr><td>Видео и аудио</td><td>—</td><td>до 5 видео и 10 аудиозаписей</td><td>без ограничений (в пределах 10 ГБ)</td></tr><tr><td>Фоновая музыка на странице</td><td>музыка портала по умолчанию</td><td>со второго этапа: общий плейлист + до 3 плейлистов для разделов, всего до 20 треков</td><td>со второго этапа: общий плейлист + плейлисты для любых разделов и альбомов, всего до 60 треков</td></tr><tr><td>Гостевая книга, виртуальные цветы и свечи</td><td>да</td><td>да</td><td>да</td></tr><tr><td>Подписка на новости страницы (новые фото, видео, воспоминания)</td><td>—</td><td>да</td><td>да</td></tr><tr><td>Родословная: связи со страницами родственников</td><td>—</td><td>да</td><td>да, с генеалогическим деревом</td></tr><tr><td>Соавторы</td><td>—</td><td>до 3</td><td>до 10</td></tr><tr><td>Оформление страницы</td><td>4 стандартных шаблона для каждой категории: мужчина, женщина, мальчик, девочка. Категорию портал подбирает по полу и возрасту из карточки, клиент может её сменить</td><td>выбор из нескольких шаблонов, конфессиональные символы</td><td>индивидуальное оформление, короткий адрес страницы</td></tr><tr><td>Модерация</td><td>оператор; со второго этапа ИИ-проверка + выборочная проверка оператором</td><td>оператор; со второго этапа ИИ-редактура + проверка оператором</td><td>персональный редактор</td></tr><tr><td>Помощь с биографией</td><td>оператор правит ошибки (со второго этапа ИИ)</td><td>оператор собирает текст по анкете-интервью (со второго этапа ИИ)</td><td>интервью с родными со специалистом, текст пишет редактор</td></tr><tr><td>Оцифровка архива (фото, письма, кассеты)</td><td>—</td><td>за доплату</td><td>включена (лимит объёма уточняется)</td></tr><tr><td>Монтаж памятного видеоролика из фото</td><td>—</td><td>за доплату</td><td>включён</td></tr><tr><td>Табличка с QR-кодом</td><td>цифровой QR-код для самостоятельной печати, табличка за доплату</td><td>табличка включена</td><td>две таблички премиум-качества + установка</td></tr><tr><td>Реклама на странице</td><td>нет</td><td>нет</td><td>нет</td></tr><tr><td>Срок хранения</td><td>на весь срок работы сервиса</td><td>на весь срок работы сервиса</td><td>на весь срок работы сервиса + архивная копия на флешке для семьи</td></tr><tr><td>Оплата</td><td>0 ₽</td><td>разово, цена уточняется</td><td>разово, цена уточняется</td></tr></tbody></table></div>
 <p>Переход между тарифами. Клиент повышает тариф в любой момент и доплачивает разницу. При попытке загрузить материал сверх лимита портал показывает предложение перейти на следующий тариф. Понижение тарифа не предусмотрено, уже загруженные материалы сохраняются навсегда.</p>
@@ -132,7 +601,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <div class="tbl"><table><thead><tr><th>Группа</th><th>Услуга</th><th>Как продаётся</th></tr></thead><tbody><tr><td>Изделия</td><td>Таблички с QR-кодом для урны и колумбария, памятная рамка с фото и QR-кодом для дома, замена повреждённой таблички</td><td>разово</td></tr><tr><td>Изделия</td><td>Книга памяти: печатная фотокнига из материалов страницы</td><td>разово, повторные тиражи для родных</td></tr><tr><td>Изделия</td><td>Карточки с QR-кодом для похорон и поминок: гости переходят на страницу и оставляют воспоминания</td><td>разово, тираж</td></tr><tr><td>Изделия</td><td>Флешка или архив со всеми материалами страницы</td><td>разово</td></tr><tr><td>Материалы</td><td>Биография, написанная журналистом после интервью с родными</td><td>разово</td></tr><tr><td>Материалы</td><td>Аудиоинтервью с пожилыми родственниками: воспоминания о человеке и о семье</td><td>разово</td></tr><tr><td>Материалы</td><td>Оцифровка фото, плёнок, видеокассет, писем; реставрация и раскрашивание снимков</td><td>по объёму</td></tr><tr><td>Материалы</td><td>Памятный видеоролик или слайд-шоу к похоронам, 40 дням, годовщине</td><td>разово</td></tr><tr><td>Материалы</td><td>Поиск по архивам: сведения о ветеранах, метрические книги, родословное древо</td><td>разово</td></tr><tr><td>Материалы</td><td>Перевод страницы на другой язык для родни за рубежом</td><td>разово</td></tr><tr><td>На кладбище</td><td>Уход за могилой: уборка, покраска, сезонные работы, фотоотчёт на странице</td><td>разово или подписка на сезон или год</td></tr><tr><td>На кладбище</td><td>Цветы и венки к памятным датам с фотоотчётом</td><td>разово или заказ на весь год с напоминаниями</td></tr><tr><td>На кладбище</td><td>Фото- и видеосъёмка захоронения, составление схемы, как его найти</td><td>разово</td></tr><tr><td>Онлайн</td><td>Трансляция и запись похорон или поминок</td><td>разово</td></tr><tr><td>Онлайн</td><td>Поминки или годовщина онлайн: страница события, сбор воспоминаний и фото к дате, рассылка приглашений</td><td>разово, к каждой дате</td></tr><tr><td>Онлайн</td><td>Подарочный сертификат на тариф или услугу</td><td>разово</td></tr><tr><td>Новые направления</td><td>Прижизненная страница: человек заранее готовит свою страницу памяти, записывает воспоминания, выбирает фото и музыку, оставляет слова близким</td><td>тариф или подписка</td></tr><tr><td>Новые направления</td><td>Стены памяти для организаций: школ, предприятий, воинских частей, городов</td><td>договор с организацией</td></tr><tr><td>Новые направления</td><td>Партнёрские услуги: ритуальные агентства, мастерские памятников, юристы по наследству</td><td>комиссия с партнёра</td></tr></tbody></table></div>
 <p>Услуги на кладбище выполняют местные подрядчики. Для них нужен кабинет исполнителя: список заданий, адрес и схема прохода к могиле, загрузка фотоотчёта, отметка о выполнении. Клиент получает фотоотчёт и подтверждает приёмку.</p>
 </section>
-<section><h2 id="s4">4. Публичная страница памяти</h2>
+<section><h2 class="tz-h" id="s4"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 4.5v13c3.5 0 6.5.5 8.5 2 2-1.5 5-2 8.5-2v-13c-3.5 0-6.5.5-8.5 2z"/><path d="M12 6.5v13"/></svg>4. Публичная страница памяти</h2>
 <p>Страницу чаще всего открывают с телефона прямо на кладбище, поэтому она делается в первую очередь под мобильный экран и слабый интернет. Оформление спокойное, без рекламы и всплывающих окон.</p>
 <p>Блоки страницы (сверху вниз):</p>
 <p>Шапка: главное фото, ФИО, годы жизни, короткая эпитафия, кнопки «Зажечь свечу» и «Поделиться».</p>
@@ -195,7 +664,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <p>табличка с QR-кодом ставится на месте захоронения питомца, на урне или на памятной рамке дома.</p>
 <p>Тарифы, модерация и история изменений работают так же, как для страниц людей. Цены и лимиты для питомцев администратор задаёт отдельно.</p>
 </section>
-<section><h2 id="s5">5. Личный кабинет клиента</h2>
+<section><h2 class="tz-h" id="s5"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3.2"/><path d="M6 18.4c1.6-2.6 3.7-3.7 6-3.7s4.4 1.1 6 3.7"/></svg>5. Личный кабинет клиента</h2>
 <p>В кабинете клиент создаёт и заполняет страницы, оплачивает тарифы и следит за заказом таблички. Интерфейс рассчитан на пожилых людей: крупный шрифт, простые шаги, подсказки на каждом шаге.</p>
 <p>Регистрация и вход: по номеру телефона (код в SMS), по электронной почте, через VK ID и Яндекс ID. При регистрации клиент отдельно отмечает два пункта: согласие на обработку персональных данных и принятие оферты (подробно в разделе 12).</p>
 <p>Создание страницы — пошаговый мастер:</p>
@@ -236,7 +705,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <p>все действия в боте записываются в историю изменений с пометкой канала;</p>
 <p>тексты и вопросы бота администратор меняет в панели.</p>
 </section>
-<section><h2 id="s6">6. Модерация и улучшение материалов</h2>
+<section><h2 class="tz-h" id="s6"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 2.8v5.9c0 4.4-3.2 8.2-7.5 9.3-4.3-1.1-7.5-4.9-7.5-9.3V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-4.8"/></svg>6. Модерация и улучшение материалов</h2>
 <p>Каждая страница и каждое её изменение проходят проверку до показа посетителям. На первом этапе проверку, редактуру и публикацию делает оператор портала, ИИ-агентов нет. ИИ-агенты подключаются на втором этапе, всё описанное ниже про ИИ относится ко второму этапу. ИИ-агент проверяет материалы и предлагает правки, клиент согласует итоговый текст. Окончательное решение о размещении принимает настроенный ИИ-агент или оператор, какой из них решает в каждом случае, задаёт администратор.</p>
 <h3>[embedded content: модерация страницы · 5 шагов, 1 решение]</h3>
 <p>Замечания оператора уходят клиенту, после доработки карточка снова проходит проверку. Опубликованная страница видна по QR-коду сразу.</p>
@@ -318,7 +787,7 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <div class="tbl"><table><thead><tr><th>Тариф</th><th>Срок</th></tr></thead><tbody><tr><td>Бесплатный</td><td>до 3 рабочих дней</td></tr><tr><td>Базовый</td><td>до 1 рабочего дня</td></tr><tr><td>VIP</td><td>в день обращения, закреплённый редактор</td></tr></tbody></table></div>
 <p>Записи посетителей в гостевой книге проверяет ИИ, а публикует владелец страницы. Любой посетитель может пожаловаться на страницу, жалоба попадает оператору.</p>
 </section>
-<section><h2 id="s7">7. QR-коды и заказ таблички</h2>
+<section><h2 class="tz-h" id="s7"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><path d="M14 14h2.5v2.5H14zM18.5 14h2.5M18.5 18.5v2.5M14 18.5h2.5v2"/></svg>7. QR-коды и заказ таблички</h2>
 <p>Каждая страница получает постоянный QR-код в момент создания. Код ведёт на короткую ссылку портала (вида домен/q/AB12CD), ссылка перенаправляет на страницу. Так табличка продолжает работать при смене адреса страницы, передаче прав или переезде портала на другой сервер.</p>
 <p>Требования к QR-коду:</p>
 <p>коррекция ошибок уровня H (код читается при повреждении до 30% поверхности);</p>
@@ -337,12 +806,12 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <p>География. На первом этапе портал работает в Курске: таблички изготавливает и устанавливает своя команда проекта без подрядчика, есть самовывоз, справочник кладбищ только по Курску. Создать страницу и получить цифровой QR-код можно из любого города. На втором этапе добавляется доставка табличек по всей России (Почта, СДЭК) и справочник кладбищ других регионов. Список городов с установкой мастером администратор расширяет в панели по мере появления подрядчиков.</p>
 <p>Партнёрский канал. Ритуальные агентства и мастерские памятников покупают пакет пустых кодов. Клиент агентства сканирует код на готовой табличке, регистрируется и сразу попадает в мастер создания страницы. Партнёр видит свои коды и вознаграждение за активированные платные тарифы.</p>
 </section>
-<section><h2 id="s8">8. Административная панель</h2>
+<section><h2 class="tz-h" id="s8"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3 10h18M7 15.2h4"/></svg>8. Административная панель</h2>
 <p>Панель служит рабочим местом оператора и администратора. Доступ к разделам зависит от роли.</p>
 <div class="tbl"><table><thead><tr><th>Раздел</th><th>Что в нём</th><th>Кто видит</th></tr></thead><tbody><tr><td>Очередь модерации</td><td>Страницы и изменения на проверке, сортировка по тарифу и сроку, отметки ИИ о рисках, сравнение «было — стало»</td><td>оператор, администратор</td></tr><tr><td>Жалобы</td><td>Обращения посетителей и решения по ним</td><td>оператор, администратор</td></tr><tr><td>Страницы</td><td>Поиск и карточки всех страниц, скрытие, передача прав владельца</td><td>оператор, администратор</td></tr><tr><td>Заказы табличек</td><td>Статусы производства и доставки, макет для изготовителя (выгрузка в PDF/SVG), назначение мастера на установку, фотоотчёт</td><td>оператор, администратор</td></tr><tr><td>Клиенты</td><td>Карточка клиента: контакты, страницы, оплаты, переписка</td><td>оператор, администратор</td></tr><tr><td>Партнёры</td><td>Аккаунты партнёров, выпуск пакетов кодов, расчёт вознаграждения</td><td>администратор</td></tr><tr><td>Тарифы и услуги</td><td>Цены, лимиты, состав тарифов, промокоды</td><td>администратор</td></tr><tr><td>Настройки ИИ-агента</td><td>Менеджер провайдеров LLM, расходы на ИИ, режим решений, порог уверенности, список запретов, инструкции по стилю биографий, доля выборочной проверки</td><td>администратор</td></tr><tr><td>Справочники</td><td>Кладбища, города, причины отказа, шаблоны ответов клиенту, шаблоны оформления, библиотека фоновой музыки с документами на права</td><td>администратор</td></tr><tr><td>Сотрудники</td><td>Учётные записи и права операторов</td><td>администратор</td></tr><tr><td>История изменений</td><td>Полный журнал действий с фильтрами по странице, пользователю, типу действия и дате, выгрузка в Excel</td><td>администратор</td></tr><tr><td>Отчёты</td><td>Выручка по тарифам и услугам, конверсия из бесплатного тарифа в платный, сроки модерации, доля решений ИИ и оператора, сканирования QR-кодов</td><td>администратор</td></tr></tbody></table></div>
 <p>Уведомления клиенту и сотрудникам идут по email, SMS и в Telegram: смена статуса страницы и заказа, вопрос оператора, новая запись в гостевой книге, памятные даты. Оплаты и клиенты выгружаются в CRM (amoCRM или Bitrix24, выбор за заказчиком).</p>
 </section>
-<section><h2 id="s9">9. Оплата, юридические требования и хранение данных</h2>
+<section><h2 class="tz-h" id="s9"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.7 3.9 5.7 3.9 9s-1.3 6.3-3.9 9c-2.6-2.7-3.9-5.7-3.9-9S9.4 5.7 12 3z"/></svg>9. Оплата, юридические требования и хранение данных</h2>
 <p>Портал работает по российскому законодательству, хранит данные на серверах в России и принимает оплату через российский платёжный сервис. Юридические документы готовит и проверяет юрист до запуска.</p>
 <p>Оплата:</p>
 <p>один платёжный агрегатор с картами, СБП, SberPay и T-Pay и со встроенными чеками (кандидаты: ЮKassa, Робокасса). На странице оплаты СБП стоит первым как самый дешёвый для портала способ, платёжный модуль позволяет сменить агрегатор без переделки сайта;</p>
@@ -378,11 +847,11 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <p>история изменений и удалённые материалы хранятся в течение срока, который определит юрист;</p>
 <p>по запросу клиент получает архив всех материалов своей страницы.</p>
 </section>
-<section><h2 id="s10">10. Нефункциональные требования</h2>
+<section><h2 class="tz-h" id="s10"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h9.5M17.5 6.5H20M4 12h3.5M11.5 12H20M4 17.5h10.5M18.5 17.5H20"/><circle cx="15.5" cy="6.5" r="2"/><circle cx="9.5" cy="12" r="2"/><circle cx="16.5" cy="17.5" r="2"/></svg>10. Нефункциональные требования</h2>
 <p>Главное требование — надёжность на десятилетия: табличка стоит на памятнике долго, и ссылка должна работать всё это время.</p>
 <div class="tbl"><table><thead><tr><th>Требование</th><th>Значение</th></tr></thead><tbody><tr><td>Скорость открытия страницы памяти</td><td>до 2 секунд на мобильном 4G, фото и видео подгружаются по мере прокрутки</td></tr><tr><td>Доступность</td><td>не ниже 99,9% в год</td></tr><tr><td>Устройства</td><td>смартфоны iOS и Android, планшеты, компьютеры; браузеры Яндекс, Chrome, Safari последних двух версий</td></tr><tr><td>Доступность для пожилых и слабовидящих</td><td>крупный шрифт, контраст, работа с экранными читалками (WCAG 2.1 уровень AA)</td></tr><tr><td>Резервные копии</td><td>база данных ежедневно, файлы в двух центрах обработки данных, ежеквартальная проверка восстановления</td></tr><tr><td>Безопасность</td><td>HTTPS, двухфакторная авторизация для сотрудников, защита от перебора адресов закрытых страниц, защита от спама в гостевой книге</td></tr><tr><td>Неизменность истории изменений</td><td>записи журнала нельзя править и удалять, в том числе администратору. Исключение: обезличивание персональных данных по законному запросу человека, оно тоже фиксируется в журнале</td></tr><tr><td>Нагрузка</td><td>стартовая архитектура на 100 000 страниц и пиковые нагрузки в Родительский день и 9 Мая</td></tr><tr><td>SEO</td><td>открытые страницы индексируются, закрытые и «по ссылке» закрыты от поисковиков</td></tr><tr><td>Аналитика</td><td>Яндекс Метрика на коммерческих страницах, на страницах памяти только счётчик посещений</td></tr><tr><td>Переносимость</td><td>владелец портала получает исходный код, доступы и документацию, домен оформлен на заказчика</td></tr></tbody></table></div>
 </section>
-<section><h2 id="s11">11. Этапы разработки и открытые вопросы</h2>
+<section><h2 class="tz-h" id="s11"><svg class="tz-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5V3.5h6v1M9 13.2l2.2 2.2 4-4.2"/></svg>11. Этапы разработки и открытые вопросы</h2>
 <p>Предлагаем запускать портал в три этапа. Сроки каждого этапа назовёт подрядчик после оценки ТЗ.</p>
 <p>Первая версия (MVP), Курск: публичная страница памяти, личный кабинет с мастером создания на сайте, три тарифа, онлайн-оплата, QR-коды и заказ таблички, модерация оператором, фоновая музыка портала, история изменений, базовая админ-панель, юридические документы, маркетинговый минимум из раздела 13 (аналитика, промокоды мастерских, страницы родственников со скидкой, приглашение родных, письма после публикации, SEO-основа и справочник кладбищ Курска).</p>
 <p>Развитие, вся Россия: ИИ-агенты (проверка и редактура материалов, менеджер ИИ-провайдеров и назначение моделей, решения о публикации), анкета-интервью с голосовым вводом, улучшение и реставрация фото, соавторы, родословная, уведомления о памятных датах, плейлисты клиентов (в том числе для разделов страницы).</p>
@@ -399,7 +868,9 @@ footer div { max-width: 1180px; margin: 0 auto; padding: 22px 24px; display: fle
 <p>☒ Срок запуска страниц домашних животных (пока заложены в третий этап). Решено: третий этап, без срока</p>
 <p>Оплата криптовалютой в ТЗ не включена: закон запрещает принимать её в оплату товаров и услуг внутри России (282-ФЗ от 04.08.2026). Вопрос можно вернуть после консультации с юристом.</p>
 </section>
-</main></div>
+</div>
+</div>
+</main>
 <footer><div><span>QR Память · полное ТЗ (все этапы)</span></div></footer>
 </body>
 </html>
